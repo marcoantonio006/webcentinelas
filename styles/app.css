@@ -1,16 +1,19 @@
 /* Box sizing  1rem = 10px */
 
-Html{
+Html {
     box-sizing: border-box;
     font-size: 62.5%;
 }
 
-*,*:before,*:after{
+*,
+*:before,
+*:after {
     box-sizing: inherit;
 }
 
-Body{
-    font-size: 16px
+Body {
+    font-size: 16px;
+
 }
 
 /* Globales */
@@ -22,71 +25,90 @@ Body{
  */
 
 /* Fuentes */
- 
-h1, h2, h3, p, a {
+
+h1,
+h2,
+h3,
+p,
+a {
     font-family: 'Google Sans', sans-serif;
 }
 
 a {
-	text-decoration: none;
+    text-decoration: none;
     font-size: 2rem;
     padding: 1rem;
-    
+
 }
 
 h1 {
     font-size: 3.8rem;
     font-weight: 700;
 }
+
 h2 {
     font-size: 2.8rem;
 }
+
 h3 {
     font-size: 1.8rem;
 }
-h1,h2,h3 {
+
+h1,
+h2,
+h3 {
     text-align: center;
 
 }
 
 
 img {
-  max-width: 100%;
+    max-width: 100%;
 }
 
 /* Utilidades */
 
-.seccion{
+.seccion {
     margin-top: 5rem;
     margin-bottom: 5rem;
 }
 
-/* .contenedor {
+.boton {
+    display: inline-block;
+    background-color: rgb(255, 136, 0);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 5px;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.contenedor {
     max-width: 130rem;
     margin: 0 auto;
-} */
+}
 
-.logo-academia{
+.logo-academia {
     width: 100px;
     height: auto;
 }
 
 /* -------- */
 
-.header{
+.header {
     background-color: rgb(61, 61, 61);
 
 }
 
 
 
-.contenido-header .titulo{
+.contenido-header .titulo {
     color: white;
 
 }
 
-@media (min-width: 768px){
-    .contenido-header .titulo{
+@media (min-width: 768px) {
+    .contenido-header .titulo {
         color: white;
         margin-top: 15rem;
     }
@@ -94,7 +116,7 @@ img {
 
 
 
-.inicio{
+.inicio {
     background-image: linear-gradient(rgba(0, 0, 0, 0.623), rgba(0, 0, 0, 0.5)), url(../img/header2.png);
     height: 60rem;
     background-size: cover;
@@ -102,61 +124,61 @@ img {
     background-position: top center;
 }
 
-.barra{
+.barra {
     display: flex;
     flex-direction: column;
-   
+
 }
 
-.barra a{
+.barra a {
     color: white;
     display: block;
     text-align: center;
 }
 
-@media (min-width: 768px){
-    .barra{
+@media (min-width: 768px) {
+    .barra {
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
     }
 
-    .barra a{
+    .barra a {
         padding: 0 1rem;
     }
 }
 
-.navegacion a{
+.navegacion a {
     color: white;
     display: block;
     text-align: center;
 }
 
 
-.navegacion a:hover{
+.navegacion a:hover {
     color: rgb(255, 136, 0);
 }
 
-@media (min-width: 768px){
+@media (min-width: 768px) {
     .navegacion {
         display: flex;
         margin: auto 2rem;
     }
 
-    
+
 }
 
-.footer{
+.footer {
     background-color: black;
 
 }
 
-.footer .contenedor{
-        padding-top: 2.5rem;
-    }
+.footer .contenedor {
+    padding-top: 2.5rem;
+}
 
 
-.copyright{
+.copyright {
     color: white;
     text-align: center;
     padding-bottom: 2rem;
