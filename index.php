@@ -1,48 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
 
-<head>
+$inicio = true;
+include 'templates/header.php';
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+?>
+        <main class="contenedor flex">
+            <div class="contenido seccion">
+                <h1>Bienvenido</h1>
+                <p class="parrafo">Somos una Academia Especialista en la rama del Voleibol, dedicada a formar y desarrollar a niños, niñas y adolescentes en dicha disciplina, donde se ofrece y proporciona el aprendizaje técnico, físico, táctico y teórico, a través de entrenamientos y clases de alta calidad, donde impulsamos a través de estos valores; la responsabilidad, trabajo en equipo, disciplina, organización y desarrollo personal. </p>
+                <p class="parrafo">Tenemos como objetivo ser una Academia en donde desarrollamos jóvenes talentos en el mejoramiento y crecimiento en el voleibol, proporcionando las herramientas necesarias, apoyados con un capital humano con capacidad, sensibilidad y compromiso ético, requerido para guiar de manera eficiente y eficaz a los jóvenes en su desenvolvimiento integral para así logren participar en competencias de excelente nivel.</p>
 
-    <title>Web Club Centinelas</title>
-
-    <link rel="icon" type="image/png" href="/img/favicon.png">
-    <link rel="preload" href="styles/normalize.css" as="style">
-    <link rel="stylesheet" href="styles/normalize.css">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap"
-        rel="stylesheet">
-    <link rel="preload" href="styles/app.css" as="style">
-    <link rel="stylesheet" href="styles/app.css">
-
-</head>
-
-<body>
-
-    <header class="header inicio">
-        <div class="contenedor contenido-header">
-
-            <div class="barra">
-                <a href="/">
-                    <img class="logo-academia" src="img/Adobe Express - file.png" alt="Logo de la academia">
-                </a>
-
-                <nav class="navegacion">
-                    <a href="nosotros.php">Nosotros</a>
-                    <a href="contacto.php">Contacto</a>
-                    <a href="eventos.php">Eventos</a>
-                </nav>
+                <h2>Planes de pago</h2>
+                <p class="parrafo">Con tan solo 20$ al mes puedes formar parte de nuestra academia.</p>
             </div>
 
-            <h1 class="titulo">Academia de Voleibol Club Centinelas</h1>
-        </div>
-    </header>
+            <div class="seccion">
+                <aside class="aside" style="display: flex; flex-direction: column; align-items: center;">
 
-    <main class="contenedor seccion">
-        <h1>Bienvenido</h1>
-    </main>
+                <a href="https://www.instagram.com/centinelasvoley/">
+                    <img class="imagenesacademia" src="/img/imagenacademia.png" alt="Imagen de la academia">
+                </a>
+                <a href="https://www.instagram.com/centinelasvoley/">
+                    <img class="imagenesacademia" src="/img/imagenacademia2.png" alt="Imagen de la academia">
+                </a>
+                <a href="https://www.instagram.com/centinelasvoley/">
+                    <img class="imagenesacademia" src="/img/imagenacademia3.png" alt="Imagen de la academia">
+                </a>
+
+                </aside>
+            </div>
+
+        </main> 
+    
 
 <?php
 

@@ -1,22 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin</title>
-    <link rel="stylesheet" href="../styles/app.css">
-</head>
+include '../templates/header.php';
+
+?>
 
 <body>
     <main class="contenedor seccion">
-        <h1>Admin Panel</h1>
+        <h1>Panel de Administrador</h1>
 
-        <a class="boton" href="../admin/crud/create.php">Agregar Estudiante</a>
+        <a class="boton" href="../admin/estudiantes/create.php">Nuevo Estudiante</a>
         
     </main>
 
+<?php
 
-</body>
+include '../templates/footer.php';
 
-</html>
+?>

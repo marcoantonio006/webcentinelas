@@ -1,7 +1,7 @@
 <footer class="footer seccion">
     <div class="contenedor">
         <nav class="navegacion">
-            <a href="nosotros.php">Nosotros</a>
+            <a href="plantilla.php">Plantilla</a>
             <a href="contacto.php">Contacto</a>
             <a href="eventos.php">Eventos</a>
         </nav>
