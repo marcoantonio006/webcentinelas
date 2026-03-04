@@ -9,7 +9,7 @@
     <p class="copyright">&copy; 2026 Club Centinelas. Todos los derechos reservados.</p>
 </footer>
 
-<script src="scripts.js"></script>
+<script src="/scripts.js"></script>
 
 </body>
 

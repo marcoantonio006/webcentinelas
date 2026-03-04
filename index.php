@@ -11,20 +11,20 @@ include 'templates/header.php';
                 <p class="parrafo">Tenemos como objetivo ser una Academia en donde desarrollamos jóvenes talentos en el mejoramiento y crecimiento en el voleibol, proporcionando las herramientas necesarias, apoyados con un capital humano con capacidad, sensibilidad y compromiso ético, requerido para guiar de manera eficiente y eficaz a los jóvenes en su desenvolvimiento integral para así logren participar en competencias de excelente nivel.</p>
 
                 <h2>Planes de pago</h2>
-                <p class="parrafo">Con tan solo 20$ al mes puedes formar parte de nuestra academia.</p>
+                <p class="parrafo">Con tan solo 15$ al mes puedes formar parte de nuestra academia.</p>
             </div>
 
             <div class="seccion">
                 <aside class="aside" style="display: flex; flex-direction: column; align-items: center;">
 
-                <a href="https://www.instagram.com/centinelasvoley/">
-                    <img class="imagenesacademia" src="/img/imagenacademia.png" alt="Imagen de la academia">
+                <a href="https://www.instagram.com/centinelasvoley/" target="_blank">
+                    <img class="imagenesacademia sombra" src="assets/img/imagenacademia.png" alt="Imagen de la academia">
                 </a>
-                <a href="https://www.instagram.com/centinelasvoley/">
-                    <img class="imagenesacademia" src="/img/imagenacademia2.png" alt="Imagen de la academia">
+                <a href="https://www.instagram.com/centinelasvoley/" target="_blank">
+                    <img class="imagenesacademia sombra" src="assets/img/imagenacademia2.png" alt="Imagen de la academia">
                 </a>
-                <a href="https://www.instagram.com/centinelasvoley/">
-                    <img class="imagenesacademia" src="/img/imagenacademia3.png" alt="Imagen de la academia">
+                <a href="https://www.instagram.com/centinelasvoley/" target="_blank">
+                    <img class="imagenesacademia sombra" src="assets/img/imagenacademia3.png" alt="Imagen de la academia">
                 </a>
 
                 </aside>

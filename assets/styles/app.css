@@ -12,9 +12,28 @@ Html {
 }
 
 Body {
-    font-size: 16px;
+    font-size: 1.6rem;
 
 }
+
+html, body {
+  height: 100%; 
+  margin: 0;
+}
+
+/* body {
+  display: flex;
+  flex-direction: column; 
+  min-height: 100vh; 
+}
+
+main {
+  flex: 1; 
+}
+
+header, footer {
+  flex-shrink: 0; 
+} */
 
 /* Globales */
 
@@ -23,6 +42,8 @@ Body {
   --tableta: 768px;
   --computadora: 1279px;
  */
+
+
 
 /* Fuentes */
 
@@ -78,20 +99,23 @@ h3 {
     background-color: rgb(216, 115, 0);
     color: white;
     padding: 1rem 2rem;
+    margin: 1rem;
     border-radius: 5px;
     font-size: 1.8rem;
     font-weight: 500;
+    border: none;
+    font-family: 'Google Sans', sans-serif;
 }
 
 .contenedor {
-    max-width: 80%;
-    max-width: 110rem;
+    max-width: 90%;
+    
     margin: 0 auto;
 
 }
 
 .contenido {
-    max-width: 75ch;
+    /* max-width: 75ch; */
     margin-bottom: 1.5rem;
     text-align: left; 
 }
@@ -101,16 +125,32 @@ h3 {
     line-height: 1.6;
 }
 
-.flex{
+.flex {
     display: flex;
-    gap: 20rem;
+    flex-direction: column;
+    gap: 3rem;
+    
 }
 
-.imagenesacademia{
-    max-height: 30rem;
-    max-width: 30rem;
-
+.sombra{
+    box-shadow: 0px 5px 15px 0px rgba(112, 112, 112, 0.5);
+    border-radius: 1rem;
 }
+
+@media (min-width: 768px){
+    .flex{
+        flex-direction: row;
+        gap: 5rem;
+        
+    }
+
+    .imagenesacademia{
+        height: 30rem;
+        width: 30rem;
+
+    }
+}
+
 
 
 .logo-academia {
@@ -119,7 +159,30 @@ h3 {
 }
 
 .formulario{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    fieldset{
+        border: 1px solid gray;
+        padding: 2rem;
+        margin: 1rem;
+        width: 100%;
+        max-width: 90%;
+        font-family: 'Google Sans', sans-serif;
+    }
 
+    input{
+        border-radius: 5px;
+        border: 1px solid gray;
+        padding: 0.5rem 1rem;
+        width: 100%;
+    }
+
+    input:focus{
+        outline: none;
+        border-color: rgb(216, 115, 0);
+    }
 
     p{
         font-size: 1.4rem;
@@ -135,8 +198,9 @@ h3 {
     label{
         font-family: 'Google Sans', sans-serif;
         font-weight: 500;
-        text-transform: uppercase;
+        /* text-transform: uppercase; */
         display: block;
+        margin-top: 1rem;
 
     }
 }
@@ -164,7 +228,7 @@ h3 {
 
 .inicio {
     background-image: linear-gradient(rgba(0, 0, 0, 0.623), rgba(0, 0, 0, 0.5)), url(../img/header2.png);
-    height: 60rem;
+    min-height: 60rem;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: top center;
@@ -213,6 +277,7 @@ h3 {
 
 
 }
+
 
 
 .footer {
