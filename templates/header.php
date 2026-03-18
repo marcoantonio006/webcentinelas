@@ -17,9 +17,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web Club Centinelas</title>
-    <link rel="icon" type="image/png" href="/assets/img/favicon.png">
-    <link rel="stylesheet" href="/assets/styles/normalize.css">
-    <link rel="stylesheet" href="/assets/styles/app.css">
+    <link rel="icon" type="image/png" href="/centinela/assets/img/favicon.png">
+    <link rel="stylesheet" href="/centinela/assets/styles/normalize.css">
+    <link rel="stylesheet" href="/centinela/assets/styles/app.css">
 </head>
 
 <body>
@@ -28,15 +28,15 @@
         <div class="contenedor contenido-header">
 
             <div class="barra">
-                <a href="../index.php">
-                    <img class="logo-academia" src="/assets/img/Adobe Express - file.png" alt="Logo de la academia">
+                <a href="/centinela/index.php">
+                    <img class="logo-academia" src="/centinela/assets/img/Adobe Express - file.png" alt="Logo de la academia">
                 </a>
 
                 <nav class="navegacion">
-                    <a href="plantilla.php">Plantilla</a>
-                    <a href="contacto.php">Contacto</a>
-                    <a href="eventos.php">Eventos</a>
-                    <?php if($auth) {echo '<a href="cerrar.php">Cerrar sesion</a>';}?>
+                    <a href="/centinela/plantilla.php">Plantilla</a>
+                    <a href="/centinela/contacto.php">Contacto</a>
+                    <a href="/centinela/eventos.php">Eventos</a>
+                    <?php if($auth) {echo '<a href="/centinela/cerrar.php">Cerrar sesion</a>';}?>
                 </nav>
             </div>
 

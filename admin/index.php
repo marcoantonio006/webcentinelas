@@ -5,7 +5,7 @@ session_start();
 $auth = $_SESSION['login'];
 
 if(!$auth){
-    header('Location: /');
+    header('Location: /centinela/index.php');
 }
 
 include '../templates/header.php';
@@ -18,7 +18,7 @@ include '../templates/header.php';
 
         <!-- <a class="boton" href="../admin/estudiantes/create.php">Nuevo Estudiante</a> -->
 
-        <a class="boton" href="../admin/constancias/create.php">Crear constancia</a>
+        <a class="boton" href="../admin/constancias/constancia.php">Crear constancia</a>
         
     </main>
 

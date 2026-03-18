@@ -4,4 +4,4 @@ session_start();
 
 $_SESSION = [];
 
-header('Location: /');
+header('Location: /centinela/index.php');

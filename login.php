@@ -34,8 +34,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute();
         $resultado = $stmt->get_result();
 
-        var_dump($resultado);
-
         if($resultado->num_rows){
             $usuario = $resultado->fetch_assoc();
 

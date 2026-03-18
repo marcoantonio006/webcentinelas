@@ -18,13 +18,13 @@ include 'templates/header.php';
                 <aside class="aside" style="display: flex; flex-direction: column; align-items: center;">
 
                 <a href="https://www.instagram.com/centinelasvoley/" target="_blank">
-                    <img class="imagenesacademia sombra" src="assets/img/imagenacademia.png" alt="Imagen de la academia">
+                    <img class="imagenesacademia sombra" src="/centinela/assets/img/imagenacademia.png" alt="Imagen de la academia">
                 </a>
                 <a href="https://www.instagram.com/centinelasvoley/" target="_blank">
-                    <img class="imagenesacademia sombra" src="assets/img/imagenacademia2.png" alt="Imagen de la academia">
+                    <img class="imagenesacademia sombra" src="/centinela/assets/img/imagenacademia2.png" alt="Imagen de la academia">
                 </a>
                 <a href="https://www.instagram.com/centinelasvoley/" target="_blank">
-                    <img class="imagenesacademia sombra" src="assets/img/imagenacademia3.png" alt="Imagen de la academia">
+                    <img class="imagenesacademia sombra" src="/centinela/assets/img/imagenacademia3.png" alt="Imagen de la academia">
                 </a>
 
                 </aside>

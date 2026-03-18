@@ -1,15 +1,15 @@
 <footer class="footer seccion">
     <div class="contenedor">
         <nav class="navegacion">
-            <a href="plantilla.php">Plantilla</a>
-            <a href="contacto.php">Contacto</a>
-            <a href="eventos.php">Eventos</a>
+            <a href="/centinela/plantilla.php">Plantilla</a>
+            <a href="/centinela/contacto.php">Contacto</a>
+            <a href="/centinela/eventos.php">Eventos</a>
         </nav>
     </div>
     <p class="copyright">&copy; 2026 Club Centinelas. Todos los derechos reservados.</p>
 </footer>
 
-<script src="/scripts.js"></script>
+<script src="/centinela/scripts.js"></script>
 
 </body>
 
