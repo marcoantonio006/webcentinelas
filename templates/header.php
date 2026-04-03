@@ -37,6 +37,8 @@
                     <a href="/centinela/contacto.php">Contacto</a>
                     <a href="/centinela/eventos.php">Eventos</a>
                     <?php if($auth) {echo '<a href="/centinela/cerrar.php">Cerrar sesion</a>';}?>
+                    <?php if($auth) {echo '<a href="/centinela/admin/index.php">Panel Admin</a>';}?>
+                    <?php if(!$auth) {echo '<a href="/centinela/login.php">Iniciar Sesion</a>';}?>
                 </nav>
             </div>
 

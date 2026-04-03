@@ -1,3 +1,4 @@
 /admin/estudiantes
 /admin/eventos
-/usuario.php
+/vendor/
+config.php

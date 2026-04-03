@@ -1,0 +1,17 @@
+{
+    "name": "marco/centinela",
+    "autoload": {
+        "psr-4": {
+            "Marco\\Centinela\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Marco Antonio",
+            "email": "pro.marcomolina@gmail.com"
+        }
+    ],
+    "require": {
+        "setasign/fpdf": "^1.8"
+    }
+}
