@@ -5,7 +5,8 @@
   --blanco-fondo: #FFFFFF;
   --celeste-primario: #00B0FF;
   --azul-interactivo: #007BB2;
-  --texto-principal: #263238;
+  --azul-oscuro: #000129;
+  --texto-principal: #2d353a;
 }
 
 Html {
@@ -232,7 +233,7 @@ h3 {
 /* -------- */
 
 .header {
-    background-color: rgb(0, 0, 0);
+    background-color: var(--azul-oscuro);
 
 }
 
@@ -305,7 +306,7 @@ h3 {
 
 
 .footer {
-    background-color: black;
+    background-color: var(--azul-oscuro);
 
 }
 

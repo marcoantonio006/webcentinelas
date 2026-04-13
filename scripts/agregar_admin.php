@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../admin/DB.php';
+require_once __DIR__ . '/../src/DB.php';
 
 $conn = DB::conectar();
 
