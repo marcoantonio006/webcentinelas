@@ -11,12 +11,8 @@ if (!$auth) {
 
 require_once __DIR__ . '/../../src/Evento.php';
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: /centinela/admin/eventos/index.php');
-    exit;
-}
 
-$id = $_POST['id'] ?? null;
+$id = $_GET['id'] ?? null;
 
 if (!$id) {
     header('Location: /centinela/admin/eventos/index.php');

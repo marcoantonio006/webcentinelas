@@ -41,12 +41,7 @@ include __DIR__ . '/../../templates/header.php';
                         <td><?php echo htmlspecialchars($evento['lugar']); ?></td>
                         <td>
                             <a class="boton" href="/centinela/admin/eventos/editar.php?id=<?php echo $evento['id']; ?>">Editar</a>
-
-                            <form method="POST" action="/centinela/admin/eventos/eliminar.php"
-                                onsubmit="return confirm('¿Estás seguro de eliminar <?php echo htmlspecialchars($evento['nombre']); ?>?')">
-                                <input type="hidden" name="id" value="<?php echo $evento['id']; ?>">
-                                <button class="boton boton-rojo" type="submit">Eliminar</button>
-                            </form>
+                            <a class="boton" href="/centinela/admin/eventos/eliminar.php?id=<?php echo $evento['id']; ?>">Eliminar</a>
                         </td>
                     </tr>
                 <?php endwhile; ?>
