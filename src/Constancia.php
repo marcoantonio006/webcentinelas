@@ -17,9 +17,8 @@ class PDF extends FPDF {
 
 class Constancia {
 
-    public static function generar(array $datos): void {
-
-        // ── Desempacar datos ──────────────────────────────────────────────
+    public static function generar(array $datos){
+        
         $institucion_destino  = $datos['institucion_destino'];
         $nombre_atleta        = $datos['nombre_atleta'];
         $apellido_atleta      = $datos['apellido_atleta'];

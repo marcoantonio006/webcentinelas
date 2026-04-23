@@ -33,7 +33,9 @@ include 'templates/header.php';
             
         <?php endif; ?>
 
-        <form class="formulario" method="POST">
+        <div id="errores-login"></div>
+
+        <form class="formulario" method="POST" onsubmit="return validarLogin()">
             <fieldset>
                 <legend>Datos de Usuario</legend>
 
@@ -47,5 +49,3 @@ include 'templates/header.php';
             <button class="boton sombra" type="submit">Iniciar Sesión</button>
         </form>
     </main>
-
-<?php include 'templates/footer.php'; ?>

@@ -33,5 +33,3 @@ $estudiantes = Estudiante::listar();
         </table>
     <?php endif; ?>
 </main>
-
-<?php include 'templates/footer.php'; ?>

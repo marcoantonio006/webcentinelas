@@ -6,12 +6,11 @@ include 'templates/header.php';
 ?>
         <main class="contenedor flex">
             <div class="contenido seccion">
-                <h1>Bienvenido</h1>
-                <p class="parrafo">Somos una Academia Especialista en la rama del Voleibol, dedicada a formar y desarrollar a niños, niñas y adolescentes en dicha disciplina, donde se ofrece y proporciona el aprendizaje técnico, físico, táctico y teórico, a través de entrenamientos y clases de alta calidad, donde impulsamos a través de estos valores; la responsabilidad, trabajo en equipo, disciplina, organización y desarrollo personal. </p>
-                <p class="parrafo">Tenemos como objetivo ser una Academia en donde desarrollamos jóvenes talentos en el mejoramiento y crecimiento en el voleibol, proporcionando las herramientas necesarias, apoyados con un capital humano con capacidad, sensibilidad y compromiso ético, requerido para guiar de manera eficiente y eficaz a los jóvenes en su desenvolvimiento integral para así logren participar en competencias de excelente nivel.</p>
+                <h1>Lleva tu juego al siguiente nivel</h1>
+                <p class="parrafo">En la Academia de Voleibol Club Centinelas, nos apasiona formar a la próxima generación de talentos del voleibol. Ya sea que estés buscando dar tus primeros pasos en la cancha o perfeccionar tu técnica competitiva, ofrecemos entrenamientos adaptados a todos los niveles y edades. Nuestro objetivo es fomentar la disciplina, el trabajo en equipo y el amor por el deporte en un ambiente sano y profesional.</p>
 
-                <h2>Planes de pago</h2>
-                <p class="parrafo">Con tan solo 15$ al mes puedes formar parte de nuestra academia.</p>
+                <h2>¿Como me inscribo?</h2>
+                <p class="parrafo">Contacta con nosotros a traves de nuestro numero de telefono o correo electronico.</p>
             </div>
 
             <div class="seccion">

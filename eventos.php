@@ -8,7 +8,7 @@ $eventos = Evento::listar();
 ?>
 
 <main class="contenedor seccion">
-    <h1>Eventos</h1>
+    <h1>Proximos Eventos</h1>
 
     <?php if ($eventos->num_rows === 0) : ?>
         <p>No hay eventos programados aún.</p>
@@ -34,4 +34,3 @@ $eventos = Evento::listar();
     <?php endif; ?>
 </main>
 
-<?php include 'templates/footer.php'; ?>

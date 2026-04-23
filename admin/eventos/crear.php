@@ -51,7 +51,9 @@ include __DIR__ . '/../../templates/header.php';
         <?php endforeach; ?>
     <?php endif; ?>
 
-    <form class="formulario" method="POST">
+    <div id="errores-evento"></div>
+
+    <form class="formulario" method="POST" onsubmit="return validarEvento()">
         <fieldset>
             <legend>Datos del evento</legend>
 

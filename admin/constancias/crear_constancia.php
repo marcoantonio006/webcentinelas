@@ -47,14 +47,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 include '../../templates/header.php';
 ?>
 
-<!-- El formulario HTML queda exactamente igual que antes -->
 
 <main class="contenedor seccion">
 
     <a class="boton" href="../index.php">&larr; Volver</a>
     <h1>Crear Permiso / Constancia</h1>
 
-    <form class="formulario" action="crear_constancia.php" method="POST">
+    <div id="errores-constancia"></div>
+
+    <form class="formulario" action="crear_constancia.php" method="POST" onsubmit="return validarConstancia()">
 
         <fieldset>
             <legend>Destinatario</legend>
@@ -112,7 +113,7 @@ include '../../templates/header.php';
             <input type="text" id="fecha_torneo_inicio" name="fecha_torneo_inicio" value="27-04">
 
             <label for="fecha_torneo_fin">Fecha fin del torneo (dd-mm):</label>
-            <input type="text" id="fecha_torneo_fin" name="fecha_torneo_fin" placeholder="Ej: 07-05">
+            <input type="text" id="fecha_torneo_fin" name="fecha_torneo_fin" value="07-05">
         </fieldset>
 
         <fieldset>

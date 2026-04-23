@@ -24,29 +24,31 @@ include __DIR__ . '/../../templates/header.php';
     <?php if ($eventos->num_rows === 0) : ?>
         <p>No hay eventos registrados aún.</p>
     <?php else : ?>
-        <table class="tabla">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Fecha</th>
-                    <th>Lugar</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php while ($evento = $eventos->fetch_assoc()) : ?>
+        <div class="tabla-contenedor">
+            <table class="tabla">
+                <thead>
                     <tr>
-                        <td><?php echo htmlspecialchars($evento['nombre']); ?></td>
-                        <td><?php echo htmlspecialchars($evento['fecha']); ?></td>
-                        <td><?php echo htmlspecialchars($evento['lugar']); ?></td>
-                        <td>
-                            <a class="boton" href="/centinela/admin/eventos/editar.php?id=<?php echo $evento['id']; ?>">Editar</a>
-                            <a class="boton" href="/centinela/admin/eventos/eliminar.php?id=<?php echo $evento['id']; ?>">Eliminar</a>
-                        </td>
+                        <th>Nombre</th>
+                        <th>Fecha</th>
+                        <th>Lugar</th>
+                        <th>Acciones</th>
                     </tr>
-                <?php endwhile; ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <?php while ($evento = $eventos->fetch_assoc()) : ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($evento['nombre']); ?></td>
+                            <td><?php echo htmlspecialchars($evento['fecha']); ?></td>
+                            <td><?php echo htmlspecialchars($evento['lugar']); ?></td>
+                            <td>
+                                <a class="boton" href="/centinela/admin/eventos/editar.php?id=<?php echo $evento['id']; ?>">Editar</a>
+                                <a class="boton" href="/centinela/admin/eventos/eliminar.php?id=<?php echo $evento['id']; ?>">Eliminar</a>
+                            </td>
+                        </tr>
+                    <?php endwhile; ?>
+                </tbody>
+            </table>
+        </div>
     <?php endif; ?>
 </main>
 

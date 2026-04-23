@@ -80,6 +80,7 @@ h1 {
 
 h2 {
     font-size: 2.8rem;
+    color: var(--celeste-primario);
 }
 
 h3 {
@@ -106,6 +107,14 @@ h3 {
     padding: 1rem;
     margin-bottom: 1rem;
 
+}
+
+.error-js {
+    background-color: #ff0000;
+    border-left: 6px solid #f44336;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    color: white;
 }
 
 .seccion {
@@ -252,7 +261,7 @@ h3 {
 
 
 .inicio {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.623), rgba(0, 0, 0, 0.5)), url(../img/hero.png);
+    background-image: linear-gradient(rgba(0, 0, 0, 0.623), rgba(0, 0, 0, 0.5)), url(../img/hero2.png);
     min-height: 60rem;
     background-size: cover;
     background-repeat: no-repeat;
@@ -319,4 +328,196 @@ h3 {
     color: white;
     text-align: center;
     padding-bottom: 2rem;
+}
+
+
+.tabla-contenedor {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 2rem;
+}
+
+.tabla {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Google Sans', sans-serif;
+    font-size: 1.6rem;
+    color: var(--texto-principal);
+    white-space: nowrap; 
+}
+
+.tabla thead {
+    background-color: var(--azul-interactivo);
+    color: #fff;
+}
+
+.tabla th {
+    padding: 1.2rem 1.6rem;
+    text-align: left;
+    font-weight: 600;
+    font-size: 1.5rem;
+    letter-spacing: 0.03em;
+    color: #fff;
+}
+
+.tabla td {
+    padding: 1.2rem 1.6rem;
+    border-bottom: 1px solid #e0e0e0;
+    vertical-align: middle;
+    font-size: 1.5rem;
+}
+
+.tabla tbody tr:hover {
+    background-color: #f0f8ff;
+}
+
+.tabla .acciones {
+    display: flex;
+    gap: 0.8rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.boton-info {
+    background-color: var(--celeste-primario);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.boton-info:hover {
+    background-color: var(--azul-interactivo);
+}
+
+.boton-rojo {
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.boton-rojo:hover {
+    background-color: #c0392b;
+}
+
+@media (max-width: 600px) {
+    .col-oculta-movil {
+        display: none;
+    }
+
+    .tabla-contenedor {
+        overflow-x: unset;
+    }
+
+    .tabla {
+        white-space: normal;
+    }
+
+    .tabla .acciones {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .tabla .boton {
+        font-size: 1.2rem;
+        padding: 0.6rem 1rem;
+        margin: 0.3rem 0;
+    }
+
+    .contenedor {
+        max-width: 100%;
+        padding: 0 1rem;
+    }
+    .tabla td,
+    .tabla th {
+        padding: 0.8rem 1rem;
+        font-size: 1.4rem;
+    }
+}
+
+.modal-fondo {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem; /* Margen en móvil para que no toque los bordes */
+}
+
+.modal-visible {
+    display: flex;
+}
+
+.modal-caja {
+    background: #fff;
+    border-radius: 8px;
+    padding: 3rem;
+    width: 100%;
+    max-width: 700px;
+    max-height: 85vh;
+    overflow-y: auto;
+    position: relative;
+    font-family: 'Google Sans', sans-serif;
+    color: var(--texto-principal);
+}
+
+.modal-cerrar {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.6rem;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #666;
+    font-family: 'Google Sans', sans-serif;
+}
+
+.modal-cerrar:hover {
+    color: #000;
+}
+
+.modal-titulo {
+    font-size: 2.4rem;
+    margin-bottom: 2rem;
+    color: var(--celeste-primario);
+    text-align: left; 
+}
+
+.modal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.modal-seccion h3 {
+    font-size: 1.6rem;
+    margin-bottom: 1.2rem;
+    color: var(--azul-interactivo);
+    border-bottom: 2px solid var(--azul-interactivo);
+    padding-bottom: 0.4rem;
+    text-align: left; 
+}
+
+.modal-seccion p {
+    margin-bottom: 0.8rem;
+    font-size: 1.5rem;
+    color: var(--texto-principal);
+}
+
+.modal-seccion span {
+    color: #666;
+    font-size: 1.4rem;
+}
+
+@media (max-width: 600px) {
+    .modal-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-caja {
+        padding: 2rem;
+    }
 }

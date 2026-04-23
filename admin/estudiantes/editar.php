@@ -87,7 +87,9 @@ include __DIR__ . '/../../templates/header.php';
         <?php endforeach; ?>
     <?php endif; ?>
 
-    <form class="formulario" method="POST">
+    <div id="errores-estudiante"></div>
+
+    <form class="formulario" method="POST" onsubmit="return validarEstudiante()">
 
         <fieldset>
             <legend>Datos del estudiante</legend>
