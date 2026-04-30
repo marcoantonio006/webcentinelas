@@ -8,7 +8,7 @@ if (!$auth) {
     header('Location: /centinela/index.php');
     exit;
 }
-
+require_once __DIR__ . '/../../src/CSRF.php';
 require_once __DIR__ . '/../../src/Estudiante.php';
 
 $estudiantes = Estudiante::listar();
@@ -17,12 +17,12 @@ include __DIR__ . '/../../templates/header.php';
 ?>
 
 <main class="contenedor seccion">
-    <h1>Estudiantes</h1>
+    <h1>Atletas</h1>
 
-    <a class="boton" href="/centinela/admin/estudiantes/crear.php">+ Nuevo estudiante</a>
+    <a class="boton" href="/centinela/admin/estudiantes/crear.php">+ Nuevo atleta</a>
 
     <?php if ($estudiantes->num_rows === 0) : ?>
-        <p>No hay estudiantes registrados aún.</p>
+        <p>No hay atletas registrados aún.</p>
     <?php else : ?>
 
         <div class="tabla-contenedor">
@@ -44,7 +44,7 @@ include __DIR__ . '/../../templates/header.php';
                             <td class="col-oculta-movil"><?php echo htmlspecialchars($estudiante['cedula']); ?></td>
                             <td class="col-oculta-movil"><?php echo htmlspecialchars($estudiante['categoria_nombre'] ?? '—'); ?></td>
                             <td class="acciones">
-                                <!-- Botón que abre el modal con los datos de este estudiante -->
+                                
                                 <button class="boton boton-info" onclick="abrirModal(
                                     '<?php echo htmlspecialchars($estudiante['nombre']); ?>',
                                     '<?php echo htmlspecialchars($estudiante['apellido']); ?>',
@@ -58,10 +58,12 @@ include __DIR__ . '/../../templates/header.php';
                                     '<?php echo htmlspecialchars($estudiante['categoria_nombre'] ?? '—'); ?>'
                                 )">Ver detalles</button>
 
+                                <a class="boton boton-verde" href="/centinela/admin/constancias/crear_constancia.php?id=<?php echo $estudiante['id']; ?>">Crear Constancia</a>
+
                                 <a class="boton" href="/centinela/admin/estudiantes/editar.php?id=<?php echo $estudiante['id']; ?>">Editar</a>
 
-                                <form method="POST" action="/centinela/admin/estudiantes/eliminar.php"
-                                    onsubmit="return confirm('¿Estás seguro de eliminar a <?php echo htmlspecialchars($estudiante['nombre']); ?>?')">
+                                <form method="POST" action="/centinela/admin/estudiantes/eliminar.php">
+                                    <?php echo CSRF::campo(); ?>
                                     <input type="hidden" name="id" value="<?php echo $estudiante['id']; ?>">
                                     <button class="boton boton-rojo" type="submit">Eliminar</button>
                                 </form>
@@ -78,11 +80,11 @@ include __DIR__ . '/../../templates/header.php';
 <div id="modal" class="modal-fondo" onclick="cerrarModal(event)">
     <div class="modal-caja">
         <button class="modal-cerrar" onclick="cerrarModal()">✕</button>
-        <h2 class="modal-titulo">Detalles del Estudiante</h2>
+        <h2 class="modal-titulo">Detalles del Atleta</h2>
 
         <div class="modal-grid">
             <div class="modal-seccion">
-                <h3>Datos del estudiante</h3>
+                <h3>Datos del atleta</h3>
                 <p><span>Nombre:</span> <strong id="m-nombre"></strong></p>
                 <p><span>Apellido:</span> <strong id="m-apellido"></strong></p>
                 <p><span>Cédula:</span> <strong id="m-cedula"></strong></p>
@@ -130,5 +132,3 @@ include __DIR__ . '/../../templates/header.php';
         if (e.key === 'Escape') cerrarModal();
     });
 </script>
-
-<?php include __DIR__ . '/../../templates/footer.php'; ?>

@@ -1,7 +1,6 @@
 <footer class="footer seccion">
     <div class="contenedor">
         <nav class="navegacion">
-            <a href="/centinela/plantilla.php">Plantilla</a>
             <a href="/centinela/eventos.php">Eventos</a>
         </nav>
     </div>

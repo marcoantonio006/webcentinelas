@@ -25,7 +25,7 @@ $eventos = Evento::listar();
                 <?php while ($evento = $eventos->fetch_assoc()) : ?>
                     <tr>
                         <td><?php echo htmlspecialchars($evento['nombre']); ?></td>
-                        <td><?php echo htmlspecialchars($evento['fecha']); ?></td>
+                        <td><?php echo date('d/m/Y', strtotime($evento['fecha'])); ?></td>
                         <td><?php echo htmlspecialchars($evento['lugar']); ?></td>
                     </tr>
                 <?php endwhile; ?>

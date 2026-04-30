@@ -10,8 +10,24 @@ if (!$auth) {
 }
 
 require_once __DIR__ . '/../../src/Constancia.php';
+require_once __DIR__ . '/../../src/Estudiante.php';
+require_once __DIR__ . '/../../src/Categoria.php';
+require_once __DIR__ . '/../../src/CSRF.php';
+
+$categorias = Categoria::listar();
+
+$atleta = [];
+$id = $_GET['id'] ?? null;
+
+if ($id) {
+    $atleta = Estudiante::findById($id) ?? [];
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    if (!CSRF::verificar()) {
+        die('Petición no válida');
+    }
 
     $fecha_torneo_fin_raw   = trim($_POST['fecha_torneo_fin'] ?? '');
     $fecha_torneo_fin_parts = explode('-', $fecha_torneo_fin_raw);
@@ -51,46 +67,49 @@ include '../../templates/header.php';
 <main class="contenedor seccion">
 
     <a class="boton" href="../index.php">&larr; Volver</a>
-    <h1>Crear Permiso / Constancia</h1>
+    <h1>Crear Constancia</h1>
 
     <div id="errores-constancia"></div>
 
     <form class="formulario" action="crear_constancia.php" method="POST" onsubmit="return validarConstancia()">
+        <?php echo CSRF::campo(); ?>
 
         <fieldset>
             <legend>Destinatario</legend>
             <label for="institucion_destino">Institución educativa (LCDO / Colegio):</label>
-            <input type="text" id="institucion_destino" name="institucion_destino" value="COLEGIO SAN JUDAS TADEO">
+            <input type="text" id="institucion_destino" name="institucion_destino">
         </fieldset>
 
         <fieldset>
             <legend>Datos del Atleta</legend>
 
             <label for="nombre_atleta">Nombre:</label>
-            <input type="text" id="nombre_atleta" name="nombre_atleta" value="LUIS FERNANDO" required>
+            <input type="text" id="nombre_atleta" name="nombre_atleta" value="<?php echo htmlspecialchars( $_POST['nombre_atleta'] ?? strtoupper($atleta['nombre'] ?? '') ); ?>" required>
 
             <label for="apellido_atleta">Apellido:</label>
-            <input type="text" id="apellido_atleta" name="apellido_atleta" value="GONZALEZ GUTIERREZ" required>
+            <input type="text" id="apellido_atleta" name="apellido_atleta" value="<?php echo htmlspecialchars( $_POST['apellido_atleta'] ?? strtoupper($atleta['apellido'] ?? '') ); ?>" required>
 
             <label for="cedula_atleta">Cédula del atleta:</label>
-            <input type="text" id="cedula_atleta" name="cedula_atleta" value="V-33.388.230">
+            <input type="text" id="cedula_atleta" name="cedula_atleta" value="<?php echo htmlspecialchars( $_POST['cedula_atleta'] ?? ($atleta['cedula'] ?? '') ); ?>" required>
 
             <label for="anio_escolar">Año escolar:</label>
-            <input type="text" id="anio_escolar" name="anio_escolar" value="3">
+            <input type="text" id="anio_escolar" name="anio_escolar" value="<?php echo htmlspecialchars( $_POST['anio_escolar'] ?? '' ); ?>" required>
 
             <label for="seccion">Sección:</label>
-            <input type="text" id="seccion" name="seccion" value="C">
+            <input type="text" id="seccion" name="seccion" value="<?php echo htmlspecialchars( $_POST['seccion'] ?? '' ); ?>" required>
 
             <label for="estado_seleccion">Estado / Selección:</label>
-            <input type="text" id="estado_seleccion" name="estado_seleccion" value="ZULIA">
+            <input type="text" id="estado_seleccion" name="estado_seleccion" value="<?php echo htmlspecialchars( $_POST['estado_seleccion'] ?? '' ); ?>" required>
 
             <label for="categoria">Categoría:</label>
             <select id="categoria" name="categoria">
-                <option value="INFANTIL A">Infantil A</option>
-                <option value="INFANTIL B" selected>Infantil B</option>
-                <option value="CADETE">Cadete</option>
-                <option value="JUVENIL">Juvenil</option>
-                <option value="ADULTO">Adulto</option>
+                <option value="">-- Selecciona --</option>
+                <?php while ($categoria = $categorias->fetch_assoc()) : ?>
+                    <option value="<?php echo htmlspecialchars($categoria['nombre']); ?>"
+                        <?php echo (($_POST['categoria'] ?? $atleta['categoria_nombre'] ?? '') === $categoria['nombre']) ? 'selected' : ''; ?>>
+                        <?php echo htmlspecialchars($categoria['nombre']); ?>
+                    </option>
+                <?php endwhile; ?>
             </select>
         </fieldset>
 
@@ -98,52 +117,52 @@ include '../../templates/header.php';
             <legend>Datos del Torneo</legend>
 
             <label for="nombre_torneo">Nombre del torneo / campeonato:</label>
-            <input type="text" id="nombre_torneo" name="nombre_torneo" value="NACIONAL INFANTIL YARACUY 2025">
+            <input type="text" id="nombre_torneo" name="nombre_torneo" >
 
             <label for="estado_torneo">Estado donde se realiza:</label>
-            <input type="text" id="estado_torneo" name="estado_torneo" value="ESTADO YARACUY">
+            <input type="text" id="estado_torneo" name="estado_torneo" >
 
             <label for="fecha_inicio_entreno">Inicio de entrenamientos (dd-mm):</label>
-            <input type="text" id="fecha_inicio_entreno" name="fecha_inicio_entreno" value="27-04">
+            <input type="text" id="fecha_inicio_entreno" name="fecha_inicio_entreno" >
 
             <label for="fecha_fin_entreno">Fin de entrenamientos (dd-mm):</label>
-            <input type="text" id="fecha_fin_entreno" name="fecha_fin_entreno" value="07-05">
+            <input type="text" id="fecha_fin_entreno" name="fecha_fin_entreno" >
 
             <label for="fecha_torneo_inicio">Fecha inicio del torneo (dd-mm):</label>
-            <input type="text" id="fecha_torneo_inicio" name="fecha_torneo_inicio" value="27-04">
+            <input type="text" id="fecha_torneo_inicio" name="fecha_torneo_inicio" >
 
             <label for="fecha_torneo_fin">Fecha fin del torneo (dd-mm):</label>
-            <input type="text" id="fecha_torneo_fin" name="fecha_torneo_fin" value="07-05">
+            <input type="text" id="fecha_torneo_fin" name="fecha_torneo_fin" >
         </fieldset>
 
         <fieldset>
             <legend>Datos del Representante del Atleta</legend>
 
             <label for="nombre_representante">Nombre completo del representante:</label>
-            <input type="text" id="nombre_representante" name="nombre_representante" value="LUIS ANGEL GONZALEZ D." required>
+            <input type="text" id="nombre_representante" name="nombre_representante" value="<?php echo htmlspecialchars( $_POST['nombre_representante'] ?? strtoupper( trim(($atleta['nombre_representante'] ?? '') . ' ' . ($atleta['apellido_representante'] ?? '')) ) ); ?>" required>
 
             <label for="cedula_representante">Cédula del representante:</label>
-            <input type="text" id="cedula_representante" name="cedula_representante" value="V-17.232.652">
+            <input type="text" id="cedula_representante" name="cedula_representante" value="<?php echo htmlspecialchars( $_POST['cedula_representante'] ?? ($atleta['cedula_representante'] ?? '') ); ?>" required>
         </fieldset>
 
         <fieldset>
             <legend>Datos de Emisión</legend>
 
             <label for="dia_emision">Día de emisión:</label>
-            <input type="text" id="dia_emision" name="dia_emision" value="21">
+            <input type="text" id="dia_emision" name="dia_emision" >
 
             <label for="mes_emision">Mes de emisión:</label>
-            <input type="text" id="mes_emision" name="mes_emision" value="ABRIL">
+            <input type="text" id="mes_emision" name="mes_emision" >
         </fieldset>
 
         <fieldset>
             <legend>Firmante de la Academia</legend>
 
             <label for="nombre_director">Nombre del director / presidente:</label>
-            <input type="text" id="nombre_director" name="nombre_director" value="LCDO. JOSE MONTIEL ARRIETA. MSc" required>
+            <input type="text" id="nombre_director" name="nombre_director"  required>
 
             <label for="cargo_director">Cargo:</label>
-            <input type="text" id="cargo_director" name="cargo_director" value="VICEPRESIDENTE AVEZ">
+            <input type="text" id="cargo_director" name="cargo_director" >
         </fieldset>
 
         <button type="submit" class="boton">📄 Generar Permiso PDF</button>

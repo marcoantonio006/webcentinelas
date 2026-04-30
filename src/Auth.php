@@ -37,7 +37,6 @@ class Auth {
             return $errores;
         }
 
-        session_start();
         $_SESSION['usuario'] = $usuario['correo'];
         $_SESSION['login']   = true;
 

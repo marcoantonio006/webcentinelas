@@ -17,11 +17,11 @@ include '../templates/header.php';
     <main class="contenedor seccion">
         <h1>Panel de Administrador</h1>
 
-        <!-- <a class="boton" href="../admin/estudiantes/create.php">Nuevo Estudiante</a> -->
+        <div class="centrado">
+            <a class="boton" href="../admin/estudiantes/">Administrar Atletas</a>
+            <a class="boton" href="../admin/eventos/">Administrar Eventos</a>
 
-        <a class="boton" href="../admin/constancias/crear_constancia.php">Crear constancia</a>
-        <a class="boton" href="../admin/estudiantes/">Administrar Estudiantes</a>
-        <a class="boton" href="../admin/eventos/">Administrar Eventos</a>
+        </div>
         
     </main>
 

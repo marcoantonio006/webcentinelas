@@ -1,10 +1,17 @@
 <?php
 
+session_start();
+
 require_once __DIR__ . '/src/Auth.php';
+require_once __DIR__ . '/src/CSRF.php';
 
 $errores = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!CSRF::verificar()) {
+        die('Petición no válida');
+    }
+
     $correo   = $_POST['correo']   ?? '';
     $password = $_POST['password'] ?? '';
 
@@ -36,6 +43,8 @@ include 'templates/header.php';
         <div id="errores-login"></div>
 
         <form class="formulario" method="POST" onsubmit="return validarLogin()">
+            <?php echo CSRF::campo(); ?>
+            
             <fieldset>
                 <legend>Datos de Usuario</legend>
 

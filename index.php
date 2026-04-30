@@ -11,6 +11,7 @@ include 'templates/header.php';
 
                 <h2>¿Como me inscribo?</h2>
                 <p class="parrafo">Contacta con nosotros a traves de nuestro numero de telefono o correo electronico.</p>
+                
             </div>
 
             <div class="seccion">

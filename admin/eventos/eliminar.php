@@ -10,9 +10,18 @@ if (!$auth) {
 }
 
 require_once __DIR__ . '/../../src/Evento.php';
+require_once __DIR__ . '/../../src/CSRF.php';
 
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('Location: /centinela/admin/eventos/index.php');
+    exit;
+}
 
-$id = $_GET['id'] ?? null;
+if (!CSRF::verificar()) {
+    die('Petición no válida');
+}
+
+$id = $_POST['id'] ?? null;
 
 if (!$id) {
     header('Location: /centinela/admin/eventos/index.php');

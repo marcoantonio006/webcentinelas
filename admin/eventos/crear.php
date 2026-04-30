@@ -10,10 +10,15 @@ if (!$auth) {
 }
 
 require_once __DIR__ . '/../../src/Evento.php';
+require_once __DIR__ . '/../../src/CSRF.php';
 
 $errores = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    if (!CSRF::verificar()) {
+        die('Petición no válida');
+    }
 
     $nombre = trim($_POST['nombre'] ?? '');
     $fecha  = trim($_POST['fecha']  ?? '');
@@ -54,6 +59,8 @@ include __DIR__ . '/../../templates/header.php';
     <div id="errores-evento"></div>
 
     <form class="formulario" method="POST" onsubmit="return validarEvento()">
+
+        <?php echo CSRF::campo(); ?>
         <fieldset>
             <legend>Datos del evento</legend>
 

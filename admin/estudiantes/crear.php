@@ -11,10 +11,15 @@ if (!$auth) {
 
 require_once __DIR__ . '/../../src/Estudiante.php';
 require_once __DIR__ . '/../../src/Categoria.php';
+require_once __DIR__ . '/../../src/CSRF.php';
 
 $errores = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    if (!CSRF::verificar()) {
+        die('Petición no válida');
+    }
 
     $nombre                 = trim($_POST['nombre'] ?? '');
     $apellido               = trim($_POST['apellido'] ?? '');
@@ -23,14 +28,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $lugar_nacimiento       = trim($_POST['lugar_nacimiento'] ?? '');
     $nombre_representante   = trim($_POST['nombre_representante'] ?? '');
     $apellido_representante = trim($_POST['apellido_representante'] ?? '');
+    $cedula_representante   = trim($_POST['cedula_representante'] ?? '');
     $profesion              = trim($_POST['profesion'] ?? '');
     $domicilio              = trim($_POST['domicilio'] ?? '');
     $categoria_id           = trim($_POST['categoria_id'] ?? '');
 
-    if ($nombre === '')       $errores[] = 'El nombre es obligatorio';
-    if ($apellido === '')     $errores[] = 'El apellido es obligatorio';
-    if ($cedula === '')       $errores[] = 'La cédula es obligatoria';
-    if ($categoria_id === '') $errores[] = 'La categoría es obligatoria';
+    if ($nombre === '')                 $errores[] = 'El nombre es obligatorio';
+    if ($apellido === '')               $errores[] = 'El apellido es obligatorio';
+    if ($cedula === '')                 $errores[] = 'La cédula es obligatoria';
+    if ($fecha_nacimiento === '')       $errores[] = 'La fecha de nacimiento es obligatoria';
+    if ($lugar_nacimiento === '')       $errores[] = 'El lugar de nacimiento es obligatorio';
+    if ($categoria_id === '')           $errores[] = 'La categoría es obligatoria';
+    if ($nombre_representante === '')   $errores[] = 'El nombre del representante es obligatorio';
+    if ($apellido_representante === '') $errores[] = 'El apellido del representante es obligatorio';
+    if ($cedula_representante === '')   $errores[] = 'La cédula del representante es obligatoria';
+    if ($profesion === '')              $errores[] = 'La profesión es obligatoria';
+    if ($domicilio === '')              $errores[] = 'El domicilio es obligatorio';
 
     if (empty($errores)) {
         $estudiante = new Estudiante();
@@ -42,14 +55,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $estudiante->setLugarNacimiento($lugar_nacimiento);
         $estudiante->setNombreRepresentante($nombre_representante);
         $estudiante->setApellidoRepresentante($apellido_representante);
+        $estudiante->setCedulaRepresentante($cedula_representante);
         $estudiante->setProfesion($profesion);
         $estudiante->setDomicilio($domicilio);
         $estudiante->setCategoriaId($categoria_id);
 
-        $estudiante->guardar();
+        $guardado = $estudiante->guardar();
 
-        header('Location: /centinela/admin/estudiantes/index.php');
-        exit;
+        if (!$guardado) {
+            $errores[] = 'Ya existe un atleta registrado con esa cédula';
+        } else {
+            header('Location: /centinela/admin/estudiantes/index.php');
+            exit;
+        }
     }
 }
 
@@ -59,7 +77,7 @@ include __DIR__ . '/../../templates/header.php';
 ?>
 
 <main class="contenedor seccion">
-    <h1>Nuevo Estudiante</h1>
+    <h1>Nuevo Atleta</h1>
 
     <a class="boton" href="/centinela/admin/estudiantes/index.php">← Volver</a>
 
@@ -72,9 +90,10 @@ include __DIR__ . '/../../templates/header.php';
     <div id="errores-estudiante"></div>
 
     <form class="formulario" method="POST" onsubmit="return validarEstudiante()">
+        <?php echo CSRF::campo(); ?>
 
         <fieldset>
-            <legend>Datos del estudiante</legend>
+            <legend>Datos del atleta</legend>
 
             <label for="nombre">Nombre:</label>
             <input type="text" id="nombre" name="nombre" value="<?php echo htmlspecialchars($_POST['nombre'] ?? ''); ?>">
@@ -112,6 +131,9 @@ include __DIR__ . '/../../templates/header.php';
             <label for="apellido_representante">Apellido:</label>
             <input type="text" id="apellido_representante" name="apellido_representante" value="<?php echo htmlspecialchars($_POST['apellido_representante'] ?? ''); ?>">
 
+            <label for="cedula_representante">Cédula:</label>
+            <input type="text" id="cedula_representante" name="cedula_representante" value="<?php echo htmlspecialchars($_POST['cedula_representante'] ?? ''); ?>">
+
             <label for="profesion">Profesión:</label>
             <input type="text" id="profesion" name="profesion" value="<?php echo htmlspecialchars($_POST['profesion'] ?? ''); ?>">
 
@@ -119,7 +141,7 @@ include __DIR__ . '/../../templates/header.php';
             <input type="text" id="domicilio" name="domicilio" value="<?php echo htmlspecialchars($_POST['domicilio'] ?? ''); ?>">
         </fieldset>
 
-        <button class="boton" type="submit">Guardar estudiante</button>
+        <button class="boton" type="submit">Guardar atleta</button>
     </form>
 </main>
 

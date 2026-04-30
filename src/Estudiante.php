@@ -11,6 +11,7 @@ class Estudiante {
     private $lugar_nacimiento;
     private $nombre_representante;
     private $apellido_representante;
+    private $cedula_representante;
     private $profesion;
     private $domicilio;
     private $categoria_id;
@@ -45,6 +46,10 @@ class Estudiante {
 
     public function setApellidoRepresentante($apellido_representante) {
         $this->apellido_representante = $apellido_representante;
+    }
+
+    public function setCedulaRepresentante($cedula_representante) {
+        $this->cedula_representante = $cedula_representante;
     }
 
     public function setProfesion($profesion) {
@@ -91,6 +96,10 @@ class Estudiante {
         return $this->apellido_representante;
     }
 
+    public function getCedulaRepresentante() {
+        return $this->cedula_representante;
+    }
+
     public function getProfesion() {
         return $this->profesion;
     }
@@ -106,7 +115,7 @@ class Estudiante {
     public function guardar() {
         $conn = DB::conectar();
 
-        $sql = 'INSERT INTO estudiantes(nombre, apellido, cedula, fecha_nacimiento,lugar_nacimiento, nombre_representante, apellido_representante,profesion, domicilio, categoria_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        $sql = 'INSERT INTO estudiantes(nombre, apellido, cedula, fecha_nacimiento,lugar_nacimiento, nombre_representante, apellido_representante, cedula_representante, profesion, domicilio, categoria_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
 
         $stmt = $conn->prepare($sql);
 
@@ -118,20 +127,28 @@ class Estudiante {
             $this->lugar_nacimiento,
             $this->nombre_representante,
             $this->apellido_representante,
+            $this->cedula_representante,
             $this->profesion,
             $this->domicilio,
             $this->categoria_id
         ];
 
-        $stmt->bind_param('sssssssssi', ...$datos);
+        $stmt->bind_param('ssssssssssi', ...$datos);
 
         $stmt->execute();
+
+        
+        if ($conn->errno === 1062) {
+            return false;
+        }
+
+        return true;
     }
 
     public function editar() {
         $conn = DB::conectar();
 
-        $sql = 'UPDATE estudiantes SET nombre = ?, apellido = ?, cedula = ?, fecha_nacimiento = ?, lugar_nacimiento = ?, nombre_representante = ?, apellido_representante = ?, profesion = ?, domicilio = ?, categoria_id = ? WHERE id = ?';
+        $sql = 'UPDATE estudiantes SET nombre = ?, apellido = ?, cedula = ?, fecha_nacimiento = ?, lugar_nacimiento = ?, nombre_representante = ?, apellido_representante = ?, cedula_representante = ?, profesion = ?, domicilio = ?, categoria_id = ? WHERE id = ?';
 
         $stmt = $conn->prepare($sql);
 
@@ -143,13 +160,14 @@ class Estudiante {
             $this->lugar_nacimiento,
             $this->nombre_representante,
             $this->apellido_representante,
+            $this->cedula_representante,
             $this->profesion,
             $this->domicilio,
             $this->categoria_id,
             $this->id
         ];
 
-        $stmt->bind_param('sssssssssii', ...$datos);
+        $stmt->bind_param('ssssssssssii', ...$datos);
 
         $stmt->execute();
 
@@ -167,7 +185,8 @@ class Estudiante {
     public static function findById($id) {
         $conn = DB::conectar();
 
-        $sql = 'SELECT * FROM estudiantes WHERE id = ?';
+        $sql = 'SELECT estudiantes.*, categorias.nombre AS categoria_nombre FROM estudiantes LEFT JOIN categorias ON estudiantes.categoria_id = categorias.id WHERE estudiantes.id = ?';
+
         $stmt = $conn->prepare($sql);
         $stmt->bind_param('i', $id);
         $stmt->execute();

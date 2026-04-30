@@ -8,7 +8,7 @@ if (!$auth) {
     header('Location: /centinela/index.php');
     exit;
 }
-
+require_once __DIR__ . '/../../src/CSRF.php';
 require_once __DIR__ . '/../../src/Evento.php';
 
 $eventos = Evento::listar();
@@ -38,11 +38,15 @@ include __DIR__ . '/../../templates/header.php';
                     <?php while ($evento = $eventos->fetch_assoc()) : ?>
                         <tr>
                             <td><?php echo htmlspecialchars($evento['nombre']); ?></td>
-                            <td><?php echo htmlspecialchars($evento['fecha']); ?></td>
+                            <td><?php echo date('d/m/Y', strtotime($evento['fecha'])); ?></td>
                             <td><?php echo htmlspecialchars($evento['lugar']); ?></td>
                             <td>
                                 <a class="boton" href="/centinela/admin/eventos/editar.php?id=<?php echo $evento['id']; ?>">Editar</a>
-                                <a class="boton" href="/centinela/admin/eventos/eliminar.php?id=<?php echo $evento['id']; ?>">Eliminar</a>
+                                    <form method="POST" action="/centinela/admin/eventos/eliminar.php">
+                                    <?php echo CSRF::campo(); ?>
+                                    <input type="hidden" name="id" value="<?php echo $evento['id']; ?>">
+                                    <button class="boton boton-rojo" type="submit">Eliminar</button>
+                                </form>
                             </td>
                         </tr>
                     <?php endwhile; ?>
@@ -51,5 +55,3 @@ include __DIR__ . '/../../templates/header.php';
         </div>
     <?php endif; ?>
 </main>
-
-<?php include __DIR__ . '/../../templates/footer.php'; ?>

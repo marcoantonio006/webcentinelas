@@ -51,6 +51,7 @@ function validarEstudiante() {
     const lugarNacimiento       = document.getElementById('lugar_nacimiento');
     const nombreRepresentante   = document.getElementById('nombre_representante');
     const apellidoRepresentante = document.getElementById('apellido_representante');
+    const cedulaRepresentante = document.getElementById('cedula_representante');
     const profesion             = document.getElementById('profesion');
     const domicilio             = document.getElementById('domicilio');
     const mensajes              = [];
@@ -95,6 +96,12 @@ function validarEstudiante() {
         mensajes.push('El apellido del representante es obligatorio');
     } else if (!erSoloLetras.test(apellidoRepresentante.value.trim())) {
         mensajes.push('El apellido del representante solo puede contener letras');
+    }
+
+    if (cedulaRepresentante.value.trim() === '') {
+        mensajes.push('La cédula del representante es obligatoria');
+    } else if (!erCedula.test(cedulaRepresentante.value.trim())) {
+        mensajes.push('La cédula del representante debe contener entre 6 y 9 dígitos');
     }
 
     if (profesion.value.trim() === '') {

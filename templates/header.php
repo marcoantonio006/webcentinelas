@@ -33,7 +33,6 @@
                 </a>
 
                 <nav class="navegacion">
-                    <a href="/centinela/plantilla.php">Plantilla</a>
                     <a href="/centinela/eventos.php">Eventos</a>
                     <?php if($auth) {echo '<a href="/centinela/cerrar.php">Cerrar sesion</a>';}?>
                     <?php if($auth) {echo '<a href="/centinela/admin/index.php">Panel Admin</a>';}?>
