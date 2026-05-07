@@ -42,7 +42,7 @@ class Constancia {
         $nombre_director      = $datos['nombre_director'];
         $cargo_director       = $datos['cargo_director'];
 
-        // ── Configuración del PDF ─────────────────────────────────────────
+        
         $pdf = new PDF('P', 'mm', [190.5, 254]);
         $pdf->SetMargins(14, 10, 14);
         $pdf->SetAutoPageBreak(true, 10);
@@ -63,7 +63,7 @@ class Constancia {
 
         $n_at = ($nombre_atleta && $apellido_atleta) ? "$nombre_atleta $apellido_atleta" : '';
 
-        // ── Encabezado ────────────────────────────────────────────────────
+        
         $logo = __DIR__ . '/../assets/img/favicon.png';
         if (file_exists($logo)) {
             $pdf->Image($logo, 14, 8, 30);
@@ -85,7 +85,7 @@ class Constancia {
 
         $pdf->Ln(5);
 
-        // ── Fecha ─────────────────────────────────────────────────────────
+        
         $pdf->SetTextColor(0, 0, 0);
         $pdf->SetFont('Arial', 'B', 10);
         $diaFmt = $dia_emision ?: '___';
@@ -103,7 +103,7 @@ class Constancia {
         
         $pdf->Ln(3);
 
-        // ── Destinatario ──────────────────────────────────────────────────
+        
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->Write($lh, 'LCDO (A): ');
         $bu($institucion_destino, '___________________________________');
@@ -114,12 +114,12 @@ class Constancia {
         $pdf->Write($lh, 'SU DESPACHO');
         $pdf->Ln(5);
 
-        // ── Título ────────────────────────────────────────────────────────
+        
         $pdf->SetFont('Arial', 'B', 13);
         $pdf->Cell(0, 7, 'CONSTANCIA', 0, 1, 'C');
         $pdf->Ln(2);
 
-        // ── Párrafo 1 ─────────────────────────────────────────────────────
+        
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->Write($lh, txt('        Muy respetados señores, reciban un cordial saludo de parte de la '));
         $b('ACADEMIA DE VOLEIBOL CLUB CENTINELAS');
@@ -156,7 +156,7 @@ class Constancia {
         $pdf->Write($lh, txt(' del ' . $anio_emision . '.'));
         $pdf->Ln(5);
 
-        // ── Párrafo 2 ─────────────────────────────────────────────────────
+        
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->Write($lh, txt('Yo, '));
         $bu($nombre_representante, '___________________________');
@@ -178,7 +178,7 @@ class Constancia {
         $pdf->Write($lh, txt(' ' . $anio_emision . '.'));
         $pdf->Ln(8);
 
-        // ── Firma del representante ───────────────────────────────────────
+        
         $pdf->SetLineWidth(0.4);
         $pdf->SetDrawColor(0, 0, 0);
         $pdf->Line(14, $pdf->GetY(), 80, $pdf->GetY());
@@ -187,7 +187,7 @@ class Constancia {
         $pdf->Write($lh, txt('Firma Del Representante'));
         $pdf->Ln(5);
 
-        // ── Línea de expedición ───────────────────────────────────────────
+        
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->Write($lh, txt('Constancia que se expide a peticion de la parte interesada en esta ciudad de Caracas, a los '));
         $bu($dia_emision, '___');
@@ -196,7 +196,7 @@ class Constancia {
         $pdf->Write($lh, txt(' del ' . $anio_emision . '.'));
         $pdf->Ln(5);
 
-        // ── Base legal ────────────────────────────────────────────────────
+        
         $lhs = 3.8;
         $pdf->SetFont('Arial', 'B', 7);
         $pdf->Cell(0, 4.5, txt('En esta solicitud se fundamenta en las normas juridicas contempladas en:'), 0, 1, 'C');
@@ -219,7 +219,7 @@ class Constancia {
         $pdf->MultiCell(152, $lhs, txt('1.  NEGARSE A CONCEDER EL PERMISO A LOS ESTUDIANTES O TRABAJADORES Y TRABAJADORAS PARA SU PREPARACION Y PARTICIPACION EN EVENTOS COMPETITIVOS.'), 0, 'L');
         $pdf->Ln(2);
 
-        // ── Firmas finales ────────────────────────────────────────────────
+        
         $yF = $pdf->GetY();
         $pdf->SetLineWidth(0.4);
         $pdf->SetDrawColor(0, 0, 0);
@@ -241,7 +241,7 @@ class Constancia {
         $pdf->SetTextColor(150, 150, 150);
         $pdf->Cell(60, 5, txt('Sello de la institucion'), 0, 1, 'C');
 
-        // ── Generar PDF ───────────────────────────────────────────────────
+        
         $nombreArchivo = 'permiso_' . $nombre_atleta . '_' . $apellido_atleta . '.pdf';
         $pdf->Output('I', $nombreArchivo);
         exit;

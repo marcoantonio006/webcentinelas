@@ -40,13 +40,27 @@ include __DIR__ . '/../../templates/header.php';
                             <td><?php echo htmlspecialchars($evento['nombre']); ?></td>
                             <td><?php echo date('d/m/Y', strtotime($evento['fecha'])); ?></td>
                             <td><?php echo htmlspecialchars($evento['lugar']); ?></td>
-                            <td>
-                                <a class="boton" href="/centinela/admin/eventos/editar.php?id=<?php echo $evento['id']; ?>">Editar</a>
+                            <td class="acciones">
+                                <a class="boton" href="/centinela/admin/eventos/editar.php?id=<?php echo $evento['id']; ?>"><i class="fa-solid fa-pen"></i> Editar</a>
                                     <form method="POST" action="/centinela/admin/eventos/eliminar.php">
                                     <?php echo CSRF::campo(); ?>
                                     <input type="hidden" name="id" value="<?php echo $evento['id']; ?>">
-                                    <button class="boton boton-rojo" type="submit">Eliminar</button>
+                                    <button class="boton boton-rojo" type="submit"><i class="fa-solid fa-trash"></i> Eliminar</button>
                                 </form>
+                            </td>
+                            <!-- Dropdown para móvil -->
+                            <td class="acciones-dropdown">
+                                <button class="acciones-dropdown-btn">
+                                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                                </button>
+                                <div class="acciones-dropdown-menu">
+                                    <a href="/centinela/admin/eventos/editar.php?id=<?php echo $evento['id']; ?>">Editar</a>
+                                    <form method="POST" action="/centinela/admin/eventos/eliminar.php">
+                                        <?php echo CSRF::campo(); ?>
+                                        <input type="hidden" name="id" value="<?php echo $evento['id']; ?>">
+                                        <button class="boton-rojo" type="submit">Eliminar</button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     <?php endwhile; ?>

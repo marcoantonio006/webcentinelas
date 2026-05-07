@@ -33,28 +33,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $fecha_torneo_fin_parts = explode('-', $fecha_torneo_fin_raw);
 
     $datos = [
-        'institucion_destino'  => trim($_POST['institucion_destino'] ?? ''),
-        'nombre_atleta'        => strtoupper(trim($_POST['nombre_atleta'] ?? '')),
-        'apellido_atleta'      => strtoupper(trim($_POST['apellido_atleta'] ?? '')),
-        'cedula_atleta'        => trim($_POST['cedula_atleta'] ?? ''),
-        'anio_escolar'         => trim($_POST['anio_escolar'] ?? ''),
-        'seccion'              => strtoupper(trim($_POST['seccion'] ?? '')),
-        'estado_seleccion'     => strtoupper(trim($_POST['estado_seleccion'] ?? '')),
-        'categoria'            => strtoupper(trim($_POST['categoria'] ?? '')),
+        'institucion_destino' => trim($_POST['institucion_destino'] ?? ''),
+        'nombre_atleta' => strtoupper(trim($_POST['nombre_atleta'] ?? '')),
+        'apellido_atleta' => strtoupper(trim($_POST['apellido_atleta'] ?? '')),
+        'cedula_atleta' => trim($_POST['cedula_atleta'] ?? ''),
+        'anio_escolar' => trim($_POST['anio_escolar'] ?? ''),
+        'seccion'  => strtoupper(trim($_POST['seccion'] ?? '')),
+        'estado_seleccion' => strtoupper(trim($_POST['estado_seleccion'] ?? '')),
+        'categoria' => strtoupper(trim($_POST['categoria'] ?? '')),
         'fecha_inicio_entreno' => trim($_POST['fecha_inicio_entreno'] ?? ''),
-        'fecha_fin_entreno'    => trim($_POST['fecha_fin_entreno'] ?? ''),
-        'nombre_torneo'        => strtoupper(trim($_POST['nombre_torneo'] ?? '')),
-        'estado_torneo'        => strtoupper(trim($_POST['estado_torneo'] ?? '')),
-        'fecha_torneo_inicio'  => trim($_POST['fecha_torneo_inicio'] ?? ''),
+        'fecha_fin_entreno' => trim($_POST['fecha_fin_entreno'] ?? ''),
+        'nombre_torneo' => strtoupper(trim($_POST['nombre_torneo'] ?? '')),
+        'estado_torneo' => strtoupper(trim($_POST['estado_torneo'] ?? '')),
+        'fecha_torneo_inicio' => trim($_POST['fecha_torneo_inicio'] ?? ''),
         'fecha_torneo_fin_dia' => $fecha_torneo_fin_parts[0] ?? '',
-        'mes_torneo'           => strtoupper($fecha_torneo_fin_parts[1] ?? ''),
+        'mes_torneo' => strtoupper($fecha_torneo_fin_parts[1] ?? ''),
         'nombre_representante' => strtoupper(trim($_POST['nombre_representante'] ?? '')),
         'cedula_representante' => trim($_POST['cedula_representante'] ?? ''),
-        'dia_emision'          => trim($_POST['dia_emision'] ?? ''),
-        'mes_emision'          => strtoupper(trim($_POST['mes_emision'] ?? '')),
-        'anio_emision'         => date('Y'),
-        'nombre_director'      => strtoupper(trim($_POST['nombre_director'] ?? '')),
-        'cargo_director'       => trim($_POST['cargo_director'] ?? ''),
+        'dia_emision' => trim($_POST['dia_emision'] ?? ''),
+        'mes_emision' => strtoupper(trim($_POST['mes_emision'] ?? '')),
+        'anio_emision' => date('Y'),
+        'nombre_director' => strtoupper(trim($_POST['nombre_director'] ?? '')),
+        'cargo_director' => trim($_POST['cargo_director'] ?? ''),
     ];
 
     Constancia::generar($datos);
@@ -62,7 +62,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 include '../../templates/header.php';
 ?>
-
 
 <main class="contenedor seccion">
 
@@ -77,29 +76,36 @@ include '../../templates/header.php';
         <fieldset>
             <legend>Destinatario</legend>
             <label for="institucion_destino">Institución educativa (LCDO / Colegio):</label>
-            <input type="text" id="institucion_destino" name="institucion_destino">
+            <input type="text" id="institucion_destino" name="institucion_destino"
+                value="<?php echo htmlspecialchars($_POST['institucion_destino'] ?? ''); ?>">
         </fieldset>
 
         <fieldset>
             <legend>Datos del Atleta</legend>
 
             <label for="nombre_atleta">Nombre:</label>
-            <input type="text" id="nombre_atleta" name="nombre_atleta" value="<?php echo htmlspecialchars( $_POST['nombre_atleta'] ?? strtoupper($atleta['nombre'] ?? '') ); ?>" required>
+            <input type="text" id="nombre_atleta" name="nombre_atleta"
+                value="<?php echo htmlspecialchars($_POST['nombre_atleta'] ?? strtoupper($atleta['nombre'] ?? '')); ?>">
 
             <label for="apellido_atleta">Apellido:</label>
-            <input type="text" id="apellido_atleta" name="apellido_atleta" value="<?php echo htmlspecialchars( $_POST['apellido_atleta'] ?? strtoupper($atleta['apellido'] ?? '') ); ?>" required>
+            <input type="text" id="apellido_atleta" name="apellido_atleta"
+                value="<?php echo htmlspecialchars($_POST['apellido_atleta'] ?? strtoupper($atleta['apellido'] ?? '')); ?>">
 
             <label for="cedula_atleta">Cédula del atleta:</label>
-            <input type="text" id="cedula_atleta" name="cedula_atleta" value="<?php echo htmlspecialchars( $_POST['cedula_atleta'] ?? ($atleta['cedula'] ?? '') ); ?>" required>
+            <input type="text" id="cedula_atleta" name="cedula_atleta"
+                value="<?php echo htmlspecialchars($_POST['cedula_atleta'] ?? ($atleta['cedula'] ?? '')); ?>">
 
             <label for="anio_escolar">Año escolar:</label>
-            <input type="text" id="anio_escolar" name="anio_escolar" value="<?php echo htmlspecialchars( $_POST['anio_escolar'] ?? '' ); ?>" required>
+            <input type="text" id="anio_escolar" name="anio_escolar"
+                value="<?php echo htmlspecialchars($_POST['anio_escolar'] ?? ''); ?>">
 
             <label for="seccion">Sección:</label>
-            <input type="text" id="seccion" name="seccion" value="<?php echo htmlspecialchars( $_POST['seccion'] ?? '' ); ?>" required>
+            <input type="text" id="seccion" name="seccion"
+                value="<?php echo htmlspecialchars($_POST['seccion'] ?? ''); ?>">
 
             <label for="estado_seleccion">Estado / Selección:</label>
-            <input type="text" id="estado_seleccion" name="estado_seleccion" value="<?php echo htmlspecialchars( $_POST['estado_seleccion'] ?? '' ); ?>" required>
+            <input type="text" id="estado_seleccion" name="estado_seleccion"
+                value="<?php echo htmlspecialchars($_POST['estado_seleccion'] ?? ''); ?>">
 
             <label for="categoria">Categoría:</label>
             <select id="categoria" name="categoria">
@@ -117,52 +123,70 @@ include '../../templates/header.php';
             <legend>Datos del Torneo</legend>
 
             <label for="nombre_torneo">Nombre del torneo / campeonato:</label>
-            <input type="text" id="nombre_torneo" name="nombre_torneo" >
+            <input type="text" id="nombre_torneo" name="nombre_torneo"
+                value="<?php echo htmlspecialchars($_POST['nombre_torneo'] ?? ''); ?>">
 
             <label for="estado_torneo">Estado donde se realiza:</label>
-            <input type="text" id="estado_torneo" name="estado_torneo" >
+            <input type="text" id="estado_torneo" name="estado_torneo"
+                value="<?php echo htmlspecialchars($_POST['estado_torneo'] ?? ''); ?>">
 
             <label for="fecha_inicio_entreno">Inicio de entrenamientos (dd-mm):</label>
-            <input type="text" id="fecha_inicio_entreno" name="fecha_inicio_entreno" >
+            <input type="text" id="fecha_inicio_entreno" name="fecha_inicio_entreno"
+                value="<?php echo htmlspecialchars($_POST['fecha_inicio_entreno'] ?? ''); ?>">
 
             <label for="fecha_fin_entreno">Fin de entrenamientos (dd-mm):</label>
-            <input type="text" id="fecha_fin_entreno" name="fecha_fin_entreno" >
+            <input type="text" id="fecha_fin_entreno" name="fecha_fin_entreno"
+                value="<?php echo htmlspecialchars($_POST['fecha_fin_entreno'] ?? ''); ?>">
 
             <label for="fecha_torneo_inicio">Fecha inicio del torneo (dd-mm):</label>
-            <input type="text" id="fecha_torneo_inicio" name="fecha_torneo_inicio" >
+            <input type="text" id="fecha_torneo_inicio" name="fecha_torneo_inicio"
+                value="<?php echo htmlspecialchars($_POST['fecha_torneo_inicio'] ?? ''); ?>">
 
             <label for="fecha_torneo_fin">Fecha fin del torneo (dd-mm):</label>
-            <input type="text" id="fecha_torneo_fin" name="fecha_torneo_fin" >
+            <input type="text" id="fecha_torneo_fin" name="fecha_torneo_fin"
+                value="<?php echo htmlspecialchars($_POST['fecha_torneo_fin'] ?? ''); ?>">
         </fieldset>
 
         <fieldset>
             <legend>Datos del Representante del Atleta</legend>
 
             <label for="nombre_representante">Nombre completo del representante:</label>
-            <input type="text" id="nombre_representante" name="nombre_representante" value="<?php echo htmlspecialchars( $_POST['nombre_representante'] ?? strtoupper( trim(($atleta['nombre_representante'] ?? '') . ' ' . ($atleta['apellido_representante'] ?? '')) ) ); ?>" required>
+            <input type="text" id="nombre_representante" name="nombre_representante"
+                value="<?php echo htmlspecialchars(
+                    $_POST['nombre_representante'] ?? strtoupper(
+                        trim(($atleta['rep_nombre'] ?? '') . ' ' . ($atleta['rep_apellido'] ?? ''))
+                    )
+                ); ?>">
 
             <label for="cedula_representante">Cédula del representante:</label>
-            <input type="text" id="cedula_representante" name="cedula_representante" value="<?php echo htmlspecialchars( $_POST['cedula_representante'] ?? ($atleta['cedula_representante'] ?? '') ); ?>" required>
+            <input type="text" id="cedula_representante" name="cedula_representante"
+                value="<?php echo htmlspecialchars(
+                    $_POST['cedula_representante'] ?? ($atleta['rep_cedula'] ?? '')
+                ); ?>">
         </fieldset>
 
         <fieldset>
             <legend>Datos de Emisión</legend>
 
             <label for="dia_emision">Día de emisión:</label>
-            <input type="text" id="dia_emision" name="dia_emision" >
+            <input type="text" id="dia_emision" name="dia_emision"
+                value="<?php echo htmlspecialchars($_POST['dia_emision'] ?? ''); ?>">
 
             <label for="mes_emision">Mes de emisión:</label>
-            <input type="text" id="mes_emision" name="mes_emision" >
+            <input type="text" id="mes_emision" name="mes_emision"
+                value="<?php echo htmlspecialchars($_POST['mes_emision'] ?? ''); ?>">
         </fieldset>
 
         <fieldset>
             <legend>Firmante de la Academia</legend>
 
             <label for="nombre_director">Nombre del director / presidente:</label>
-            <input type="text" id="nombre_director" name="nombre_director"  required>
+            <input type="text" id="nombre_director" name="nombre_director"
+                value="<?php echo htmlspecialchars($_POST['nombre_director'] ?? ''); ?>">
 
             <label for="cargo_director">Cargo:</label>
-            <input type="text" id="cargo_director" name="cargo_director" >
+            <input type="text" id="cargo_director" name="cargo_director"
+                value="<?php echo htmlspecialchars($_POST['cargo_director'] ?? ''); ?>">
         </fieldset>
 
         <button type="submit" class="boton">📄 Generar Permiso PDF</button>

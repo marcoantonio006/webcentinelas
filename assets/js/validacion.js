@@ -1,9 +1,9 @@
-// console.log('Archivo de validación cargado');
+console.log('Archivo de validación cargado');
 
-const erSoloLetras   = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
+const erSoloLetras = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
 const erCedula = /^[0-9]{6,9}$/;
-const erCorreo       = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const erFechaDdMm    = /^(0?[1-9]|[12][0-9]|3[01])-(0?[1-9]|1[0-2])$/;
+const erCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const erFechaDdMm = /^(0?[1-9]|[12][0-9]|3[01])-(0?[1-9]|1[0-2])$/;
 const erTextoGeneral = /^[A-Za-z0-9ÁÉÍÓÚáéíóúÑñ\s.,;:()\-]+$/;
 
 
@@ -23,7 +23,7 @@ function mostrarErrores(idContenedor, mensajes) {
 
 
 function validarLogin() {
-    const correo   = document.getElementById('correo');
+    const correo = document.getElementById('correo');
     const password = document.getElementById('password');
     const mensajes = [];
 
@@ -43,18 +43,18 @@ function validarLogin() {
 
 
 function validarEstudiante() {
-    const nombre                = document.getElementById('nombre');
-    const apellido              = document.getElementById('apellido');
-    const cedula                = document.getElementById('cedula');
-    const categoriaId           = document.getElementById('categoria_id');
-    const fechaNacimiento       = document.getElementById('fecha_nacimiento');
-    const lugarNacimiento       = document.getElementById('lugar_nacimiento');
-    const nombreRepresentante   = document.getElementById('nombre_representante');
-    const apellidoRepresentante = document.getElementById('apellido_representante');
-    const cedulaRepresentante = document.getElementById('cedula_representante');
-    const profesion             = document.getElementById('profesion');
-    const domicilio             = document.getElementById('domicilio');
-    const mensajes              = [];
+    const nombre = document.getElementById('nombre');
+    const apellido = document.getElementById('apellido');
+    const cedula = document.getElementById('cedula');
+    const categoriaId = document.getElementById('categoria_id');
+    const fechaNacimiento = document.getElementById('fecha_nacimiento');
+    const lugarNacimiento = document.getElementById('lugar_nacimiento');
+    const repNombre = document.getElementById('rep_nombre');
+    const repApellido = document.getElementById('rep_apellido');
+    const repCedula = document.getElementById('rep_cedula');
+    const repProfesion = document.getElementById('rep_profesion');
+    const repDomicilio = document.getElementById('rep_domicilio');
+    const mensajes = [];
 
     if (nombre.value.trim() === '') {
         mensajes.push('El nombre es obligatorio');
@@ -86,41 +86,60 @@ function validarEstudiante() {
         mensajes.push('Debe seleccionar una categoría');
     }
 
-    if (nombreRepresentante.value.trim() === '') {
+    if (repNombre.value.trim() === '') {
         mensajes.push('El nombre del representante es obligatorio');
-    } else if (!erSoloLetras.test(nombreRepresentante.value.trim())) {
+    } else if (!erSoloLetras.test(repNombre.value.trim())) {
         mensajes.push('El nombre del representante solo puede contener letras');
     }
 
-    if (apellidoRepresentante.value.trim() === '') {
+    if (repApellido.value.trim() === '') {
         mensajes.push('El apellido del representante es obligatorio');
-    } else if (!erSoloLetras.test(apellidoRepresentante.value.trim())) {
+    } else if (!erSoloLetras.test(repApellido.value.trim())) {
         mensajes.push('El apellido del representante solo puede contener letras');
     }
 
-    if (cedulaRepresentante.value.trim() === '') {
+    if (repCedula.value.trim() === '') {
         mensajes.push('La cédula del representante es obligatoria');
-    } else if (!erCedula.test(cedulaRepresentante.value.trim())) {
+    } else if (!erCedula.test(repCedula.value.trim())) {
         mensajes.push('La cédula del representante debe contener entre 6 y 9 dígitos');
     }
 
-    if (profesion.value.trim() === '') {
+    if (repProfesion.value.trim() === '') {
         mensajes.push('La profesión del representante es obligatoria');
     }
 
-    if (domicilio.value.trim() === '') {
-        mensajes.push('El domicilio es obligatorio');
+    if (repDomicilio.value.trim() === '') {
+        mensajes.push('El domicilio del representante es obligatorio');
     }
 
     mostrarErrores('errores-estudiante', mensajes);
     return mensajes.length === 0;
 }
 
+function validarCategoria() {
+    const nombre      = document.getElementById('nombre');
+    const descripcion = document.getElementById('descripcion');
+    const mensajes    = [];
+
+    if (nombre.value.trim() === '') {
+        mensajes.push('El nombre es obligatorio');
+    } else if (!erTextoGeneral.test(nombre.value.trim())) {
+        mensajes.push('El nombre contiene caracteres no válidos');
+    }
+
+    if (descripcion.value.trim() === '') {
+        mensajes.push('La descripción es obligatoria');
+    }
+
+    mostrarErrores('errores-categoria', mensajes);
+    return mensajes.length === 0;
+}
+
 
 function validarEvento() {
-    const nombre   = document.getElementById('nombre');
-    const fecha    = document.getElementById('fecha');
-    const lugar    = document.getElementById('lugar');
+    const nombre = document.getElementById('nombre');
+    const fecha = document.getElementById('fecha');
+    const lugar = document.getElementById('lugar');
     const mensajes = [];
 
     if (nombre.value.trim() === '') {
@@ -145,26 +164,27 @@ function validarEvento() {
 
 
 function validarConstancia() {
-    const nombreAtleta        = document.getElementById('nombre_atleta');
-    const apellidoAtleta      = document.getElementById('apellido_atleta');
-    const cedulaAtleta        = document.getElementById('cedula_atleta');
+    const nombreAtleta = document.getElementById('nombre_atleta');
+    const apellidoAtleta = document.getElementById('apellido_atleta');
+    const cedulaAtleta = document.getElementById('cedula_atleta');
     const nombreRepresentante = document.getElementById('nombre_representante');
     const cedulaRepresentante = document.getElementById('cedula_representante');
-    const nombreDirector      = document.getElementById('nombre_director');
-    const cargoDirector       = document.getElementById('cargo_director');
-    const fechaInicioEntreno  = document.getElementById('fecha_inicio_entreno');
-    const fechaFinEntreno     = document.getElementById('fecha_fin_entreno');
-    const fechaTorneoInicio   = document.getElementById('fecha_torneo_inicio');
-    const fechaTorneoFin      = document.getElementById('fecha_torneo_fin');
-    const institucionDestino  = document.getElementById('institucion_destino');
-    const anioEscolar         = document.getElementById('anio_escolar');
-    const seccion             = document.getElementById('seccion');
-    const estadoSeleccion     = document.getElementById('estado_seleccion');
-    const nombreTorneo        = document.getElementById('nombre_torneo');
-    const estadoTorneo        = document.getElementById('estado_torneo');
-    const diaEmision          = document.getElementById('dia_emision');
-    const mesEmision          = document.getElementById('mes_emision');
-    const mensajes            = [];
+    const nombreDirector = document.getElementById('nombre_director');
+    const cargoDirector = document.getElementById('cargo_director');
+    const fechaInicioEntreno = document.getElementById('fecha_inicio_entreno');
+    const fechaFinEntreno = document.getElementById('fecha_fin_entreno');
+    const fechaTorneoInicio = document.getElementById('fecha_torneo_inicio');
+    const fechaTorneoFin = document.getElementById('fecha_torneo_fin');
+    const institucionDestino = document.getElementById('institucion_destino');
+    const anioEscolar = document.getElementById('anio_escolar');
+    const seccion = document.getElementById('seccion');
+    const estadoSeleccion = document.getElementById('estado_seleccion');
+    const nombreTorneo = document.getElementById('nombre_torneo');
+    const estadoTorneo = document.getElementById('estado_torneo');
+    const diaEmision = document.getElementById('dia_emision');
+    const mesEmision = document.getElementById('mes_emision');
+    
+    const mensajes = [];
 
     if (institucionDestino.value.trim() === '') {
         mensajes.push('La institución destino es obligatoria');
@@ -261,3 +281,27 @@ function validarConstancia() {
     mostrarErrores('errores-constancia', mensajes);
     return mensajes.length === 0;
 }
+
+
+document.addEventListener('click', (e) => {
+
+
+    if (e.target.closest('.acciones-dropdown-btn')) {
+        const btn  = e.target.closest('.acciones-dropdown-btn');
+        const menu = btn.nextElementSibling;
+
+
+        document.querySelectorAll('.acciones-dropdown-menu.abierto').forEach(m => {
+            if (m !== menu) m.classList.remove('abierto');
+        });
+
+        menu.classList.toggle('abierto');
+        return;
+    }
+
+    if (!e.target.closest('.acciones-dropdown')) {
+        document.querySelectorAll('.acciones-dropdown-menu.abierto').forEach(m => {
+            m.classList.remove('abierto');
+        });
+    }
+});

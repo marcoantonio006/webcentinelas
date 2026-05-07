@@ -20,6 +20,7 @@ include __DIR__ . '/../../templates/header.php';
     <h1>Atletas</h1>
 
     <a class="boton" href="/centinela/admin/estudiantes/crear.php">+ Nuevo atleta</a>
+    <a class="boton" href="/centinela/admin/categorias/index.php">Administrar categorías</a>
 
     <?php if ($estudiantes->num_rows === 0) : ?>
         <p>No hay atletas registrados aún.</p>
@@ -43,6 +44,7 @@ include __DIR__ . '/../../templates/header.php';
                             <td><?php echo htmlspecialchars($estudiante['apellido']); ?></td>
                             <td class="col-oculta-movil"><?php echo htmlspecialchars($estudiante['cedula']); ?></td>
                             <td class="col-oculta-movil"><?php echo htmlspecialchars($estudiante['categoria_nombre'] ?? '—'); ?></td>
+
                             <td class="acciones">
                                 
                                 <button class="boton boton-info" onclick="abrirModal(
@@ -51,22 +53,40 @@ include __DIR__ . '/../../templates/header.php';
                                     '<?php echo htmlspecialchars($estudiante['cedula']); ?>',
                                     '<?php echo htmlspecialchars($estudiante['fecha_nacimiento'] ?? '—'); ?>',
                                     '<?php echo htmlspecialchars($estudiante['lugar_nacimiento'] ?? '—'); ?>',
-                                    '<?php echo htmlspecialchars($estudiante['nombre_representante'] ?? '—'); ?>',
-                                    '<?php echo htmlspecialchars($estudiante['apellido_representante'] ?? '—'); ?>',
-                                    '<?php echo htmlspecialchars($estudiante['profesion'] ?? '—'); ?>',
-                                    '<?php echo htmlspecialchars($estudiante['domicilio'] ?? '—'); ?>',
+                                    '<?php echo htmlspecialchars($estudiante['rep_nombre'] ?? '—'); ?>',
+                                    '<?php echo htmlspecialchars($estudiante['rep_apellido'] ?? '—'); ?>',
+                                    '<?php echo htmlspecialchars($estudiante['rep_cedula'] ?? '—'); ?>',
+                                    '<?php echo htmlspecialchars($estudiante['rep_profesion'] ?? '—'); ?>',
+                                    '<?php echo htmlspecialchars($estudiante['rep_domicilio'] ?? '—'); ?>',
                                     '<?php echo htmlspecialchars($estudiante['categoria_nombre'] ?? '—'); ?>'
-                                )">Ver detalles</button>
+                                )"><i class="fa-solid fa-eye"></i> Ver detalles</button>
 
-                                <a class="boton boton-verde" href="/centinela/admin/constancias/crear_constancia.php?id=<?php echo $estudiante['id']; ?>">Crear Constancia</a>
+                                <a class="boton boton-verde" href="/centinela/admin/constancias/crear_constancia.php?id=<?php echo $estudiante['id']; ?>"><i class="fa-solid fa-file-pdf"></i> Crear Constancia</a>
 
-                                <a class="boton" href="/centinela/admin/estudiantes/editar.php?id=<?php echo $estudiante['id']; ?>">Editar</a>
+                                <a class="boton" href="/centinela/admin/estudiantes/editar.php?id=<?php echo $estudiante['id']; ?>"><i class="fa-solid fa-pen"></i> Editar</a>
 
                                 <form method="POST" action="/centinela/admin/estudiantes/eliminar.php">
                                     <?php echo CSRF::campo(); ?>
                                     <input type="hidden" name="id" value="<?php echo $estudiante['id']; ?>">
-                                    <button class="boton boton-rojo" type="submit">Eliminar</button>
+                                    <button class="boton boton-rojo" type="submit"><i class="fa-solid fa-trash"></i> Eliminar</button>
                                 </form>
+                            </td>
+
+                            <!-- Dropdown para móvil -->
+                            <td class="acciones-dropdown">
+                                <button class="acciones-dropdown-btn">
+                                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                                </button>
+                                <div class="acciones-dropdown-menu">
+                                    <button onclick="abrirModal(...)">Ver detalles</button>
+                                    <a href="/centinela/admin/constancias/crear_constancia.php?id=<?php echo $estudiante['id']; ?>">Crear Constancia</a>
+                                    <a href="/centinela/admin/estudiantes/editar.php?id=<?php echo $estudiante['id']; ?>">Editar</a>
+                                    <form method="POST" action="/centinela/admin/estudiantes/eliminar.php">
+                                        <?php echo CSRF::campo(); ?>
+                                        <input type="hidden" name="id" value="<?php echo $estudiante['id']; ?>">
+                                        <button class="boton-rojo" type="submit">Eliminar</button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     <?php endwhile; ?>
@@ -76,7 +96,6 @@ include __DIR__ . '/../../templates/header.php';
     <?php endif; ?>
 </main>
 
-<!-- Modal -->
 <div id="modal" class="modal-fondo" onclick="cerrarModal(event)">
     <div class="modal-caja">
         <button class="modal-cerrar" onclick="cerrarModal()">✕</button>
@@ -97,6 +116,7 @@ include __DIR__ . '/../../templates/header.php';
                 <h3>Datos del representante</h3>
                 <p><span>Nombre:</span> <strong id="m-rep-nombre"></strong></p>
                 <p><span>Apellido:</span> <strong id="m-rep-apellido"></strong></p>
+                <p><span>Cédula:</span> <strong id="m-rep-cedula"></strong></p>
                 <p><span>Profesión:</span> <strong id="m-profesion"></strong></p>
                 <p><span>Domicilio:</span> <strong id="m-domicilio"></strong></p>
             </div>
@@ -105,29 +125,28 @@ include __DIR__ . '/../../templates/header.php';
 </div>
 
 <script>
-    function abrirModal(nombre, apellido, cedula, fecha, lugar, repNombre, repApellido, profesion, domicilio, categoria) {
-        document.getElementById('m-nombre').textContent    = nombre;
-        document.getElementById('m-apellido').textContent  = apellido;
-        document.getElementById('m-cedula').textContent    = cedula;
-        document.getElementById('m-fecha').textContent     = fecha;
-        document.getElementById('m-lugar').textContent     = lugar;
+    function abrirModal(nombre, apellido, cedula, fecha, lugar, repNombre, repApellido, repCedula, profesion, domicilio, categoria) {
+        document.getElementById('m-nombre').textContent = nombre;
+        document.getElementById('m-apellido').textContent = apellido;
+        document.getElementById('m-cedula').textContent = cedula;
+        document.getElementById('m-fecha').textContent = fecha;
+        document.getElementById('m-lugar').textContent = lugar;
         document.getElementById('m-categoria').textContent = categoria;
-        document.getElementById('m-rep-nombre').textContent   = repNombre;
+        document.getElementById('m-rep-nombre').textContent = repNombre;
         document.getElementById('m-rep-apellido').textContent = repApellido;
-        document.getElementById('m-profesion').textContent    = profesion;
-        document.getElementById('m-domicilio').textContent    = domicilio;
+        document.getElementById('m-rep-cedula').textContent = repCedula;
+        document.getElementById('m-profesion').textContent = profesion;
+        document.getElementById('m-domicilio').textContent = domicilio;
 
         document.getElementById('modal').classList.add('modal-visible');
     }
 
     function cerrarModal(event) {
-        // Cierra si se hizo clic en el fondo oscuro o en el botón cerrar
         if (!event || event.target === document.getElementById('modal')) {
             document.getElementById('modal').classList.remove('modal-visible');
         }
     }
 
-    // Cierra el modal con la tecla Escape
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') cerrarModal();
     });

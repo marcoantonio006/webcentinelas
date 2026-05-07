@@ -20,6 +20,8 @@
     <link rel="icon" type="image/png" href="/centinela/assets/img/favicon.png">
     <link rel="stylesheet" href="/centinela/assets/styles/normalize.css">
     <link rel="stylesheet" href="/centinela/assets/styles/app.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="/centinela/assets/js/validacion.js" defer></script>
 </head>
 
 <body>
@@ -34,9 +36,9 @@
 
                 <nav class="navegacion">
                     <a href="/centinela/eventos.php">Eventos</a>
-                    <?php if($auth) {echo '<a href="/centinela/cerrar.php">Cerrar sesion</a>';}?>
+                    <?php if($auth) {echo '<a href="/centinela/cerrar.php">Cerrar sesión</a>';}?>
                     <?php if($auth) {echo '<a href="/centinela/admin/index.php">Panel Admin</a>';}?>
-                    <?php if(!$auth) {echo '<a href="/centinela/login.php">Iniciar Sesion</a>';}?>
+                    <?php if(!$auth) {echo '<a href="/centinela/login.php">Iniciar Sesión</a>';}?>
                 </nav>
             </div>
 

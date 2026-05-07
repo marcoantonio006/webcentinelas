@@ -255,7 +255,6 @@ h3 {
     }
 }
 
-/* -------- */
 
 .header {
     background-color: var(--azul-oscuro);
@@ -277,7 +276,7 @@ h3 {
 
 
 .inicio {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.623), rgba(0, 0, 0, 0.5)), url(../img/hero2.png);
+    background-image: linear-gradient(rgba(0, 0, 0, 0.623), rgba(0, 0, 0, 0.5)), url(../img/hero5.jpg);
     min-height: 60rem;
     background-size: cover;
     background-repeat: no-repeat;
@@ -328,7 +327,50 @@ h3 {
 
 }
 
+.contactos{
+    display: flex;
+    justify-content: center;
+}
 
+.contenedor-botones {
+  display: flex;
+  flex-direction: column; 
+  gap: 15px;              
+  max-width: 300px;       
+}
+
+.btn-social {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border-radius: 50px;    
+  text-decoration: none;
+  font-family: 'Google Sans', sans-serif;
+  font-weight: 600;
+  color: white;           
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.btn-whatsapp {
+  background-color: #25D366;
+}
+
+.btn-instagram {
+  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%);
+}
+
+.btn-social:hover {
+  transform: translateY(-3px); 
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+  color: white; 
+}
+
+.btn-social svg {
+  stroke: white;
+}
 
 .footer {
     background-color: var(--azul-oscuro);
@@ -390,6 +432,7 @@ h3 {
 .tabla .acciones {
     display: flex;
     gap: 0.8rem;
+    flex-direction: row;
     align-items: center;
     flex-wrap: wrap;
 }
@@ -415,6 +458,7 @@ h3 {
 .boton-rojo:hover {
     background-color: #c0392b;
 }
+
 
 @media (max-width: 600px) {
     .col-oculta-movil {
@@ -459,7 +503,7 @@ h3 {
     z-index: 1000;
     justify-content: center;
     align-items: center;
-    padding: 2rem; /* Margen en móvil para que no toque los bordes */
+    padding: 2rem; 
 }
 
 .modal-visible {
@@ -535,5 +579,84 @@ h3 {
 
     .modal-caja {
         padding: 2rem;
+    }
+}
+
+/* ── Dropdown de acciones (móvil) ─────────── */
+
+.acciones-dropdown {
+    position: relative;
+    display: none;        /* oculto en escritorio */
+}
+
+.acciones-dropdown-btn {
+    background: #1a1a2e;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 0.8rem 1.4rem;
+    font-size: 1.6rem;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.acciones-dropdown-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 110%;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 100;
+    min-width: 160px;
+    overflow: hidden;
+}
+
+.acciones-dropdown-menu.abierto {
+    display: block;
+}
+
+.acciones-dropdown-menu a,
+.acciones-dropdown-menu button {
+    display: block;
+    width: 100%;
+    padding: 1rem 1.6rem;
+    text-align: left;
+    background: none;
+    border: none;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 1.5rem;
+    font-family: 'Google Sans', sans-serif;
+    color: var(--texto-principal);
+    cursor: pointer;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
+.acciones-dropdown-menu a:hover,
+.acciones-dropdown-menu button:hover {
+    background-color: #f5f5f5;
+}
+
+.acciones-dropdown-menu .boton-rojo {
+    color: #e74c3c;
+}
+
+.acciones-dropdown-menu form {
+    margin: 0;
+    padding: 0;
+}
+
+@media (max-width: 600px) {
+    /* Ocultar botones normales en móvil */
+    .tabla .acciones {
+        display: none;
+    }
+
+    /* Mostrar dropdown en móvil */
+    .acciones-dropdown {
+        display: block;
     }
 }

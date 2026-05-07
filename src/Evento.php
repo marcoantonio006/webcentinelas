@@ -9,7 +9,6 @@ class Evento {
     private $fecha;
     private $lugar;
 
-    // Setters
     public function setId($id) {
         $this->id = $id;
     }
@@ -26,7 +25,7 @@ class Evento {
         $this->lugar = $lugar;
     }
 
-    // Getters
+    
     public function getId() {
         return $this->id;
     }
@@ -43,7 +42,7 @@ class Evento {
         return $this->lugar;
     }
 
-    // Métodos de instancia
+    
     public function guardar() {
         $conn = DB::conectar();
 
@@ -77,7 +76,7 @@ class Evento {
         $stmt->execute();
     }
 
-    // Métodos estáticos
+    
     public static function listar() {
         $conn = DB::conectar();
 

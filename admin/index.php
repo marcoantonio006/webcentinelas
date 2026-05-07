@@ -2,7 +2,7 @@
 
 session_start();
 
-$auth = $_SESSION['login'];
+$auth = $_SESSION['login'] ?? false;
 
 if(!$auth){
     header('Location: /centinela/index.php');

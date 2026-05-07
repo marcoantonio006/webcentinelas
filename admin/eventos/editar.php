@@ -35,12 +35,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $nombre = trim($_POST['nombre'] ?? '');
-    $fecha  = trim($_POST['fecha']  ?? '');
-    $lugar  = trim($_POST['lugar']  ?? '');
+    $fecha = trim($_POST['fecha']  ?? '');
+    $lugar = trim($_POST['lugar']  ?? '');
 
     if ($nombre === '') $errores[] = 'El nombre es obligatorio';
-    if ($fecha === '')  $errores[] = 'La fecha es obligatoria';
-    if ($lugar === '')  $errores[] = 'El lugar es obligatorio';
+    if ($fecha === '') $errores[] = 'La fecha es obligatoria';
+    if ($lugar === '') $errores[] = 'El lugar es obligatorio';
 
     if (empty($errores)) {
         $evento = new Evento();

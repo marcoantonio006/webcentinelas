@@ -10,10 +10,10 @@ if (!$auth) {
 }
 
 require_once __DIR__ . '/../../src/Estudiante.php';
+require_once __DIR__ . '/../../src/Representante.php';
 require_once __DIR__ . '/../../src/Categoria.php';
 require_once __DIR__ . '/../../src/CSRF.php';
 
-// Verificar que llegó un id válido por la URL
 $id = $_GET['id'] ?? null;
 
 if (!$id) {
@@ -21,10 +21,8 @@ if (!$id) {
     exit;
 }
 
-// Buscar el estudiante en la BD
 $datos = Estudiante::findById($id);
 
-// Si no existe ese id en la BD, redirigir
 if (!$datos) {
     header('Location: /centinela/admin/estudiantes/index.php');
     exit;
@@ -38,50 +36,96 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die('Petición no válida');
     }
 
-    $nombre                 = trim($_POST['nombre'] ?? '');
-    $apellido               = trim($_POST['apellido'] ?? '');
-    $cedula                 = trim($_POST['cedula'] ?? '');
-    $fecha_nacimiento       = trim($_POST['fecha_nacimiento'] ?? '');
-    $lugar_nacimiento       = trim($_POST['lugar_nacimiento'] ?? '');
-    $nombre_representante   = trim($_POST['nombre_representante'] ?? '');
-    $apellido_representante = trim($_POST['apellido_representante'] ?? '');
-    $cedula_representante = trim($_POST['cedula_representante'] ?? '');
-    $profesion              = trim($_POST['profesion'] ?? '');
-    $domicilio              = trim($_POST['domicilio'] ?? '');
-    $categoria_id           = trim($_POST['categoria_id'] ?? '');
+    $nombre           = trim($_POST['nombre']           ?? '');
+    $apellido         = trim($_POST['apellido']         ?? '');
+    $cedula           = trim($_POST['cedula']           ?? '');
+    $fecha_nacimiento = trim($_POST['fecha_nacimiento'] ?? '');
+    $lugar_nacimiento = trim($_POST['lugar_nacimiento'] ?? '');
+    $categoria_id     = trim($_POST['categoria_id']     ?? '');
 
-    if ($nombre === '')                 $errores[] = 'El nombre es obligatorio';
-    if ($apellido === '')               $errores[] = 'El apellido es obligatorio';
-    if ($cedula === '')                 $errores[] = 'La cédula es obligatoria';
-    if ($fecha_nacimiento === '')       $errores[] = 'La fecha de nacimiento es obligatoria';
-    if ($lugar_nacimiento === '')       $errores[] = 'El lugar de nacimiento es obligatorio';
-    if ($categoria_id === '')           $errores[] = 'La categoría es obligatoria';
-    if ($nombre_representante === '')   $errores[] = 'El nombre del representante es obligatorio';
-    if ($apellido_representante === '') $errores[] = 'El apellido del representante es obligatorio';
-    if ($cedula_representante === '')   $errores[] = 'La cédula del representante es obligatoria';
-    if ($profesion === '')              $errores[] = 'La profesión es obligatoria';
-    if ($domicilio === '')              $errores[] = 'El domicilio es obligatorio';
+    $rep_nombre    = trim($_POST['rep_nombre']    ?? '');
+    $rep_apellido  = trim($_POST['rep_apellido']  ?? '');
+    $rep_cedula    = trim($_POST['rep_cedula']    ?? '');
+    $rep_profesion = trim($_POST['rep_profesion'] ?? '');
+    $rep_domicilio = trim($_POST['rep_domicilio'] ?? '');
+
+    if ($nombre === '')           $errores[] = 'El nombre es obligatorio';
+    if ($apellido === '')         $errores[] = 'El apellido es obligatorio';
+    if ($cedula === '')           $errores[] = 'La cédula es obligatoria';
+    if ($fecha_nacimiento === '') $errores[] = 'La fecha de nacimiento es obligatoria';
+    if ($lugar_nacimiento === '') $errores[] = 'El lugar de nacimiento es obligatorio';
+    if ($categoria_id === '')     $errores[] = 'La categoría es obligatoria';
+
+    if ($rep_nombre === '')    $errores[] = 'El nombre del representante es obligatorio';
+    if ($rep_apellido === '')  $errores[] = 'El apellido del representante es obligatorio';
+    if ($rep_cedula === '')    $errores[] = 'La cédula del representante es obligatoria';
+    if ($rep_profesion === '') $errores[] = 'La profesión del representante es obligatoria';
+    if ($rep_domicilio === '') $errores[] = 'El domicilio del representante es obligatorio';
 
     if (empty($errores)) {
-        $estudiante = new Estudiante();
 
-        $estudiante->setId($id);
-        $estudiante->setNombre($nombre);
-        $estudiante->setApellido($apellido);
-        $estudiante->setCedula($cedula);
-        $estudiante->setFechaNacimiento($fecha_nacimiento);
-        $estudiante->setLugarNacimiento($lugar_nacimiento);
-        $estudiante->setNombreRepresentante($nombre_representante);
-        $estudiante->setApellidoRepresentante($apellido_representante);
-        $estudiante->setCedulaRepresentante($cedula_representante);
-        $estudiante->setProfesion($profesion);
-        $estudiante->setDomicilio($domicilio);
-        $estudiante->setCategoriaId($categoria_id);
+        // Guardar el representante_id anterior ANTES de cualquier cambio,
+        // para poder limpiarlo si el atleta cambia de representante
+        $viejo_representante_id = $datos['representante_id'] ?? null;
 
-        $estudiante->editar();
+        $representante_existente = Representante::findByCedula($rep_cedula);
 
-        header('Location: /centinela/admin/estudiantes/index.php');
-        exit;
+        if ($representante_existente) {
+            // BUG CORREGIDO: antes solo se usaba el ID y se ignoraban los
+            // cambios de nombre, apellido, etc. Ahora se actualizan los datos.
+            $rep = new Representante();
+            $rep->setId($representante_existente['id']);
+            $rep->setNombre($rep_nombre);
+            $rep->setApellido($rep_apellido);
+            $rep->setCedula($rep_cedula);
+            $rep->setProfesion($rep_profesion);
+            $rep->setDomicilio($rep_domicilio);
+
+            if (!$rep->editar()) {
+                $errores[] = 'Ya existe otro representante con esa cédula';
+            } else {
+                $representante_id = $representante_existente['id'];
+            }
+        } else {
+            // No existe: crear uno nuevo
+            $rep = new Representante();
+            $rep->setNombre($rep_nombre);
+            $rep->setApellido($rep_apellido);
+            $rep->setCedula($rep_cedula);
+            $rep->setProfesion($rep_profesion);
+            $rep->setDomicilio($rep_domicilio);
+
+            if (!$rep->guardar()) {
+                $errores[] = 'Error al guardar el representante';
+            } else {
+                $representante_id = $rep->getId();
+            }
+        }
+
+        if (empty($errores)) {
+            $atleta = new Estudiante();
+            $atleta->setId($id);
+            $atleta->setNombre($nombre);
+            $atleta->setApellido($apellido);
+            $atleta->setCedula($cedula);
+            $atleta->setFechaNacimiento($fecha_nacimiento);
+            $atleta->setLugarNacimiento($lugar_nacimiento);
+            $atleta->setCategoriaId($categoria_id);
+            $atleta->setRepresentanteId($representante_id);
+
+            if (!$atleta->editar()) {
+                $errores[] = 'Ya existe otro atleta registrado con esa cédula';
+            } else {
+                if ($viejo_representante_id && $viejo_representante_id !== $representante_id) {
+                    if (Representante::estaHuerfano($viejo_representante_id)) {
+                        Representante::eliminar($viejo_representante_id);
+                    }
+                }
+
+                header('Location: /centinela/admin/estudiantes/index.php');
+                exit;
+            }
+        }
     }
 }
 
@@ -95,13 +139,13 @@ include __DIR__ . '/../../templates/header.php';
 
     <a class="boton" href="/centinela/admin/estudiantes/index.php">← Volver</a>
 
+    <div id="errores-estudiante"></div>
+
     <?php if (!empty($errores)) : ?>
         <?php foreach ($errores as $error) : ?>
             <p class="errores"><?php echo htmlspecialchars($error); ?></p>
         <?php endforeach; ?>
     <?php endif; ?>
-
-    <div id="errores-estudiante"></div>
 
     <form class="formulario" method="POST" onsubmit="return validarEstudiante()">
         <?php echo CSRF::campo(); ?>
@@ -144,27 +188,27 @@ include __DIR__ . '/../../templates/header.php';
         <fieldset>
             <legend>Datos del representante</legend>
 
-            <label for="nombre_representante">Nombre:</label>
-            <input type="text" id="nombre_representante" name="nombre_representante"
-                value="<?php echo htmlspecialchars($_POST['nombre_representante'] ?? $datos['nombre_representante']); ?>">
+            <label for="rep_nombre">Nombre:</label>
+            <input type="text" id="rep_nombre" name="rep_nombre"
+                value="<?php echo htmlspecialchars($_POST['rep_nombre'] ?? $datos['rep_nombre']); ?>">
 
-            <label for="apellido_representante">Apellido:</label>
-            <input type="text" id="apellido_representante" name="apellido_representante" value="<?php echo htmlspecialchars($_POST['apellido_representante'] ?? $datos['apellido_representante']); ?>">
+            <label for="rep_apellido">Apellido:</label>
+            <input type="text" id="rep_apellido" name="rep_apellido"
+                value="<?php echo htmlspecialchars($_POST['rep_apellido'] ?? $datos['rep_apellido']); ?>">
 
-            <label for="cedula_representante">Cédula:</label>
-            <input type="text" id="cedula_representante" name="cedula_representante" value="<?php echo htmlspecialchars($_POST['cedula_representante'] ?? $datos['cedula_representante']); ?>">
+            <label for="rep_cedula">Cédula:</label>
+            <input type="text" id="rep_cedula" name="rep_cedula"
+                value="<?php echo htmlspecialchars($_POST['rep_cedula'] ?? $datos['rep_cedula']); ?>">
 
-            <label for="profesion">Profesión:</label>
-            <input type="text" id="profesion" name="profesion"
-                value="<?php echo htmlspecialchars($_POST['profesion'] ?? $datos['profesion']); ?>">
+            <label for="rep_profesion">Profesión:</label>
+            <input type="text" id="rep_profesion" name="rep_profesion"
+                value="<?php echo htmlspecialchars($_POST['rep_profesion'] ?? $datos['rep_profesion']); ?>">
 
-            <label for="domicilio">Domicilio:</label>
-            <input type="text" id="domicilio" name="domicilio"
-                value="<?php echo htmlspecialchars($_POST['domicilio'] ?? $datos['domicilio']); ?>">
+            <label for="rep_domicilio">Domicilio:</label>
+            <input type="text" id="rep_domicilio" name="rep_domicilio"
+                value="<?php echo htmlspecialchars($_POST['rep_domicilio'] ?? $datos['rep_domicilio']); ?>">
         </fieldset>
 
         <button class="boton" type="submit">Guardar cambios</button>
     </form>
 </main>
-
-<?php include __DIR__ . '/../../templates/footer.php'; ?>
