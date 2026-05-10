@@ -8,7 +8,6 @@ class Categoria {
     private $nombre;
     private $descripcion;
 
-    // Setters
     public function setId($id) {
         $this->id = $id;
     }
@@ -21,7 +20,6 @@ class Categoria {
         $this->descripcion = $descripcion;
     }
 
-    // Getters
     public function getId() {
         return $this->id;
     }
@@ -34,7 +32,6 @@ class Categoria {
         return $this->descripcion;
     }
 
-    // Métodos estáticos
     public static function listar() {
         $conn = DB::conectar();
         return $conn->query('SELECT * FROM categorias ORDER BY nombre ASC');
@@ -55,7 +52,6 @@ class Categoria {
         $stmt->execute();
     }
 
-    // Métodos de instancia
     public function guardar(): bool {
         $conn = DB::conectar();
 

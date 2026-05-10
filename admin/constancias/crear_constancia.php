@@ -84,16 +84,13 @@ include '../../templates/header.php';
             <legend>Datos del Atleta</legend>
 
             <label for="nombre_atleta">Nombre:</label>
-            <input type="text" id="nombre_atleta" name="nombre_atleta"
-                value="<?php echo htmlspecialchars($_POST['nombre_atleta'] ?? strtoupper($atleta['nombre'] ?? '')); ?>">
+            <input type="text" id="nombre_atleta" name="nombre_atleta" value="<?php echo htmlspecialchars( $_POST['nombre_atleta'] ?? strtoupper($atleta['nombre'] ?? '') ); ?>">
 
             <label for="apellido_atleta">Apellido:</label>
-            <input type="text" id="apellido_atleta" name="apellido_atleta"
-                value="<?php echo htmlspecialchars($_POST['apellido_atleta'] ?? strtoupper($atleta['apellido'] ?? '')); ?>">
+            <input type="text" id="apellido_atleta" name="apellido_atleta" value="<?php echo htmlspecialchars( $_POST['apellido_atleta'] ?? strtoupper($atleta['apellido'] ?? '') ); ?>">
 
             <label for="cedula_atleta">Cédula del atleta:</label>
-            <input type="text" id="cedula_atleta" name="cedula_atleta"
-                value="<?php echo htmlspecialchars($_POST['cedula_atleta'] ?? ($atleta['cedula'] ?? '')); ?>">
+            <input type="text" id="cedula_atleta" name="cedula_atleta" value="<?php echo htmlspecialchars( $_POST['cedula_atleta'] ?? ($atleta['cedula'] ?? '') ); ?>">
 
             <label for="anio_escolar">Año escolar:</label>
             <input type="text" id="anio_escolar" name="anio_escolar"
@@ -151,18 +148,10 @@ include '../../templates/header.php';
             <legend>Datos del Representante del Atleta</legend>
 
             <label for="nombre_representante">Nombre completo del representante:</label>
-            <input type="text" id="nombre_representante" name="nombre_representante"
-                value="<?php echo htmlspecialchars(
-                    $_POST['nombre_representante'] ?? strtoupper(
-                        trim(($atleta['rep_nombre'] ?? '') . ' ' . ($atleta['rep_apellido'] ?? ''))
-                    )
-                ); ?>">
+            <input type="text" id="nombre_representante" name="nombre_representante" value="<?php echo htmlspecialchars( $_POST['nombre_representante'] ?? strtoupper( trim(($atleta['rep_nombre'] ?? '') . ' ' . ($atleta['rep_apellido'] ?? '')) ) ); ?>">
 
             <label for="cedula_representante">Cédula del representante:</label>
-            <input type="text" id="cedula_representante" name="cedula_representante"
-                value="<?php echo htmlspecialchars(
-                    $_POST['cedula_representante'] ?? ($atleta['rep_cedula'] ?? '')
-                ); ?>">
+            <input type="text" id="cedula_representante" name="cedula_representante" value="<?php echo htmlspecialchars( $_POST['cedula_representante'] ?? ($atleta['rep_cedula'] ?? '') ); ?>">
         </fieldset>
 
         <fieldset>

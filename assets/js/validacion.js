@@ -43,19 +43,23 @@ function validarLogin() {
 
 
 function validarEstudiante() {
-    const nombre = document.getElementById('nombre');
-    const apellido = document.getElementById('apellido');
-    const cedula = document.getElementById('cedula');
-    const categoriaId = document.getElementById('categoria_id');
-    const fechaNacimiento = document.getElementById('fecha_nacimiento');
-    const lugarNacimiento = document.getElementById('lugar_nacimiento');
-    const repNombre = document.getElementById('rep_nombre');
-    const repApellido = document.getElementById('rep_apellido');
-    const repCedula = document.getElementById('rep_cedula');
-    const repProfesion = document.getElementById('rep_profesion');
-    const repDomicilio = document.getElementById('rep_domicilio');
-    const mensajes = [];
+    const nombre            = document.getElementById('nombre');
+    const apellido          = document.getElementById('apellido');
+    const cedula            = document.getElementById('cedula');
+    const telefono          = document.getElementById('telefono');
+    const correo            = document.getElementById('correo');
+    const categoriaId       = document.getElementById('categoria_id');
+    const fechaNacimiento   = document.getElementById('fecha_nacimiento');
+    const lugarNacimiento   = document.getElementById('lugar_nacimiento');
+    const repNombre         = document.getElementById('rep_nombre');
+    const repApellido       = document.getElementById('rep_apellido');
+    const repCedula         = document.getElementById('rep_cedula');
+    const repProfesion      = document.getElementById('rep_profesion');
+    const repDomicilio      = document.getElementById('rep_domicilio');
+    const fieldset          = document.getElementById('fieldset-representante');
+    const mensajes          = [];
 
+    // ── Datos del atleta ──────────────────────────
     if (nombre.value.trim() === '') {
         mensajes.push('El nombre es obligatorio');
     } else if (!erSoloLetras.test(nombre.value.trim())) {
@@ -71,7 +75,7 @@ function validarEstudiante() {
     if (cedula.value.trim() === '') {
         mensajes.push('La cédula es obligatoria');
     } else if (!erCedula.test(cedula.value.trim())) {
-        mensajes.push('La cédula La cédula debe contener entre 6 y 9 dígitos');
+        mensajes.push('La cédula debe contener entre 6 y 9 dígitos');
     }
 
     if (fechaNacimiento.value.trim() === '') {
@@ -86,30 +90,38 @@ function validarEstudiante() {
         mensajes.push('Debe seleccionar una categoría');
     }
 
-    if (repNombre.value.trim() === '') {
-        mensajes.push('El nombre del representante es obligatorio');
-    } else if (!erSoloLetras.test(repNombre.value.trim())) {
-        mensajes.push('El nombre del representante solo puede contener letras');
-    }
+    // ── Datos del representante ───────────────────
+    const esRequerido = !fieldset || fieldset.dataset.requerido !== 'no';
 
-    if (repApellido.value.trim() === '') {
-        mensajes.push('El apellido del representante es obligatorio');
-    } else if (!erSoloLetras.test(repApellido.value.trim())) {
-        mensajes.push('El apellido del representante solo puede contener letras');
-    }
+    if (esRequerido) {
 
-    if (repCedula.value.trim() === '') {
-        mensajes.push('La cédula del representante es obligatoria');
-    } else if (!erCedula.test(repCedula.value.trim())) {
-        mensajes.push('La cédula del representante debe contener entre 6 y 9 dígitos');
-    }
+        if (repNombre.value.trim() === '') {
+            mensajes.push('El nombre del representante es obligatorio');
+        } else if (!erSoloLetras.test(repNombre.value.trim())) {
+            mensajes.push('El nombre del representante solo puede contener letras');
+        }
 
-    if (repProfesion.value.trim() === '') {
-        mensajes.push('La profesión del representante es obligatoria');
-    }
+        if (repApellido.value.trim() === '') {
+            mensajes.push('El apellido del representante es obligatorio');
+        } else if (!erSoloLetras.test(repApellido.value.trim())) {
+            mensajes.push('El apellido del representante solo puede contener letras');
+        }
 
-    if (repDomicilio.value.trim() === '') {
-        mensajes.push('El domicilio del representante es obligatorio');
+        if (repCedula.value.trim() === '') {
+            mensajes.push('La cédula del representante es obligatoria');
+        } else if (!erCedula.test(repCedula.value.trim())) {
+            mensajes.push('La cédula del representante debe contener entre 6 y 9 dígitos');
+        } else if (repCedula.value.trim() === cedula.value.trim()) {
+            mensajes.push('La cédula del representante no puede ser igual a la del atleta');
+        }
+
+        if (repProfesion.value.trim() === '') {
+            mensajes.push('La profesión del representante es obligatoria');
+        }
+
+        if (repDomicilio.value.trim() === '') {
+            mensajes.push('El domicilio del representante es obligatorio');
+        }
     }
 
     mostrarErrores('errores-estudiante', mensajes);
@@ -205,7 +217,7 @@ function validarConstancia() {
     if (cedulaAtleta.value.trim() === '') {
         mensajes.push('La cédula del atleta es obligatoria');
     } else if (!erCedula.test(cedulaAtleta.value.trim())) {
-        mensajes.push('La cédula del atleta La cédula debe contener entre 6 y 9 dígitos');
+        mensajes.push('La cédula debe contener entre 6 y 9 dígitos');
     }
 
     if (anioEscolar.value.trim() === '') {
@@ -259,7 +271,7 @@ function validarConstancia() {
     if (cedulaRepresentante.value.trim() === '') {
         mensajes.push('La cédula del representante es obligatoria');
     } else if (!erCedula.test(cedulaRepresentante.value.trim())) {
-        mensajes.push('La cédula del representante La cédula debe contener entre 6 y 9 dígitos');
+        mensajes.push('La cédula debe contener entre 6 y 9 dígitos');
     }
 
     if (diaEmision.value.trim() === '') {
@@ -304,4 +316,73 @@ document.addEventListener('click', (e) => {
             m.classList.remove('abierto');
         });
     }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const fechaInput  = document.getElementById('fecha_nacimiento');
+    const checkboxDiv = document.getElementById('fila-checkbox-representante');
+    const checkbox    = document.getElementById('tiene-representante');
+    const fieldset    = document.getElementById('fieldset-representante');
+
+    // Solo aplica en la página del formulario de atleta
+    if (!fechaInput || !checkboxDiv || !checkbox || !fieldset) return;
+
+    function calcularEdad(valor) {
+        const hoy       = new Date();
+        const nac       = new Date(valor);
+        let edad        = hoy.getFullYear() - nac.getFullYear();
+        const m         = hoy.getMonth() - nac.getMonth();
+        if (m < 0 || (m === 0 && hoy.getDate() < nac.getDate())) edad--;
+        return edad;
+    }
+
+    function actualizarVista() {
+        if (!fechaInput.value) return;
+
+        const esMayor = calcularEdad(fechaInput.value) >= 18;
+
+        if (esMayor) {
+            // Mostrar el checkbox; el fieldset depende de si está marcado
+            checkboxDiv.style.display = 'block';
+            const conRep = checkbox.checked;
+            fieldset.style.display        = conRep ? '' : 'none';
+            fieldset.dataset.requerido    = conRep ? 'si' : 'no';
+        } else {
+            // Menor: ocultar checkbox, fieldset siempre visible y obligatorio
+            checkboxDiv.style.display     = 'none';
+            checkbox.checked              = false;
+            fieldset.style.display        = '';
+            fieldset.dataset.requerido    = 'si';
+        }
+    }
+
+    // Reacciona al cambio de fecha
+    fechaInput.addEventListener('change', actualizarVista);
+
+    // Reacciona al checkbox
+    checkbox.addEventListener('change', () => {
+        fieldset.style.display     = checkbox.checked ? '' : 'none';
+        fieldset.dataset.requerido = checkbox.checked ? 'si' : 'no';
+    });
+
+    // Ejecución inicial (recarga con errores PHP)
+    actualizarVista();
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const filtro = document.getElementById('filtro-categoria');
+    if (!filtro) return;
+
+    filtro.addEventListener('change', () => {
+        const categoriaSeleccionada = filtro.value.trim();
+
+        document.querySelectorAll('tbody tr[data-categoria]').forEach(fila => {
+            if (categoriaSeleccionada === '') {
+                fila.style.display = '';
+            } else {
+                const categoriaDeFila = fila.dataset.categoria.trim();
+                fila.style.display = categoriaDeFila === categoriaSeleccionada ? '' : 'none';
+            }
+        });
+    });
 });

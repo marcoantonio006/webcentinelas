@@ -9,18 +9,17 @@ if (!$auth) {
     exit;
 }
 
-require_once __DIR__ . '/../../src/CSRF.php';
 require_once __DIR__ . '/../../src/Estudiante.php';
 require_once __DIR__ . '/../../src/Representante.php';
+require_once __DIR__ . '/../../src/Persona.php';
+require_once __DIR__ . '/../../src/CSRF.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: /centinela/admin/estudiantes/index.php');
     exit;
 }
 
-if (!CSRF::verificar()) {
-    die('Petición no válida');
-}
+if (!CSRF::verificar()) die('Petición no válida');
 
 $id = $_POST['id'] ?? null;
 
@@ -36,18 +35,41 @@ if (!$datos) {
     exit;
 }
 
-// Guardar el representante_id ANTES de borrar al atleta,
-// porque después ya no podremos consultarlo
-$representante_id = $datos['representante_id'] ?? null;
+// Guardar ids antes de eliminar
+$persona_id       = $datos['persona_id'];
+$representante_id = $datos['representante_id'];
 
-// 1. Borrar el atleta primero (la FK va de estudiantes → representantes,
-//    así que hay que eliminar el hijo antes que el padre)
+// 1. Eliminar el estudiante
 Estudiante::eliminar($id);
 
-// 2. Si el atleta tenía representante, verificar si quedó sin atletas
-//    y en ese caso eliminarlo también
-if ($representante_id && Representante::estaHuerfano($representante_id)) {
-    Representante::eliminar($representante_id);
+// 2. Si el representante quedó sin atletas, eliminarlo
+if ($representante_id) {
+    // Verificar si el representante tiene otros atletas
+    $conn = DB::conectar();
+    $stmt = $conn->prepare('SELECT COUNT(*) FROM estudiantes WHERE representante_id = ?');
+    $stmt->bind_param('i', $representante_id);
+    $stmt->execute();
+    $stmt->bind_result($count);
+    $stmt->fetch();
+    $stmt->close();
+
+    if ($count === 0) {
+        // Obtener persona_id del representante antes de eliminarlo
+        $repDatos = Representante::findById($representante_id);
+        $rep_persona_id = $repDatos['persona_id'] ?? null;
+
+        Representante::eliminar($representante_id);
+
+        // 3. Si esa persona no tiene otros roles, eliminarla también
+        if ($rep_persona_id && Persona::estaHuerfana($rep_persona_id)) {
+            Persona::eliminar($rep_persona_id);
+        }
+    }
+}
+
+// 4. Si la persona del atleta no tiene otros roles, eliminarla
+if ($persona_id && Persona::estaHuerfana($persona_id)) {
+    Persona::eliminar($persona_id);
 }
 
 header('Location: /centinela/admin/estudiantes/index.php');

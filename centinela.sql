@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-05-2026 a las 04:48:33
+-- Tiempo de generación: 10-05-2026 a las 23:53:38
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -58,21 +58,21 @@ INSERT INTO `categorias` (`id`, `nombre`, `descripcion`) VALUES
 
 CREATE TABLE `estudiantes` (
   `id` int(11) NOT NULL,
-  `nombre` varchar(100) NOT NULL,
-  `apellido` varchar(100) NOT NULL,
-  `cedula` varchar(100) NOT NULL,
-  `fecha_nacimiento` date DEFAULT NULL,
-  `lugar_nacimiento` varchar(150) DEFAULT NULL,
+  `persona_id` int(11) DEFAULT NULL,
   `categoria_id` int(11) DEFAULT NULL,
-  `representante_id` int(11) DEFAULT NULL
+  `representante_id` int(11) DEFAULT NULL,
+  `fecha_nacimiento` date DEFAULT NULL,
+  `lugar_nacimiento` varchar(150) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `estudiantes`
 --
 
-INSERT INTO `estudiantes` (`id`, `nombre`, `apellido`, `cedula`, `fecha_nacimiento`, `lugar_nacimiento`, `categoria_id`, `representante_id`) VALUES
-(21, 'Fernando', 'Quitero', '32231232', '2004-02-12', 'Maracaibo', 8, 8);
+INSERT INTO `estudiantes` (`id`, `persona_id`, `categoria_id`, `representante_id`, `fecha_nacimiento`, `lugar_nacimiento`) VALUES
+(6, 7, 9, NULL, '2006-12-18', 'Maracaibo'),
+(7, 8, 13, 4, '2024-12-18', 'Maracaibo'),
+(8, 9, 13, 4, '2024-12-18', 'Maracaibo');
 
 -- --------------------------------------------------------
 
@@ -97,15 +97,37 @@ INSERT INTO `eventos` (`id`, `nombre`, `fecha`, `lugar`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `personas`
+--
+
+CREATE TABLE `personas` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `apellido` varchar(100) NOT NULL,
+  `cedula` varchar(100) NOT NULL,
+  `telefono` varchar(20) DEFAULT NULL,
+  `correo` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `personas`
+--
+
+INSERT INTO `personas` (`id`, `nombre`, `apellido`, `cedula`, `telefono`, `correo`) VALUES
+(7, 'Marco', 'Molina', '32046081', '04129063075', 'pro.marcomolina@gmail.com'),
+(8, 'Marquito', 'Molina', '1234566', '0123232323', 'asd@gmail.com'),
+(9, 'Reyniel', 'Fernandez', '1234569', '0123232323', 'asd@gmail.com');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `representantes`
 --
 
 CREATE TABLE `representantes` (
   `id` int(11) NOT NULL,
-  `nombre` varchar(100) NOT NULL,
-  `apellido` varchar(100) NOT NULL,
-  `cedula` varchar(100) NOT NULL,
-  `profesion` varchar(50) DEFAULT NULL,
+  `persona_id` int(11) NOT NULL,
+  `profesion` varchar(100) DEFAULT NULL,
   `domicilio` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -113,8 +135,8 @@ CREATE TABLE `representantes` (
 -- Volcado de datos para la tabla `representantes`
 --
 
-INSERT INTO `representantes` (`id`, `nombre`, `apellido`, `cedula`, `profesion`, `domicilio`) VALUES
-(8, 'nose', 'nose', '12312312', 'nose', 'nose');
+INSERT INTO `representantes` (`id`, `persona_id`, `profesion`, `domicilio`) VALUES
+(4, 7, 'Pendejo', 'La Limpia');
 
 -- --------------------------------------------------------
 
@@ -150,7 +172,7 @@ ALTER TABLE `categorias`
 --
 ALTER TABLE `estudiantes`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `cedula` (`cedula`),
+  ADD KEY `persona_id` (`persona_id`),
   ADD KEY `categoria_id` (`categoria_id`),
   ADD KEY `representante_id` (`representante_id`);
 
@@ -161,11 +183,18 @@ ALTER TABLE `eventos`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `personas`
+--
+ALTER TABLE `personas`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `cedula` (`cedula`);
+
+--
 -- Indices de la tabla `representantes`
 --
 ALTER TABLE `representantes`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `cedula` (`cedula`);
+  ADD KEY `persona_id` (`persona_id`);
 
 --
 -- Indices de la tabla `usuarios`
@@ -188,7 +217,7 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT de la tabla `estudiantes`
 --
 ALTER TABLE `estudiantes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `eventos`
@@ -197,10 +226,16 @@ ALTER TABLE `eventos`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT de la tabla `personas`
+--
+ALTER TABLE `personas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
 -- AUTO_INCREMENT de la tabla `representantes`
 --
 ALTER TABLE `representantes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
@@ -216,8 +251,15 @@ ALTER TABLE `usuarios`
 -- Filtros para la tabla `estudiantes`
 --
 ALTER TABLE `estudiantes`
-  ADD CONSTRAINT `estudiantes_ibfk_1` FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`id`),
-  ADD CONSTRAINT `estudiantes_ibfk_2` FOREIGN KEY (`representante_id`) REFERENCES `representantes` (`id`);
+  ADD CONSTRAINT `estudiantes_ibfk_1` FOREIGN KEY (`persona_id`) REFERENCES `personas` (`id`),
+  ADD CONSTRAINT `estudiantes_ibfk_2` FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`id`),
+  ADD CONSTRAINT `estudiantes_ibfk_3` FOREIGN KEY (`representante_id`) REFERENCES `representantes` (`id`);
+
+--
+-- Filtros para la tabla `representantes`
+--
+ALTER TABLE `representantes`
+  ADD CONSTRAINT `representantes_ibfk_1` FOREIGN KEY (`persona_id`) REFERENCES `personas` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

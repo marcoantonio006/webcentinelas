@@ -5,109 +5,110 @@ require_once __DIR__ . '/DB.php';
 class Estudiante {
 
     private $id;
-    private $nombre;
-    private $apellido;
-    private $cedula;
-    private $fecha_nacimiento;
-    private $lugar_nacimiento;
+    private $persona_id;
     private $categoria_id;
     private $representante_id;
+    private $fecha_nacimiento;
+    private $lugar_nacimiento;
 
+    // ── Setters ──────────────────────────────────
     public function setId($id) { $this->id = $id; }
-    public function setNombre($nombre) { $this->nombre = $nombre; }
-    public function setApellido($apellido) { $this->apellido = $apellido; }
-    public function setCedula($cedula) { $this->cedula = $cedula; }
-    public function setFechaNacimiento($fecha_nacimiento) { $this->fecha_nacimiento = $fecha_nacimiento; }
-    public function setLugarNacimiento($lugar_nacimiento) { $this->lugar_nacimiento = $lugar_nacimiento; }
+    public function setPersonaId($persona_id) { $this->persona_id = $persona_id; }
     public function setCategoriaId($categoria_id) { $this->categoria_id = $categoria_id; }
     public function setRepresentanteId($representante_id) { $this->representante_id = $representante_id; }
+    public function setFechaNacimiento($fecha_nacimiento) { $this->fecha_nacimiento = $fecha_nacimiento; }
+    public function setLugarNacimiento($lugar_nacimiento) { $this->lugar_nacimiento = $lugar_nacimiento; }
 
+    // ── Getters ──────────────────────────────────
     public function getId() { return $this->id; }
-    public function getNombre() { return $this->nombre; }
-    public function getApellido() { return $this->apellido; }
-    public function getCedula() { return $this->cedula; }
-    public function getFechaNacimiento() { return $this->fecha_nacimiento; }
-    public function getLugarNacimiento() { return $this->lugar_nacimiento; }
+    public function getPersonaId() { return $this->persona_id; }
     public function getCategoriaId() { return $this->categoria_id; }
     public function getRepresentanteId() { return $this->representante_id; }
+    public function getFechaNacimiento() { return $this->fecha_nacimiento; }
+    public function getLugarNacimiento() { return $this->lugar_nacimiento; }
 
+    // ── Métodos de instancia ──────────────────────
     public function guardar(): bool {
         $conn = DB::conectar();
 
-        $sql = 'INSERT INTO estudiantes(nombre, apellido, cedula, fecha_nacimiento, lugar_nacimiento, categoria_id, representante_id) VALUES(?, ?, ?, ?, ?, ?, ?)';
+        $sql = 'INSERT INTO estudiantes(
+                    persona_id, categoria_id, representante_id,
+                    fecha_nacimiento, lugar_nacimiento
+                ) VALUES(?, ?, ?, ?, ?)';
 
         $stmt = $conn->prepare($sql);
-
-        $datos = [
-            $this->nombre,
-            $this->apellido,
-            $this->cedula,
-            $this->fecha_nacimiento,
-            $this->lugar_nacimiento,
+        $stmt->bind_param('iiiss',
+            $this->persona_id,
             $this->categoria_id,
-            $this->representante_id
-        ];
-
-        $stmt->bind_param('sssssii', ...$datos);
+            $this->representante_id,
+            $this->fecha_nacimiento,
+            $this->lugar_nacimiento
+        );
 
         try {
             $stmt->execute();
             return true;
         } catch (mysqli_sql_exception $e) {
-            if ($e->getCode() === 1062) {
-                return false; 
-            }
             throw $e;
         }
-        
     }
 
     public function editar(): bool {
-        
         $conn = DB::conectar();
 
-        $sql = 'UPDATE estudiantes SET nombre = ?, apellido = ?, cedula = ?, fecha_nacimiento = ?, lugar_nacimiento = ?, categoria_id = ?, representante_id = ? WHERE id = ?';
+        $sql = 'UPDATE estudiantes SET
+                    persona_id = ?, categoria_id = ?, representante_id = ?,
+                    fecha_nacimiento = ?, lugar_nacimiento = ?
+                WHERE id = ?';
 
         $stmt = $conn->prepare($sql);
-
-        $datos = [
-            $this->nombre,
-            $this->apellido,
-            $this->cedula,
-            $this->fecha_nacimiento,
-            $this->lugar_nacimiento,
+        $stmt->bind_param('iiissi',
+            $this->persona_id,
             $this->categoria_id,
             $this->representante_id,
+            $this->fecha_nacimiento,
+            $this->lugar_nacimiento,
             $this->id
-        ];
-
-        $stmt->bind_param('sssssiii', ...$datos);
+        );
 
         try {
             $stmt->execute();
             return true;
         } catch (mysqli_sql_exception $e) {
-            if ($e->getCode() === 1062) {
-                return false; 
-            }
             throw $e;
         }
     }
 
+    // ── Métodos estáticos ─────────────────────────
     public static function listar() {
         $conn = DB::conectar();
 
-        $sql = 'SELECT estudiantes.*, 
-                    categorias.nombre   AS categoria_nombre,
-                    representantes.nombre   AS rep_nombre,
-                    representantes.apellido AS rep_apellido,
-                    representantes.cedula   AS rep_cedula,
-                    representantes.profesion AS rep_profesion,
-                    representantes.domicilio AS rep_domicilio
-                FROM estudiantes
-                LEFT JOIN categorias    ON estudiantes.categoria_id    = categorias.id
-                LEFT JOIN representantes ON estudiantes.representante_id = representantes.id
-                ORDER BY estudiantes.apellido ASC';
+        $sql = 'SELECT
+                    e.id,
+                    e.persona_id,
+                    e.categoria_id,
+                    e.representante_id,
+                    e.fecha_nacimiento,
+                    e.lugar_nacimiento,
+                    p.nombre           AS nombre,
+                    p.apellido         AS apellido,
+                    p.cedula           AS cedula,
+                    p.telefono         AS telefono,
+                    p.correo           AS correo,
+                    c.nombre           AS categoria_nombre,
+                    rp.nombre          AS rep_nombre,
+                    rp.apellido        AS rep_apellido,
+                    rp.cedula          AS rep_cedula,
+                    rp.telefono        AS rep_telefono,
+                    rp.correo          AS rep_correo,
+                    r.profesion        AS rep_profesion,
+                    r.domicilio        AS rep_domicilio
+                FROM estudiantes e
+                LEFT JOIN personas       p  ON e.persona_id       = p.id
+                LEFT JOIN categorias     c  ON e.categoria_id     = c.id
+                LEFT JOIN representantes r  ON e.representante_id = r.id
+                LEFT JOIN personas       rp ON r.persona_id       = rp.id
+                ORDER BY p.apellido ASC';
 
         return $conn->query($sql);
     }
@@ -115,28 +116,41 @@ class Estudiante {
     public static function findById($id) {
         $conn = DB::conectar();
 
-        $sql = 'SELECT estudiantes.*,
-                    categorias.nombre    AS categoria_nombre,
-                    representantes.nombre    AS rep_nombre,
-                    representantes.apellido  AS rep_apellido,
-                    representantes.cedula    AS rep_cedula,
-                    representantes.profesion AS rep_profesion,
-                    representantes.domicilio AS rep_domicilio
-                FROM estudiantes
-                LEFT JOIN categorias     ON estudiantes.categoria_id    = categorias.id
-                LEFT JOIN representantes ON estudiantes.representante_id = representantes.id
-                WHERE estudiantes.id = ?';
+        $sql = 'SELECT
+                    e.id,
+                    e.persona_id,
+                    e.categoria_id,
+                    e.representante_id,
+                    e.fecha_nacimiento,
+                    e.lugar_nacimiento,
+                    p.nombre           AS nombre,
+                    p.apellido         AS apellido,
+                    p.cedula           AS cedula,
+                    p.telefono         AS telefono,
+                    p.correo           AS correo,
+                    c.nombre           AS categoria_nombre,
+                    rp.nombre          AS rep_nombre,
+                    rp.apellido        AS rep_apellido,
+                    rp.cedula          AS rep_cedula,
+                    rp.telefono        AS rep_telefono,
+                    rp.correo          AS rep_correo,
+                    r.profesion        AS rep_profesion,
+                    r.domicilio        AS rep_domicilio
+                FROM estudiantes e
+                LEFT JOIN personas       p  ON e.persona_id       = p.id
+                LEFT JOIN categorias     c  ON e.categoria_id     = c.id
+                LEFT JOIN representantes r  ON e.representante_id = r.id
+                LEFT JOIN personas       rp ON r.persona_id       = rp.id
+                WHERE e.id = ?';
 
         $stmt = $conn->prepare($sql);
         $stmt->bind_param('i', $id);
         $stmt->execute();
-
         return $stmt->get_result()->fetch_assoc();
     }
 
-    public static function eliminar($id) {
+    public static function eliminar($id): void {
         $conn = DB::conectar();
-
         $stmt = $conn->prepare('DELETE FROM estudiantes WHERE id = ?');
         $stmt->bind_param('i', $id);
         $stmt->execute();

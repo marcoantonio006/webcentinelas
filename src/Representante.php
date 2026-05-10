@@ -5,116 +5,96 @@ require_once __DIR__ . '/DB.php';
 class Representante {
 
     private $id;
-    private $nombre;
-    private $apellido;
-    private $cedula;
+    private $persona_id;
     private $profesion;
     private $domicilio;
 
-
+    // ── Setters ──────────────────────────────────
     public function setId($id) { $this->id = $id; }
-    public function setNombre($nombre) { $this->nombre = $nombre; }
-    public function setApellido($apellido) { $this->apellido = $apellido; }
-    public function setCedula($cedula) { $this->cedula = $cedula; }
+    public function setPersonaId($persona_id) { $this->persona_id = $persona_id; }
     public function setProfesion($profesion) { $this->profesion = $profesion; }
     public function setDomicilio($domicilio) { $this->domicilio = $domicilio; }
 
-
+    // ── Getters ──────────────────────────────────
     public function getId() { return $this->id; }
-    public function getNombre() { return $this->nombre; }
-    public function getApellido() { return $this->apellido; }
-    public function getCedula() { return $this->cedula; }
+    public function getPersonaId() { return $this->persona_id; }
     public function getProfesion() { return $this->profesion; }
     public function getDomicilio() { return $this->domicilio; }
 
-    public function guardar() {
+    // ── Métodos de instancia ──────────────────────
+    public function guardar(): bool {
         $conn = DB::conectar();
 
-        $sql = 'INSERT INTO representantes(nombre, apellido, cedula, profesion, domicilio) VALUES(?, ?, ?, ?, ?)';
+        $sql = 'INSERT INTO representantes(persona_id, profesion, domicilio)
+                VALUES(?, ?, ?)';
 
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param('sssss',
-            $this->nombre,
-            $this->apellido,
-            $this->cedula,
+        $stmt->bind_param('iss',
+            $this->persona_id,
             $this->profesion,
             $this->domicilio
         );
 
         try {
             $stmt->execute();
-            $this->id = $conn->insert_id; 
+            $this->id = $conn->insert_id;
             return true;
         } catch (mysqli_sql_exception $e) {
-            if ($e->getCode() === 1062) {
-                return false; 
-            }
             throw $e;
         }
     }
 
-    public function editar() {
+    public function editar(): void {
         $conn = DB::conectar();
 
-        $sql = 'UPDATE representantes SET nombre = ?, apellido = ?, cedula = ?, profesion = ?, domicilio = ? WHERE id = ?';
+        $sql = 'UPDATE representantes SET
+                    profesion = ?, domicilio = ?
+                WHERE id = ?';
 
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param('sssssi',
-            $this->nombre,
-            $this->apellido,
-            $this->cedula,
+        $stmt->bind_param('ssi',
             $this->profesion,
             $this->domicilio,
             $this->id
         );
 
-        try {
-            $stmt->execute();
-            return true;
-        } catch (mysqli_sql_exception $e) {
-            if ($e->getCode() === 1062) {
-                return false; 
-            }
-            throw $e;
-        }
+        $stmt->execute();
     }
 
-    public static function listar() {
-        $conn = DB::conectar();
-        return $conn->query('SELECT * FROM representantes ORDER BY apellido ASC');
-    }
-
+    // ── Métodos estáticos ─────────────────────────
     public static function findById($id) {
         $conn = DB::conectar();
-        $stmt = $conn->prepare('SELECT * FROM representantes WHERE id = ?');
+
+        $sql = 'SELECT r.*, p.nombre, p.apellido, p.cedula,
+                       p.telefono, p.correo
+                FROM representantes r
+                JOIN personas p ON r.persona_id = p.id
+                WHERE r.id = ?';
+
+        $stmt = $conn->prepare($sql);
         $stmt->bind_param('i', $id);
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc();
     }
 
-    public static function findByCedula($cedula) {
+    public static function findByPersonaCedula($cedula) {
         $conn = DB::conectar();
-        $stmt = $conn->prepare('SELECT * FROM representantes WHERE cedula = ?');
+
+        $sql = 'SELECT r.*
+                FROM representantes r
+                JOIN personas p ON r.persona_id = p.id
+                WHERE p.cedula = ?';
+
+        $stmt = $conn->prepare($sql);
         $stmt->bind_param('s', $cedula);
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc();
     }
 
-    public static function eliminar($id) {
+    public static function eliminar($id): void {
         $conn = DB::conectar();
         $stmt = $conn->prepare('DELETE FROM representantes WHERE id = ?');
         $stmt->bind_param('i', $id);
         $stmt->execute();
-    }
-
-    
-    public static function estaHuerfano($id) {
-        $conn = DB::conectar();
-        $stmt = $conn->prepare('SELECT COUNT(*) FROM estudiantes WHERE representante_id = ?');
-        $stmt->bind_param('i', $id);
-        $stmt->execute();
-        $stmt->bind_result($count);
-        $stmt->fetch();
-        return $count === 0;
     }
 }
