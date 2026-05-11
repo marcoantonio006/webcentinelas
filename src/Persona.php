@@ -53,7 +53,7 @@ class Persona {
         }
     }
 
-    public function editar(): void {
+    public function editar() {
         $conn = DB::conectar();
 
         $sql = 'UPDATE personas SET
@@ -71,7 +71,14 @@ class Persona {
             $this->id
         );
 
-        $stmt->execute();
+        try {
+            $stmt->execute();
+            $this->id = $conn->insert_id;
+            return true;
+        } catch (mysqli_sql_exception $e) {
+            if ($e->getCode() === 1062) return false;
+            throw $e;
+        }
     }
 
     // ── Métodos estáticos ─────────────────────────

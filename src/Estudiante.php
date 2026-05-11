@@ -149,6 +149,14 @@ class Estudiante {
         return $stmt->get_result()->fetch_assoc();
     }
 
+    public static function findByPersonaId($persona_id) {
+        $conn = DB::conectar();
+        $stmt = $conn->prepare('SELECT id FROM estudiantes WHERE persona_id = ?');
+        $stmt->bind_param('i', $persona_id);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc();
+    }
+
     public static function eliminar($id): void {
         $conn = DB::conectar();
         $stmt = $conn->prepare('DELETE FROM estudiantes WHERE id = ?');

@@ -156,29 +156,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $atleta->setLugarNacimiento($lugar_nacimiento);
         $atleta->editar();
 
-        // Limpiar representante anterior si cambió y quedó huérfano
-        if (
-            $representante_anterior_id &&
-            $representante_anterior_id !== $representante_id
-        ) {
-            $conn = DB::conectar();
-            $stmt = $conn->prepare('SELECT COUNT(*) FROM estudiantes WHERE representante_id = ?');
-            $stmt->bind_param('i', $representante_anterior_id);
-            $stmt->execute();
-            $stmt->bind_result($count);
-            $stmt->fetch();
-            $stmt->close();
+        if (!$persona->editar()) {
+            $errores[] = 'Ya existe otra persona registrada con esa cédula';
+        }       
 
-            if ($count === 0) {
-                $repAnterior = Representante::findById($representante_anterior_id);
-                $rep_persona_id = $repAnterior['persona_id'] ?? null;
+        if(empty($errores)){
 
-                Representante::eliminar($representante_anterior_id);
-
-                if ($rep_persona_id && Persona::estaHuerfana($rep_persona_id)) {
-                    Persona::eliminar($rep_persona_id);
+            if (
+                $representante_anterior_id &&
+                $representante_anterior_id !== $representante_id
+            ) {
+                $conn = DB::conectar();
+                $stmt = $conn->prepare('SELECT COUNT(*) FROM estudiantes WHERE representante_id = ?');
+                $stmt->bind_param('i', $representante_anterior_id);
+                $stmt->execute();
+                $stmt->bind_result($count);
+                $stmt->fetch();
+                $stmt->close();
+    
+                if ($count === 0) {
+                    $repAnterior = Representante::findById($representante_anterior_id);
+                    $rep_persona_id = $repAnterior['persona_id'] ?? null;
+    
+                    Representante::eliminar($representante_anterior_id);
+    
+                    if ($rep_persona_id && Persona::estaHuerfana($rep_persona_id)) {
+                        Persona::eliminar($rep_persona_id);
+                    }
                 }
             }
+
+
         }
 
         header('Location: /centinela/admin/estudiantes/index.php');

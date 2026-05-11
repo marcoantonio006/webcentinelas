@@ -318,6 +318,15 @@ document.addEventListener('click', (e) => {
     }
 });
 
+function calcularEdad(valor) {
+        const hoy       = new Date();
+        const nac       = new Date(valor);
+        let edad        = hoy.getFullYear() - nac.getFullYear();
+        const m         = hoy.getMonth() - nac.getMonth();
+        if (m < 0 || (m === 0 && hoy.getDate() < nac.getDate())) edad--;
+        return edad;
+    }
+
 document.addEventListener('DOMContentLoaded', () => {
     const fechaInput  = document.getElementById('fecha_nacimiento');
     const checkboxDiv = document.getElementById('fila-checkbox-representante');
@@ -327,14 +336,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Solo aplica en la página del formulario de atleta
     if (!fechaInput || !checkboxDiv || !checkbox || !fieldset) return;
 
-    function calcularEdad(valor) {
-        const hoy       = new Date();
-        const nac       = new Date(valor);
-        let edad        = hoy.getFullYear() - nac.getFullYear();
-        const m         = hoy.getMonth() - nac.getMonth();
-        if (m < 0 || (m === 0 && hoy.getDate() < nac.getDate())) edad--;
-        return edad;
-    }
+    
 
     function actualizarVista() {
         if (!fechaInput.value) return;

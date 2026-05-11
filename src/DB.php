@@ -1,6 +1,6 @@
 <?php
 
-class DB{
+class DB{ 
     private static $conn = null;
 
     public static function conectar(){

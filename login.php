@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die('Petición no válida');
     }
 
-    $correo   = $_POST['correo']   ?? '';
+    $correo   = $_POST['correo']   ?? '';    
     $password = $_POST['password'] ?? '';
 
     $errores = Auth::login($correo, $password);

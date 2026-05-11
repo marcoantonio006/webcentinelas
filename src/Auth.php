@@ -2,9 +2,9 @@
 
 require_once __DIR__ . '/DB.php';
 
-class Auth {
+class Auth { 
 
-    public static function login(string $correo, string $password){
+    public static function login(string $correo, string $password){ 
         $errores = [];
 
         if ($correo === '') {
@@ -15,8 +15,8 @@ class Auth {
             $errores[] = 'Ingrese la contraseña por favor';
         }
 
-        if (!empty($errores)) {
-            return $errores;
+        if (!empty($errores)) {   
+            return $errores; 
         }
 
         $conn = DB::conectar();

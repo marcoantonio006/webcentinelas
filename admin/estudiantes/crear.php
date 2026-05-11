@@ -73,6 +73,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($personaAtleta) {
             $persona_id = $personaAtleta['id'];
+
+            $atletaExistente = Estudiante::findByPersonaId($persona_id);
+            if ($atletaExistente) {
+                $errores[] = 'Ya existe un atleta registrado con esa cédula';
+            }
         } else {
             $persona = new Persona();
             $persona->setNombre($nombre);
