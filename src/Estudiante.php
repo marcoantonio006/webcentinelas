@@ -11,7 +11,6 @@ class Estudiante {
     private $fecha_nacimiento;
     private $lugar_nacimiento;
 
-    // ── Setters ──────────────────────────────────
     public function setId($id) { $this->id = $id; }
     public function setPersonaId($persona_id) { $this->persona_id = $persona_id; }
     public function setCategoriaId($categoria_id) { $this->categoria_id = $categoria_id; }
@@ -19,7 +18,6 @@ class Estudiante {
     public function setFechaNacimiento($fecha_nacimiento) { $this->fecha_nacimiento = $fecha_nacimiento; }
     public function setLugarNacimiento($lugar_nacimiento) { $this->lugar_nacimiento = $lugar_nacimiento; }
 
-    // ── Getters ──────────────────────────────────
     public function getId() { return $this->id; }
     public function getPersonaId() { return $this->persona_id; }
     public function getCategoriaId() { return $this->categoria_id; }
@@ -27,8 +25,7 @@ class Estudiante {
     public function getFechaNacimiento() { return $this->fecha_nacimiento; }
     public function getLugarNacimiento() { return $this->lugar_nacimiento; }
 
-    // ── Métodos de instancia ──────────────────────
-    public function guardar(): bool {
+    public function guardar() {
         $conn = DB::conectar();
 
         $sql = 'INSERT INTO estudiantes(
@@ -53,7 +50,7 @@ class Estudiante {
         }
     }
 
-    public function editar(): bool {
+    public function editar() {
         $conn = DB::conectar();
 
         $sql = 'UPDATE estudiantes SET
@@ -79,7 +76,6 @@ class Estudiante {
         }
     }
 
-    // ── Métodos estáticos ─────────────────────────
     public static function listar() {
         $conn = DB::conectar();
 
@@ -157,7 +153,7 @@ class Estudiante {
         return $stmt->get_result()->fetch_assoc();
     }
 
-    public static function eliminar($id): void {
+    public static function eliminar($id) {
         $conn = DB::conectar();
         $stmt = $conn->prepare('DELETE FROM estudiantes WHERE id = ?');
         $stmt->bind_param('i', $id);

@@ -31,8 +31,8 @@ include 'templates/header.php';
                         </div>
                 </div>
                 
-            <h2>Planes de pago</h2>
-            <p class="parrafo">Puedes formar parte de nuestra academia por tan solo 15 $ al mes y 5 $ de inscripción. Recibimos el dolar a tasa promedio !</p>
+            <!-- <h2>Planes de pago</h2>
+            <p class="parrafo">Puedes formar parte de nuestra academia por tan solo 15 $ al mes y 5 $ de inscripción. Recibimos el dolar a tasa promedio !</p> -->
                 
                 
                 

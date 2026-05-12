@@ -11,7 +11,6 @@ class Persona {
     private $telefono;
     private $correo;
 
-    // ── Setters ──────────────────────────────────
     public function setId($id) { $this->id = $id; }
     public function setNombre($nombre) { $this->nombre = $nombre; }
     public function setApellido($apellido) { $this->apellido = $apellido; }
@@ -19,7 +18,6 @@ class Persona {
     public function setTelefono($telefono) { $this->telefono = $telefono; }
     public function setCorreo($correo) { $this->correo = $correo; }
 
-    // ── Getters ──────────────────────────────────
     public function getId() { return $this->id; }
     public function getNombre() { return $this->nombre; }
     public function getApellido() { return $this->apellido; }
@@ -27,8 +25,7 @@ class Persona {
     public function getTelefono() { return $this->telefono; }
     public function getCorreo() { return $this->correo; }
 
-    // ── Métodos de instancia ──────────────────────
-    public function guardar(): bool {
+    public function guardar() {
         $conn = DB::conectar();
 
         $sql = 'INSERT INTO personas(nombre, apellido, cedula, telefono, correo)
@@ -81,7 +78,6 @@ class Persona {
         }
     }
 
-    // ── Métodos estáticos ─────────────────────────
     public static function findById($id) {
         $conn = DB::conectar();
         $stmt = $conn->prepare('SELECT * FROM personas WHERE id = ?');

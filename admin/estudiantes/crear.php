@@ -21,22 +21,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!CSRF::verificar()) die('Petición no válida');
 
-    $nombre           = trim($_POST['nombre']           ?? '');
-    $apellido         = trim($_POST['apellido']         ?? '');
-    $cedula           = trim($_POST['cedula']           ?? '');
-    $telefono         = trim($_POST['telefono']         ?? '');
-    $correo           = trim($_POST['correo']           ?? '');
+    $nombre = trim($_POST['nombre'] ?? '');
+    $apellido = trim($_POST['apellido'] ?? '');
+    $cedula = trim($_POST['cedula'] ?? '');
+    $telefono = trim($_POST['telefono'] ?? '');
+    $correo = trim($_POST['correo'] ?? '');
     $fecha_nacimiento = trim($_POST['fecha_nacimiento'] ?? '');
     $lugar_nacimiento = trim($_POST['lugar_nacimiento'] ?? '');
-    $categoria_id     = trim($_POST['categoria_id']     ?? '');
+    $categoria_id = trim($_POST['categoria_id'] ?? '');
 
-    $rep_nombre    = trim($_POST['rep_nombre']    ?? '');
+    $rep_nombre    = trim($_POST['rep_nombre'] ?? '');
     $rep_apellido  = trim($_POST['rep_apellido']  ?? '');
-    $rep_cedula    = trim($_POST['rep_cedula']    ?? '');
+    $rep_cedula    = trim($_POST['rep_cedula'] ?? '');
     $rep_telefono  = trim($_POST['rep_telefono']  ?? '');
-    $rep_correo    = trim($_POST['rep_correo']    ?? '');
+    $rep_correo    = trim($_POST['rep_correo'] ?? '');
     $rep_profesion = trim($_POST['rep_profesion'] ?? '');
     $rep_domicilio = trim($_POST['rep_domicilio'] ?? '');
+
+    // Verificacion de mayoria de edad para asignar representante o no
 
     $esMayor = false;
     if ($fecha_nacimiento !== '') {
@@ -46,26 +48,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $tiene_representante = isset($_POST['tiene_representante']);
 
-    if ($nombre === '')           $errores[] = 'El nombre es obligatorio';
-    if ($apellido === '')         $errores[] = 'El apellido es obligatorio';
-    if ($cedula === '')           $errores[] = 'La cédula es obligatoria';
-    elseif (!preg_match('/^[0-9]{6,9}$/', $cedula))
-                                  $errores[] = 'La cédula debe contener entre 6 y 9 dígitos';
+    if ($nombre === '') $errores[] = 'El nombre es obligatorio';
+    if ($apellido === '') $errores[] = 'El apellido es obligatorio';
+    if ($cedula === '') $errores[] = 'La cédula es obligatoria';
     if ($fecha_nacimiento === '') $errores[] = 'La fecha de nacimiento es obligatoria';
     if ($lugar_nacimiento === '') $errores[] = 'El lugar de nacimiento es obligatorio';
-    if ($categoria_id === '')     $errores[] = 'La categoría es obligatoria';
+    if ($categoria_id === '') $errores[] = 'La categoría es obligatoria';
 
     if (!$esMayor || $tiene_representante) {
-        if ($rep_nombre === '')    $errores[] = 'El nombre del representante es obligatorio';
-        if ($rep_apellido === '')  $errores[] = 'El apellido del representante es obligatorio';
-        if ($rep_cedula === '')    $errores[] = 'La cédula del representante es obligatoria';
-        elseif (!preg_match('/^[0-9]{6,9}$/', $rep_cedula))
-                                   $errores[] = 'La cédula del representante debe contener entre 6 y 9 dígitos';
-        elseif ($rep_cedula === $cedula)
-                                   $errores[] = 'La cédula del representante no puede ser igual a la del atleta';
+        if ($rep_nombre === '') $errores[] = 'El nombre del representante es obligatorio';
+        if ($rep_apellido === '') $errores[] = 'El apellido del representante es obligatorio';
+        if ($rep_cedula === '') $errores[] = 'La cédula del representante es obligatoria';
+        elseif ($rep_cedula === $cedula) $errores[] = 'La cédula del representante no puede ser igual a la del atleta';
         if ($rep_profesion === '') $errores[] = 'La profesión del representante es obligatoria';
         if ($rep_domicilio === '') $errores[] = 'El domicilio del representante es obligatorio';
     }
+
+    // Verificacion de que no haya otra persona en la base de datos con la misma cédula
 
     if (empty($errores)) {
 
@@ -89,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!$persona->guardar()) {
                 $errores[] = 'Ya existe una persona con esa cédula';
             } else {
-                $persona_id = $persona->getId();
+                $persona_id = $persona->getId(); // Se guarda el id de la nueva persona 
             }
         }
 
@@ -98,6 +97,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (empty($errores) && (!$esMayor || $tiene_representante)) {
 
             $personaRep = Persona::findByCedula($rep_cedula);
+
+            // Validar que ese representante no exista ya en la tabla representantes
 
             if ($personaRep) {
                 $repExistente = Representante::findByPersonaCedula($rep_cedula);

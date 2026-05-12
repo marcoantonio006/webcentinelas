@@ -19,7 +19,7 @@ include __DIR__ . '/../../templates/header.php';
 ?>
 
 <main class="contenedor seccion">
-    <h1>Atletas</h1>
+    <h1>Panel de Atletas</h1>
 
     <a class="boton" href="/centinela/admin/estudiantes/crear.php">
         <i class="fa-solid fa-plus"></i> Nuevo atleta
@@ -32,11 +32,11 @@ include __DIR__ . '/../../templates/header.php';
         <p>No hay atletas registrados aún.</p>
     <?php else : ?>
 
-        <!-- Filtro por categoría -->
+        
         <div class="filtro-contenedor">
-            <label for="filtro-categoria">Filtrar por categoría:</label>
-            <select id="filtro-categoria">
-                <option value="">Todas las categorías</option>
+            <label class="filtrar-categorias" for="filtro-categoria">Filtrar por categoría:</label>
+            <select class="filtrar-categorias"  id="filtro-categoria">
+                <option class="filtro-categoria" value="">Todas las categorías</option>
                 <?php
                 $categoriasSelect = Categoria::listar();
                 while ($cat = $categoriasSelect->fetch_assoc()) :
@@ -221,5 +221,3 @@ document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') cerrarModal();
 });
 </script>
-
-<?php include __DIR__ . '/../../templates/footer.php'; ?>

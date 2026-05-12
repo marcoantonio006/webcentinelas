@@ -35,7 +35,7 @@ if (!$datos) {
     exit;
 }
 
-// Guardar ids antes de eliminar
+// Guardar ids
 $persona_id       = $datos['persona_id'];
 $representante_id = $datos['representante_id'];
 

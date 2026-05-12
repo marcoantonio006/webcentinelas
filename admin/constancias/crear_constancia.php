@@ -23,6 +23,8 @@ if ($id) {
     $atleta = Estudiante::findById($id) ?? [];
 }
 
+$tieneRepresentante = !empty($atleta['representante_id']);
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!CSRF::verificar()) {
@@ -55,9 +57,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'anio_emision' => date('Y'),
         'nombre_director' => strtoupper(trim($_POST['nombre_director'] ?? '')),
         'cargo_director' => trim($_POST['cargo_director'] ?? ''),
+        'tiene_representante' => !empty($atleta['representante_id']),
     ];
 
     Constancia::generar($datos);
+    
 }
 
 include '../../templates/header.php';
@@ -65,7 +69,7 @@ include '../../templates/header.php';
 
 <main class="contenedor seccion">
 
-    <a class="boton" href="../index.php">&larr; Volver</a>
+    <a class="boton" href="../estudiantes/index.php">&larr; Volver a lista de atletas</a>
     <h1>Crear Constancia</h1>
 
     <div id="errores-constancia"></div>
@@ -144,7 +148,7 @@ include '../../templates/header.php';
                 value="<?php echo htmlspecialchars($_POST['fecha_torneo_fin'] ?? ''); ?>">
         </fieldset>
 
-        <fieldset>
+        <fieldset id="fieldset-rep-constancia" data-requerido="<?php echo $tieneRepresentante ? 'si' : 'no'; ?>" <?php echo !$tieneRepresentante ? 'style="display:none"' : ''; ?>>
             <legend>Datos del Representante del Atleta</legend>
 
             <label for="nombre_representante">Nombre completo del representante:</label>

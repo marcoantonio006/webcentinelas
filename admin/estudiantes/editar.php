@@ -35,17 +35,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!CSRF::verificar()) die('Petición no válida');
 
-    // ── Datos del atleta ──────────────────────────
-    $nombre           = trim($_POST['nombre']           ?? '');
-    $apellido         = trim($_POST['apellido']         ?? '');
-    $cedula           = trim($_POST['cedula']           ?? '');
-    $telefono         = trim($_POST['telefono']         ?? '');
-    $correo           = trim($_POST['correo']           ?? '');
+    $nombre = trim($_POST['nombre'] ?? '');
+    $apellido = trim($_POST['apellido'] ?? '');
+    $cedula = trim($_POST['cedula'] ?? '');
+    $telefono = trim($_POST['telefono'] ?? '');
+    $correo = trim($_POST['correo'] ?? '');
     $fecha_nacimiento = trim($_POST['fecha_nacimiento'] ?? '');
     $lugar_nacimiento = trim($_POST['lugar_nacimiento'] ?? '');
-    $categoria_id     = trim($_POST['categoria_id']     ?? '');
+    $categoria_id = trim($_POST['categoria_id'] ?? '');
 
-    // ── Datos del representante ───────────────────
     $rep_nombre    = trim($_POST['rep_nombre']    ?? '');
     $rep_apellido  = trim($_POST['rep_apellido']  ?? '');
     $rep_cedula    = trim($_POST['rep_cedula']    ?? '');
@@ -54,41 +52,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $rep_profesion = trim($_POST['rep_profesion'] ?? '');
     $rep_domicilio = trim($_POST['rep_domicilio'] ?? '');
 
-    // ── Calcular si es mayor de edad ─────────────
     $esMayor = false;
     if ($fecha_nacimiento !== '') {
-        $edad    = (new DateTime())->diff(new DateTime($fecha_nacimiento))->y;
+        $edad = (new DateTime())->diff(new DateTime($fecha_nacimiento))->y;
         $esMayor = $edad >= 18;
     }
 
     $tiene_representante = isset($_POST['tiene_representante']);
 
-    // ── Validaciones atleta ───────────────────────
-    if ($nombre === '')           $errores[] = 'El nombre es obligatorio';
-    if ($apellido === '')         $errores[] = 'El apellido es obligatorio';
-    if ($cedula === '')           $errores[] = 'La cédula es obligatoria';
-    elseif (!preg_match('/^[0-9]{6,9}$/', $cedula))
-                                  $errores[] = 'La cédula debe contener entre 6 y 9 dígitos';
+    if ($nombre === '') $errores[] = 'El nombre es obligatorio';
+    if ($apellido === '') $errores[] = 'El apellido es obligatorio';
+    if ($cedula === '') $errores[] = 'La cédula es obligatoria';
     if ($fecha_nacimiento === '') $errores[] = 'La fecha de nacimiento es obligatoria';
     if ($lugar_nacimiento === '') $errores[] = 'El lugar de nacimiento es obligatorio';
-    if ($categoria_id === '')     $errores[] = 'La categoría es obligatoria';
+    if ($categoria_id === '') $errores[] = 'La categoría es obligatoria';
 
-    // ── Validaciones representante ────────────────
     if (!$esMayor || $tiene_representante) {
-        if ($rep_nombre === '')    $errores[] = 'El nombre del representante es obligatorio';
-        if ($rep_apellido === '')  $errores[] = 'El apellido del representante es obligatorio';
-        if ($rep_cedula === '')    $errores[] = 'La cédula del representante es obligatoria';
-        elseif (!preg_match('/^[0-9]{6,9}$/', $rep_cedula))
-                                   $errores[] = 'La cédula del representante debe contener entre 6 y 9 dígitos';
-        elseif ($rep_cedula === $cedula)
-                                   $errores[] = 'La cédula del representante no puede ser igual a la del atleta';
+        if ($rep_nombre === '') $errores[] = 'El nombre del representante es obligatorio';
+        if ($rep_apellido === '') $errores[] = 'El apellido del representante es obligatorio';
+        if ($rep_cedula === '') $errores[] = 'La cédula del representante es obligatoria';
+        elseif ($rep_cedula === $cedula) $errores[] = 'La cédula del representante no puede ser igual a la del atleta';
         if ($rep_profesion === '') $errores[] = 'La profesión del representante es obligatoria';
         if ($rep_domicilio === '') $errores[] = 'El domicilio del representante es obligatorio';
     }
 
     if (empty($errores)) {
 
-        // ── Actualizar persona del atleta ─────────
         $persona = new Persona();
         $persona->setId($datos['persona_id']);
         $persona->setNombre($nombre);
@@ -98,7 +87,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $persona->setCorreo($correo);
         $persona->editar();
 
-        // ── Actualizar o asignar representante ────
         $representante_id = null;
 
         if (!$esMayor || $tiene_representante) {
@@ -143,10 +131,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         
-        // Guardar el representante anterior antes de actualizar
         $representante_anterior_id = $datos['representante_id'];
 
-        // ── Actualizar estudiante ─────────────────
         $atleta = new Estudiante();
         $atleta->setId($id);
         $atleta->setPersonaId($datos['persona_id']);

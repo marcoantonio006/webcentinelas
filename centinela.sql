@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-05-2026 a las 23:53:38
+-- Tiempo de generación: 12-05-2026 a las 16:30:56
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -70,9 +70,10 @@ CREATE TABLE `estudiantes` (
 --
 
 INSERT INTO `estudiantes` (`id`, `persona_id`, `categoria_id`, `representante_id`, `fecha_nacimiento`, `lugar_nacimiento`) VALUES
-(6, 7, 9, NULL, '2006-12-18', 'Maracaibo'),
 (7, 8, 13, 4, '2024-12-18', 'Maracaibo'),
-(8, 9, 13, 4, '2024-12-18', 'Maracaibo');
+(8, 9, 13, 4, '2024-12-18', 'Maracaibo'),
+(10, 7, 9, NULL, '2006-12-18', 'Maracaibo'),
+(12, 12, 7, NULL, '2006-12-18', 'Maracaibo');
 
 -- --------------------------------------------------------
 
@@ -92,7 +93,8 @@ CREATE TABLE `eventos` (
 --
 
 INSERT INTO `eventos` (`id`, `nombre`, `fecha`, `lugar`) VALUES
-(5, 'Torneo Estatal', '2026-06-20', 'Cancha Local');
+(5, 'Torneo Estatal', '2026-06-20', 'Cancha Local'),
+(6, 'Torneo Ana María Campos', '2026-05-12', 'Ana María Campos');
 
 -- --------------------------------------------------------
 
@@ -116,7 +118,8 @@ CREATE TABLE `personas` (
 INSERT INTO `personas` (`id`, `nombre`, `apellido`, `cedula`, `telefono`, `correo`) VALUES
 (7, 'Marco', 'Molina', '32046081', '04129063075', 'pro.marcomolina@gmail.com'),
 (8, 'Marquito', 'Molina', '1234566', '0123232323', 'asd@gmail.com'),
-(9, 'Reyniel', 'Fernandez', '1234569', '0123232323', 'asd@gmail.com');
+(9, 'Reyniel', 'Fernandez', '1234569', '0123232323', 'asd@gmail.com'),
+(12, 'Marco', 'Fernandez', '32046082', '0123232323', 'centinelas@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -172,7 +175,7 @@ ALTER TABLE `categorias`
 --
 ALTER TABLE `estudiantes`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `persona_id` (`persona_id`),
+  ADD UNIQUE KEY `uq_persona` (`persona_id`),
   ADD KEY `categoria_id` (`categoria_id`),
   ADD KEY `representante_id` (`representante_id`);
 
@@ -217,25 +220,25 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT de la tabla `estudiantes`
 --
 ALTER TABLE `estudiantes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `eventos`
 --
 ALTER TABLE `eventos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `personas`
 --
 ALTER TABLE `personas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `representantes`
 --
 ALTER TABLE `representantes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`

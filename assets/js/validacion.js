@@ -59,7 +59,6 @@ function validarEstudiante() {
     const fieldset          = document.getElementById('fieldset-representante');
     const mensajes          = [];
 
-    // ── Datos del atleta ──────────────────────────
     if (nombre.value.trim() === '') {
         mensajes.push('El nombre es obligatorio');
     } else if (!erSoloLetras.test(nombre.value.trim())) {
@@ -90,7 +89,6 @@ function validarEstudiante() {
         mensajes.push('Debe seleccionar una categoría');
     }
 
-    // ── Datos del representante ───────────────────
     const esRequerido = !fieldset || fieldset.dataset.requerido !== 'no';
 
     if (esRequerido) {
@@ -195,6 +193,9 @@ function validarConstancia() {
     const estadoTorneo = document.getElementById('estado_torneo');
     const diaEmision = document.getElementById('dia_emision');
     const mesEmision = document.getElementById('mes_emision');
+
+    const fieldsetRep = document.getElementById('fieldset-rep-constancia');
+    const repRequerido = !fieldsetRep || fieldsetRep.dataset.requerido !== 'no';
     
     const mensajes = [];
 
@@ -263,15 +264,16 @@ function validarConstancia() {
     } else if (!erFechaDdMm.test(fechaTorneoFin.value.trim())) {
         mensajes.push('Fecha fin del torneo debe tener formato dd-mm');
     }
-
-    if (nombreRepresentante.value.trim() === '') {
-        mensajes.push('El nombre del representante es obligatorio');
-    }
-
-    if (cedulaRepresentante.value.trim() === '') {
-        mensajes.push('La cédula del representante es obligatoria');
-    } else if (!erCedula.test(cedulaRepresentante.value.trim())) {
-        mensajes.push('La cédula debe contener entre 6 y 9 dígitos');
+    
+    if (repRequerido) {
+        if (nombreRepresentante.value.trim() === '') {
+            mensajes.push('El nombre del representante es obligatorio');
+        }
+        if (cedulaRepresentante.value.trim() === '') {
+            mensajes.push('La cédula del representante es obligatoria');
+        } else if (!erCedula.test(cedulaRepresentante.value.trim())) {
+            mensajes.push('La cédula del representante debe contener entre 6 y 9 dígitos');
+        }
     }
 
     if (diaEmision.value.trim() === '') {
@@ -333,10 +335,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const checkbox    = document.getElementById('tiene-representante');
     const fieldset    = document.getElementById('fieldset-representante');
 
-    // Solo aplica en la página del formulario de atleta
     if (!fechaInput || !checkboxDiv || !checkbox || !fieldset) return;
-
-    
 
     function actualizarVista() {
         if (!fechaInput.value) return;
@@ -344,13 +343,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const esMayor = calcularEdad(fechaInput.value) >= 18;
 
         if (esMayor) {
-            // Mostrar el checkbox; el fieldset depende de si está marcado
             checkboxDiv.style.display = 'block';
             const conRep = checkbox.checked;
             fieldset.style.display        = conRep ? '' : 'none';
             fieldset.dataset.requerido    = conRep ? 'si' : 'no';
         } else {
-            // Menor: ocultar checkbox, fieldset siempre visible y obligatorio
             checkboxDiv.style.display     = 'none';
             checkbox.checked              = false;
             fieldset.style.display        = '';
@@ -358,16 +355,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Reacciona al cambio de fecha
     fechaInput.addEventListener('change', actualizarVista);
 
-    // Reacciona al checkbox
     checkbox.addEventListener('change', () => {
         fieldset.style.display     = checkbox.checked ? '' : 'none';
         fieldset.dataset.requerido = checkbox.checked ? 'si' : 'no';
     });
 
-    // Ejecución inicial (recarga con errores PHP)
     actualizarVista();
 });
 

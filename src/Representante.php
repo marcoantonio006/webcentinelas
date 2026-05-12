@@ -9,20 +9,17 @@ class Representante {
     private $profesion;
     private $domicilio;
 
-    // ── Setters ──────────────────────────────────
     public function setId($id) { $this->id = $id; }
     public function setPersonaId($persona_id) { $this->persona_id = $persona_id; }
     public function setProfesion($profesion) { $this->profesion = $profesion; }
     public function setDomicilio($domicilio) { $this->domicilio = $domicilio; }
 
-    // ── Getters ──────────────────────────────────
     public function getId() { return $this->id; }
     public function getPersonaId() { return $this->persona_id; }
     public function getProfesion() { return $this->profesion; }
     public function getDomicilio() { return $this->domicilio; }
 
-    // ── Métodos de instancia ──────────────────────
-    public function guardar(): bool {
+    public function guardar() {
         $conn = DB::conectar();
 
         $sql = 'INSERT INTO representantes(persona_id, profesion, domicilio)
@@ -44,7 +41,7 @@ class Representante {
         }
     }
 
-    public function editar(): void {
+    public function editar() {
         $conn = DB::conectar();
 
         $sql = 'UPDATE representantes SET
@@ -61,7 +58,6 @@ class Representante {
         $stmt->execute();
     }
 
-    // ── Métodos estáticos ─────────────────────────
     public static function findById($id) {
         $conn = DB::conectar();
 
