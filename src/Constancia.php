@@ -121,7 +121,7 @@ class Constancia {
         // ── Párrafo 1 ─────────────────────────────────────────────────────
         // Texto estático = regular | Datos formulario = bold+underline
         // No se puede justificar porque mezcla fonts (limitación de FPDF)
-        $n('        Muy respetados senores, reciban un cordial saludo de parte de la ');
+        $n('        Muy respetados señores, reciban un cordial saludo de parte de la ');
         $b('ACADEMIA DE VOLEIBOL CLUB CENTINELAS');
         $n(', a la vez el mejor deseo de exito en el ambiente laboral; La presente tiene la finalidad de solicitarle el permiso para el (la), ');
         $b('ATLETA: ');
@@ -130,7 +130,7 @@ class Constancia {
         $bu($cedula_atleta, 'V-______________');
         $n(' quien es estudiante de ');
         $bu($anio_escolar, '__');
-        $n(' ano, seccion ');
+        $n(' año, seccion ');
         $bu($seccion, '__');
         $n(', en esta institucion, y es integrante de las ');
         $b('SELECCION ');
@@ -141,7 +141,7 @@ class Constancia {
         $bu($fecha_inicio_entreno, '______');
         $n(' hasta el ');
         $bu($fecha_fin_entreno, '______');
-        $n(' de AMBOS INCLUSIVES del presente ano; para representarnos en el CAMPEONATO ');
+        $n(' de AMBOS INCLUSIVES del presente año; para representarnos en el CAMPEONATO ');
         $b('NACIONAL');
         $n(' de VOLEIBOL ');
         $bu($nombre_torneo, '_____________________________');

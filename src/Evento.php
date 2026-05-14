@@ -7,7 +7,11 @@ class Evento {
     private $id;
     private $nombre;
     private $fecha;
+    private $hora;
     private $lugar;
+    private $equipo_local;
+    private $equipo_visitante;
+    private $imagen;
 
     public function setId($id) {
         $this->id = $id;
@@ -21,8 +25,24 @@ class Evento {
         $this->fecha = $fecha;
     }
 
+    public function setHora($hora) {
+        $this->hora = $hora;
+    }
+
     public function setLugar($lugar) {
         $this->lugar = $lugar;
+    }
+
+    public function setEquipoLocal($equipo_local) {
+        $this->equipo_local = $equipo_local;
+    }
+
+    public function setEquipoVisit($equipo_visitante) {
+        $this->equipo_visitante = $equipo_visitante;
+    }
+
+    public function setImagen($imagen) {
+        $this->imagen = $imagen;
     }
 
     
@@ -38,41 +58,65 @@ class Evento {
         return $this->fecha;
     }
 
+    public function getHora() {
+        return $this->hora;
+    }
+
     public function getLugar() {
         return $this->lugar;
     }
 
+    public function getEquipoLocal() {
+        return $this->equipo_local;
+    }
+
+    public function getEquipoVisit() {
+        return $this->equipo_visitante;
+    }
+
+    public function getImagen() {
+        return $this->imagen;
+    }
     
     public function guardar() {
         $conn = DB::conectar();
 
-        $sql = 'INSERT INTO eventos(nombre, fecha, lugar) VALUES(?, ?, ?)';
+        $sql = 'INSERT INTO eventos(nombre, fecha, hora, lugar, equipo_local, equipo_visit, imagen) VALUES(?, ?, ?, ?, ?, ?, ?)';
         $stmt = $conn->prepare($sql);
 
-        $stmt->bind_param(
-            'sss',
+        $datos = [
             $this->nombre,
             $this->fecha,
-            $this->lugar
-        );
+            $this->hora,
+            $this->lugar,
+            $this->equipo_local,
+            $this->equipo_visitante,
+            $this->imagen
+        ];
+
+        $stmt->bind_param( 'sssssss', ...$datos );
 
         $stmt->execute();
+        $this->id = $conn->insert_id;
     }
 
     public function editar() {
         $conn = DB::conectar();
-
-        $sql = 'UPDATE eventos SET nombre = ?, fecha = ?, lugar = ? WHERE id = ?';
+        $sql  = 'UPDATE eventos
+                 SET nombre=?, fecha=?, hora=?, lugar=?,
+                     equipo_local=?, equipo_visit=?, imagen=?
+                 WHERE id=?';
         $stmt = $conn->prepare($sql);
-
-        $stmt->bind_param(
-            'sssi',
+        $stmt->bind_param('sssssssi',
             $this->nombre,
             $this->fecha,
+            $this->hora,
             $this->lugar,
+            $this->equipo_local,
+            $this->equipo_visit,
+            $this->imagen,
             $this->id
         );
-
         $stmt->execute();
     }
 

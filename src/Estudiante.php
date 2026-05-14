@@ -104,7 +104,7 @@ class Estudiante {
                 LEFT JOIN categorias     c  ON e.categoria_id     = c.id
                 LEFT JOIN representantes r  ON e.representante_id = r.id
                 LEFT JOIN personas       rp ON r.persona_id       = rp.id
-                ORDER BY p.apellido ASC';
+                ORDER BY p.nombre ASC';
 
         return $conn->query($sql);
     }

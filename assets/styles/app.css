@@ -738,3 +738,123 @@ h3 {
 .filtrar-categorias {
     font-family: 'Google Sans', sans-serif;
 }
+
+/* ── Tarjetas de eventos ──────────────────────── */
+
+.eventos-grid {
+    display: flex;
+    flex-direction: column;  /* una debajo de otra */
+    align-items: center;     /* centradas horizontalmente */
+    gap: 2.5rem;
+    margin-top: 2.5rem;
+}
+
+.evento-card {
+    width: 100%;
+    max-width: 680px;        /* ancho máximo cómodo para leer */
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, .10);
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Google Sans', sans-serif;
+    transition: transform .2s, box-shadow .2s;
+}
+
+.evento-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .14);
+}
+
+.evento-card-img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+}
+
+.evento-card-img-placeholder {
+    width: 100%;
+    height: 220px;
+    background: #e8f0fe;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5rem;
+    color: var(--celeste-primario);
+}
+
+.evento-card-body {
+    padding: 2rem 2.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.evento-card-titulo {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--azul-oscuro);
+    text-align: left;       /* anula el text-align: center global de h2 */
+}
+
+.evento-card-enfrentamiento {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    background: #f0f4ff;
+    border-radius: 10px;
+    padding: 1.2rem 1.6rem;
+    font-family: 'Google Sans', sans-serif;
+    font-weight: 600;
+    font-size: 1.7rem;
+    color: var(--texto-principal);
+}
+
+.evento-vs {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #e63946;
+    letter-spacing: .08em;
+}
+
+.evento-card-meta {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 1.5rem;
+    color: #555;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+}
+
+.evento-card-meta i {
+    color: var(--celeste-primario);
+    width: 16px;
+    text-align: center;
+}
+
+.evento-card-acciones {
+    display: flex;
+    gap: .8rem;
+    flex-wrap: wrap;
+    margin-top: .5rem;
+    padding-top: 1.4rem;
+    border-top: 1px solid #eee;
+}
+
+/* ── Móvil: las tarjetas ya ocupan todo el ancho ─ */
+@media (max-width: 600px) {
+    .evento-card {
+        max-width: 100%;
+        border-radius: 10px;
+    }
+
+    .evento-card-body {
+        padding: 1.6rem;
+    }
+}
