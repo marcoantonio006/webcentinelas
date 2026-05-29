@@ -30,11 +30,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $lugar_nacimiento = trim($_POST['lugar_nacimiento'] ?? '');
     $categoria_id = trim($_POST['categoria_id'] ?? '');
 
-    $rep_nombre    = trim($_POST['rep_nombre'] ?? '');
-    $rep_apellido  = trim($_POST['rep_apellido']  ?? '');
-    $rep_cedula    = trim($_POST['rep_cedula'] ?? '');
-    $rep_telefono  = trim($_POST['rep_telefono']  ?? '');
-    $rep_correo    = trim($_POST['rep_correo'] ?? '');
+    $rep_nombre = trim($_POST['rep_nombre'] ?? '');
+    $rep_apellido = trim($_POST['rep_apellido']  ?? '');
+    $rep_cedula = trim($_POST['rep_cedula'] ?? '');
+    $rep_telefono = trim($_POST['rep_telefono']  ?? '');
+    $rep_correo = trim($_POST['rep_correo'] ?? '');
     $rep_profesion = trim($_POST['rep_profesion'] ?? '');
     $rep_domicilio = trim($_POST['rep_domicilio'] ?? '');
 
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $esMayor = false;
     if ($fecha_nacimiento !== '') {
-        $edad    = (new DateTime())->diff(new DateTime($fecha_nacimiento))->y;
+        $edad = (new DateTime())->diff(new DateTime($fecha_nacimiento))->y;
         $esMayor = $edad >= 18;
     }
 
@@ -88,17 +88,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!$persona->guardar()) {
                 $errores[] = 'Ya existe una persona con esa cédula';
             } else {
-                $persona_id = $persona->getId(); // Se guarda el id de la nueva persona 
+                $persona_id = $persona->getId();  
             }
         }
 
+        // Verficar si el representante ya esta en la baase de datros
+    
         $representante_id = null;
 
         if (empty($errores) && (!$esMayor || $tiene_representante)) {
 
             $personaRep = Persona::findByCedula($rep_cedula);
 
-            // Validar que ese representante no exista ya en la tabla representantes
 
             if ($personaRep) {
                 $repExistente = Representante::findByPersonaCedula($rep_cedula);

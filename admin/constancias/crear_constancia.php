@@ -179,7 +179,7 @@ include '../../templates/header.php';
 
             <label for="cargo_director">Cargo:</label>
             <input type="text" id="cargo_director" name="cargo_director"
-                value="<?php echo htmlspecialchars($_POST['cargo_director'] ?? 'Director'); ?>">
+                value="<?php echo htmlspecialchars($_POST['cargo_director'] ?? 'Presidente'); ?>">
         </fieldset>
 
         <button type="submit" class="boton">📄 Generar Permiso PDF</button>

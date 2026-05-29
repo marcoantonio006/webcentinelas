@@ -1,10 +1,12 @@
 <?php
 
-class DB{ 
+class DB
+{
     private static $conn = null;
 
-    public static function conectar(){
-        if(self::$conn == null){
+    public static function conectar()
+    {
+        if (self::$conn == null) {
             $config = require __DIR__ . '/../config.php';
             self::$conn = new mysqli(
                 $config['db_host'],
@@ -22,5 +24,3 @@ class DB{
         return self::$conn;
     }
 }
-
-?>

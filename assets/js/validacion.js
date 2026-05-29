@@ -296,6 +296,42 @@ function validarConstancia() {
     return mensajes.length === 0;
 }
 
+function validarPlan() {
+    const nombre  = document.getElementById('nombre');
+    const precio  = document.getElementById('precio');
+    const mensajes = [];
+
+    if (nombre.value.trim() === '') {
+        mensajes.push('El nombre es obligatorio');
+    }
+
+    if (precio.value.trim() === '') {
+        mensajes.push('El precio es obligatorio');
+    } else if (isNaN(precio.value) || parseFloat(precio.value) < 0) {
+        mensajes.push('El precio debe ser un número positivo');
+    }
+
+    mostrarErrores('errores-plan', mensajes);
+    return mensajes.length === 0;
+}
+
+function validarMetodoPago() {
+    const nombre      = document.getElementById('nombre');
+    const descripcion = document.getElementById('descripcion');
+    const mensajes    = [];
+
+    if (nombre.value.trim() === '') {
+        mensajes.push('El nombre es obligatorio');
+    }
+
+    if (descripcion.value.trim() === '') {
+        mensajes.push('La descripción es obligatoria');
+    }
+
+    mostrarErrores('errores-metodo', mensajes);
+    return mensajes.length === 0;
+}
+
 
 document.addEventListener('click', (e) => {
 
@@ -320,14 +356,7 @@ document.addEventListener('click', (e) => {
     }
 });
 
-function calcularEdad(valor) {
-        const hoy       = new Date();
-        const nac       = new Date(valor);
-        let edad        = hoy.getFullYear() - nac.getFullYear();
-        const m         = hoy.getMonth() - nac.getMonth();
-        if (m < 0 || (m === 0 && hoy.getDate() < nac.getDate())) edad--;
-        return edad;
-    }
+
 
 document.addEventListener('DOMContentLoaded', () => {
     const fechaInput  = document.getElementById('fecha_nacimiento');
@@ -364,6 +393,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     actualizarVista();
 });
+
+function calcularEdad(valor) {
+        const hoy = new Date();
+        const nac = new Date(valor);
+        let edad = hoy.getFullYear() - nac.getFullYear();
+        const m = hoy.getMonth() - nac.getMonth();
+        if (m < 0 || (m === 0 && hoy.getDate() < nac.getDate())) edad--;
+        return edad;
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     const filtro = document.getElementById('filtro-categoria');

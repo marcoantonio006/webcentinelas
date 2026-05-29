@@ -62,7 +62,7 @@ include __DIR__ . '/../../templates/header.php';
                                     <form method="POST" action="/centinela/admin/categorias/eliminar.php">
                                         <?php echo CSRF::campo(); ?>
                                         <input type="hidden" name="id" value="<?php echo $categoria['id']; ?>">
-                                        <button class="boton-rojo" type="submit">Eliminar</button>
+                                        <button class="boton boton-rojo" type="submit">Eliminar</button>
                                     </form>
                                 </div>
                             </td>

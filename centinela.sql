@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-05-2026 a las 16:30:56
+-- Tiempo de generación: 19-05-2026 a las 03:05:22
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -70,10 +70,9 @@ CREATE TABLE `estudiantes` (
 --
 
 INSERT INTO `estudiantes` (`id`, `persona_id`, `categoria_id`, `representante_id`, `fecha_nacimiento`, `lugar_nacimiento`) VALUES
-(7, 8, 13, 4, '2024-12-18', 'Maracaibo'),
-(8, 9, 13, 4, '2024-12-18', 'Maracaibo'),
-(10, 7, 9, NULL, '2006-12-18', 'Maracaibo'),
-(12, 12, 7, NULL, '2006-12-18', 'Maracaibo');
+(20, 23, 9, NULL, '2006-12-18', 'Zulia'),
+(21, 25, 8, 14, '2006-12-18', 'Zulia'),
+(23, 27, 7, NULL, '2006-12-18', 'Zulia');
 
 -- --------------------------------------------------------
 
@@ -85,6 +84,10 @@ CREATE TABLE `eventos` (
   `id` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `fecha` date DEFAULT NULL,
+  `hora` time DEFAULT NULL,
+  `equipo_local` varchar(100) DEFAULT NULL,
+  `equipo_visit` varchar(100) DEFAULT NULL,
+  `imagen` varchar(255) DEFAULT NULL,
   `lugar` varchar(150) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -92,9 +95,8 @@ CREATE TABLE `eventos` (
 -- Volcado de datos para la tabla `eventos`
 --
 
-INSERT INTO `eventos` (`id`, `nombre`, `fecha`, `lugar`) VALUES
-(5, 'Torneo Estatal', '2026-06-20', 'Cancha Local'),
-(6, 'Torneo Ana María Campos', '2026-05-12', 'Ana María Campos');
+INSERT INTO `eventos` (`id`, `nombre`, `fecha`, `hora`, `equipo_local`, `equipo_visit`, `imagen`, `lugar`) VALUES
+(13, 'Torneo flipante', '2026-06-18', '19:00:00', 'Centinelas', 'Caracas', 'evento_6a0bb6a4bdb5c.jpg', 'Ana Maria Campos');
 
 -- --------------------------------------------------------
 
@@ -116,10 +118,9 @@ CREATE TABLE `personas` (
 --
 
 INSERT INTO `personas` (`id`, `nombre`, `apellido`, `cedula`, `telefono`, `correo`) VALUES
-(7, 'Marco', 'Molina', '32046081', '04129063075', 'pro.marcomolina@gmail.com'),
-(8, 'Marquito', 'Molina', '1234566', '0123232323', 'asd@gmail.com'),
-(9, 'Reyniel', 'Fernandez', '1234569', '0123232323', 'asd@gmail.com'),
-(12, 'Marco', 'Fernandez', '32046082', '0123232323', 'centinelas@gmail.com');
+(23, 'Marco', 'Molina', '32046081', '04129063075', 'pro.marcomolina@gmail.com'),
+(25, 'Reyniel', 'Fernandez', '32046082', '04129063076', 'reycod@gmail.com'),
+(27, 'Fernando', 'Quintero', '32046083', '04129063077', 'fernandoj07@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -139,7 +140,7 @@ CREATE TABLE `representantes` (
 --
 
 INSERT INTO `representantes` (`id`, `persona_id`, `profesion`, `domicilio`) VALUES
-(4, 7, 'Pendejo', 'La Limpia');
+(14, 23, 'Plomero', 'La Limpia');
 
 -- --------------------------------------------------------
 
@@ -220,25 +221,25 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT de la tabla `estudiantes`
 --
 ALTER TABLE `estudiantes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de la tabla `eventos`
 --
 ALTER TABLE `eventos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `personas`
 --
 ALTER TABLE `personas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT de la tabla `representantes`
 --
 ALTER TABLE `representantes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`

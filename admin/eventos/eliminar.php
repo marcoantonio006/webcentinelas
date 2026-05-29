@@ -18,7 +18,7 @@ if (!$id) { header('Location: /centinela/admin/eventos/index.php'); exit; }
 $datos = Evento::findById($id);
 
 if ($datos) {
-    // Borrar la imagen del servidor antes de eliminar el registro
+     
     if (!empty($datos['imagen'])) {
         $ruta = __DIR__ . '/../../assets/img/eventos/' . $datos['imagen'];
         if (file_exists($ruta)) unlink($ruta);

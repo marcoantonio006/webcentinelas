@@ -57,5 +57,3 @@ $eventos = Evento::listar();
         </div>
     <?php endif; ?>
 </main>
-
-<?php include 'templates/footer.php'; ?>

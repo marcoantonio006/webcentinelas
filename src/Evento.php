@@ -2,7 +2,8 @@
 
 require_once __DIR__ . '/DB.php';
 
-class Evento {
+class Evento
+{
 
     private $id;
     private $nombre;
@@ -10,75 +11,92 @@ class Evento {
     private $hora;
     private $lugar;
     private $equipo_local;
-    private $equipo_visitante;
+    private $equipo_visit;
     private $imagen;
 
-    public function setId($id) {
+    public function setId($id)
+    {
         $this->id = $id;
     }
 
-    public function setNombre($nombre) {
+    public function setNombre($nombre)
+    {
         $this->nombre = $nombre;
     }
 
-    public function setFecha($fecha) {
+    public function setFecha($fecha)
+    {
         $this->fecha = $fecha;
     }
 
-    public function setHora($hora) {
+    public function setHora($hora)
+    {
         $this->hora = $hora;
     }
 
-    public function setLugar($lugar) {
+    public function setLugar($lugar)
+    {
         $this->lugar = $lugar;
     }
 
-    public function setEquipoLocal($equipo_local) {
+    public function setEquipoLocal($equipo_local)
+    {
         $this->equipo_local = $equipo_local;
     }
 
-    public function setEquipoVisit($equipo_visitante) {
-        $this->equipo_visitante = $equipo_visitante;
+    public function setEquipoVisit($equipo_visitante)
+    {
+        $this->equipo_visit = $equipo_visitante;
     }
 
-    public function setImagen($imagen) {
+    public function setImagen($imagen)
+    {
         $this->imagen = $imagen;
     }
 
-    
-    public function getId() {
+
+    public function getId()
+    {
         return $this->id;
     }
 
-    public function getNombre() {
+    public function getNombre()
+    {
         return $this->nombre;
     }
 
-    public function getFecha() {
+    public function getFecha()
+    {
         return $this->fecha;
     }
 
-    public function getHora() {
+    public function getHora()
+    {
         return $this->hora;
     }
 
-    public function getLugar() {
+    public function getLugar()
+    {
         return $this->lugar;
     }
 
-    public function getEquipoLocal() {
+    public function getEquipoLocal()
+    {
         return $this->equipo_local;
     }
 
-    public function getEquipoVisit() {
-        return $this->equipo_visitante;
+    public function getEquipoVisit()
+    {
+        return $this->equipo_visit;
     }
 
-    public function getImagen() {
+    public function getImagen()
+    {
         return $this->imagen;
     }
-    
-    public function guardar() {
+
+    public function guardar()
+    {
         $conn = DB::conectar();
 
         $sql = 'INSERT INTO eventos(nombre, fecha, hora, lugar, equipo_local, equipo_visit, imagen) VALUES(?, ?, ?, ?, ?, ?, ?)';
@@ -90,24 +108,26 @@ class Evento {
             $this->hora,
             $this->lugar,
             $this->equipo_local,
-            $this->equipo_visitante,
+            $this->equipo_visit,
             $this->imagen
         ];
 
-        $stmt->bind_param( 'sssssss', ...$datos );
+        $stmt->bind_param('sssssss', ...$datos);
 
         $stmt->execute();
         $this->id = $conn->insert_id;
     }
 
-    public function editar() {
+    public function editar()
+    {
         $conn = DB::conectar();
         $sql  = 'UPDATE eventos
                  SET nombre=?, fecha=?, hora=?, lugar=?,
                      equipo_local=?, equipo_visit=?, imagen=?
                  WHERE id=?';
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param('sssssssi',
+        $stmt->bind_param(
+            'sssssssi',
             $this->nombre,
             $this->fecha,
             $this->hora,
@@ -120,8 +140,9 @@ class Evento {
         $stmt->execute();
     }
 
-    
-    public static function listar() {
+
+    public static function listar()
+    {
         $conn = DB::conectar();
 
         $sql = 'SELECT * FROM eventos ORDER BY fecha ASC';
@@ -129,7 +150,8 @@ class Evento {
         return $conn->query($sql);
     }
 
-    public static function findById($id) {
+    public static function findById($id)
+    {
         $conn = DB::conectar();
 
         $sql = 'SELECT * FROM eventos WHERE id = ?';
@@ -140,7 +162,8 @@ class Evento {
         return $stmt->get_result()->fetch_assoc();
     }
 
-    public static function eliminar($id) {
+    public static function eliminar($id)
+    {
         $conn = DB::conectar();
 
         $sql = 'DELETE FROM eventos WHERE id = ?';

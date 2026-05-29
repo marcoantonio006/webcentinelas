@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/DB.php';
 
-class Categoria
+class MetodoPago
 {
 
     private $id;
@@ -13,12 +13,10 @@ class Categoria
     {
         $this->id = $id;
     }
-
     public function setNombre($nombre)
     {
         $this->nombre = $nombre;
     }
-
     public function setDescripcion($descripcion)
     {
         $this->descripcion = $descripcion;
@@ -28,27 +26,52 @@ class Categoria
     {
         return $this->id;
     }
-
     public function getNombre()
     {
         return $this->nombre;
     }
-
     public function getDescripcion()
     {
         return $this->descripcion;
     }
 
+    public function guardar(): bool
+    {
+        $conn = DB::conectar();
+
+        $sql = 'INSERT INTO metodos_pago(nombre, descripcion) VALUES(?, ?)';
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('ss', $this->nombre, $this->descripcion);
+
+        try {
+            $stmt->execute();
+            $this->id = $conn->insert_id;
+            return true;
+        } catch (mysqli_sql_exception $e) {
+            throw $e;
+        }
+    }
+
+    public function editar(): void
+    {
+        $conn = DB::conectar();
+
+        $sql = 'UPDATE metodos_pago SET nombre = ?, descripcion = ? WHERE id = ?';
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('ssi', $this->nombre, $this->descripcion, $this->id);
+        $stmt->execute();
+    }
+
     public static function listar()
     {
         $conn = DB::conectar();
-        return $conn->query('SELECT * FROM categorias ORDER BY nombre ASC');
+        return $conn->query('SELECT * FROM metodos_pago');
     }
 
     public static function findById($id)
     {
         $conn = DB::conectar();
-        $stmt = $conn->prepare('SELECT * FROM categorias WHERE id = ?');
+        $stmt = $conn->prepare('SELECT * FROM metodos_pago WHERE id = ?');
         $stmt->bind_param('i', $id);
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc();
@@ -57,35 +80,8 @@ class Categoria
     public static function eliminar($id): void
     {
         $conn = DB::conectar();
-        $stmt = $conn->prepare('DELETE FROM categorias WHERE id = ?');
+        $stmt = $conn->prepare('DELETE FROM metodos_pago WHERE id = ?');
         $stmt->bind_param('i', $id);
-        $stmt->execute();
-    }
-
-    public function guardar()
-    {
-        $conn = DB::conectar();
-
-        $sql = 'INSERT INTO categorias(nombre, descripcion) VALUES(?, ?)';
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param('ss', $this->nombre, $this->descripcion);
-
-        try {
-            $stmt->execute();
-            return true;
-        } catch (mysqli_sql_exception $e) {
-            if ($e->getCode() === 1062) return false;
-            throw $e;
-        }
-    }
-
-    public function editar()
-    {
-        $conn = DB::conectar();
-
-        $sql = 'UPDATE categorias SET nombre = ?, descripcion = ? WHERE id = ?';
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param('ssi', $this->nombre, $this->descripcion, $this->id);
         $stmt->execute();
     }
 }

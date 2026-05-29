@@ -44,11 +44,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $lugar_nacimiento = trim($_POST['lugar_nacimiento'] ?? '');
     $categoria_id = trim($_POST['categoria_id'] ?? '');
 
-    $rep_nombre    = trim($_POST['rep_nombre']    ?? '');
-    $rep_apellido  = trim($_POST['rep_apellido']  ?? '');
-    $rep_cedula    = trim($_POST['rep_cedula']    ?? '');
-    $rep_telefono  = trim($_POST['rep_telefono']  ?? '');
-    $rep_correo    = trim($_POST['rep_correo']    ?? '');
+    $rep_nombre = trim($_POST['rep_nombre']    ?? '');
+    $rep_apellido = trim($_POST['rep_apellido']  ?? '');
+    $rep_cedula = trim($_POST['rep_cedula']    ?? '');
+    $rep_telefono = trim($_POST['rep_telefono']  ?? '');
+    $rep_correo = trim($_POST['rep_correo']    ?? '');
     $rep_profesion = trim($_POST['rep_profesion'] ?? '');
     $rep_domicilio = trim($_POST['rep_domicilio'] ?? '');
 
@@ -286,27 +286,29 @@ include __DIR__ . '/../../templates/header.php';
 </main>
 
 <script>
-    const fechaActual        = '<?php echo $datos['fecha_nacimiento'] ?? ''; ?>';
-    const tieneRepresentante = <?php echo $datos['representante_id'] ? 'true' : 'false'; ?>;
+    document.addEventListener('DOMContentLoaded', () => {
+        const fechaActual = '<?php echo $datos['fecha_nacimiento'] ?? ''; ?>';
+        const tieneRepresentante = <?php echo $datos['representante_id'] ? 'true' : 'false'; ?>;
 
-    if (fechaActual) {
-        const edad      = calcularEdad(fechaActual);
-        const fieldset  = document.getElementById('fieldset-representante');
-        const checkbox  = document.getElementById('tiene-representante');
-        const filaCheck = document.getElementById('fila-checkbox-representante');
+        if (fechaActual) {
+            const edad = calcularEdad(fechaActual);  
+            const fieldset = document.getElementById('fieldset-representante');
+            const checkbox = document.getElementById('tiene-representante');
+            const filaCheck = document.getElementById('fila-checkbox-representante');
 
-        if (edad >= 18) {
-            filaCheck.style.display = '';
-            if (tieneRepresentante) {
-                checkbox.checked           = true;
-                fieldset.style.display     = '';
-                fieldset.dataset.requerido = 'si';
-            } else {
-                fieldset.style.display     = 'none';
-                fieldset.dataset.requerido = 'no';
+            if (edad >= 18) {
+                filaCheck.style.display = '';
+                if (tieneRepresentante) {
+                    checkbox.checked = true;   
+                    fieldset.style.display = '';
+                    fieldset.dataset.requerido = 'si';
+                } else {
+                    fieldset.style.display = 'none';
+                    fieldset.dataset.requerido = 'no';
+                }
             }
         }
-    }
+    });
 </script>
 
 <?php include __DIR__ . '/../../templates/footer.php'; ?>

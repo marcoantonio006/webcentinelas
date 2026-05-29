@@ -48,6 +48,19 @@ include '../templates/header.php';
                 </div>
             </div>
 
+            <div class="admin-card">
+                <div class="admin-card-header">
+                    <span class="card-icon">📅</span>
+                    <h2>Precios</h2>
+                </div>
+                <div class="admin-card-body">
+                    <p>Administrar el costo de la mensualidad, inscripciones y arbitraje que se va a mostrar en la vista pública.</p>
+                </div>
+                <div class="admin-card-footer">
+                    <a class="btn-card" href="../admin/planes/">Panel de Planes de Pago</a>
+                </div>
+            </div>
+
         </div>
         
     </main>

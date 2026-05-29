@@ -5,7 +5,7 @@
   --blanco-fondo: #FFFFFF;
   --celeste-primario: #00B0FF;
   --azul-interactivo: #007BB2;
-  --azul-oscuro: #000129;
+  --azul-oscuro: #000150;
   --texto-principal: #2d353a;
 }
 
@@ -117,11 +117,10 @@ h3 {
 }
 
 .error-js {
-    background-color: #ff0000;
+    background-color: #ffdddd;
     border-left: 6px solid #f44336;
     padding: 1rem;
     margin-bottom: 1rem;
-    color: white;
 }
 
 .seccion {
@@ -131,7 +130,7 @@ h3 {
 
 .boton {
     display: inline-block;
-    background-color: var(--azul-interactivo);
+    background-color: var(--azul-oscuro);
     color: white;
     padding: 1rem 2rem;
     margin: 1rem;
@@ -405,7 +404,7 @@ h3 {
 }
 
 .tabla thead {
-    background-color: var(--azul-interactivo);
+    background-color: var(--azul-oscuro);
     color: #fff;
 }
 
@@ -436,6 +435,7 @@ h3 {
     align-items: center;
     flex-wrap: wrap;
 }
+
 
 .boton-info {
     background-color: var(--celeste-primario);
@@ -582,11 +582,10 @@ h3 {
     }
 }
 
-/* ── Dropdown de acciones (móvil) ─────────── */
 
 .acciones-dropdown {
     position: relative;
-    display: none;        /* oculto en escritorio */
+    display: none;       
 }
 
 .acciones-dropdown-btn {
@@ -739,19 +738,18 @@ h3 {
     font-family: 'Google Sans', sans-serif;
 }
 
-/* ── Tarjetas de eventos ──────────────────────── */
 
 .eventos-grid {
     display: flex;
-    flex-direction: column;  /* una debajo de otra */
-    align-items: center;     /* centradas horizontalmente */
+    flex-direction: column; 
+    align-items: center;    
     gap: 2.5rem;
     margin-top: 2.5rem;
 }
 
 .evento-card {
     width: 100%;
-    max-width: 680px;        /* ancho máximo cómodo para leer */
+    max-width: 680px;        
     border-radius: 14px;
     overflow: hidden;
     box-shadow: 0 2px 12px rgba(0, 0, 0, .10);
@@ -762,10 +760,7 @@ h3 {
     transition: transform .2s, box-shadow .2s;
 }
 
-.evento-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, .14);
-}
+
 
 .evento-card-img {
     width: 100%;
@@ -798,7 +793,7 @@ h3 {
     font-weight: 700;
     margin: 0;
     color: var(--azul-oscuro);
-    text-align: left;       /* anula el text-align: center global de h2 */
+    text-align: left;       
 }
 
 .evento-card-enfrentamiento {
@@ -847,7 +842,6 @@ h3 {
     border-top: 1px solid #eee;
 }
 
-/* ── Móvil: las tarjetas ya ocupan todo el ancho ─ */
 @media (max-width: 600px) {
     .evento-card {
         max-width: 100%;
@@ -856,5 +850,76 @@ h3 {
 
     .evento-card-body {
         padding: 1.6rem;
+    }
+}
+
+.planes-seccion,
+.metodos-seccion {
+    margin-top: 4rem;
+}
+
+.planes-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.plan-tarjeta {
+    background: #fff;
+    border-radius: 8px;
+    padding: 3rem 2rem;
+    text-align: center;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    border-top: 4px solid var(--celeste-primario);
+    transition: transform 0.2s;
+    flex: 0 1 200px; 
+    min-width: 160px;
+}
+
+.metodos-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.metodo-tarjeta {
+    background: #fff;
+    border-radius: 8px;
+    padding: 2.5rem;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    border-left: 4px solid var(--azul-interactivo);
+    flex: 0 1 280px;   
+    min-width: 220px;
+}
+
+.metodo-nombre {
+    font-size: 1.8rem;
+    color: var(--texto-principal);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    text-align: left;
+}
+
+.metodo-nombre i {
+    color: var(--azul-interactivo);
+    font-size: 1.6rem;
+}
+
+.metodo-descripcion {
+    font-size: 1.5rem;
+    color: #666;
+    line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+    .plan-tarjeta,
+    .metodo-tarjeta {
+        flex: 1 1 100%;  
     }
 }

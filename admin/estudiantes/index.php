@@ -60,7 +60,7 @@ include __DIR__ . '/../../templates/header.php';
                     </tr>
                 </thead>
                 <tbody>
-                    <?php while ($estudiante = $estudiantes->fetch_assoc()) : ?>
+                    <?php while ($estudiante = $estudiantes->fetch_assoc()) : ?> 
                         <tr data-categoria="<?php echo htmlspecialchars($estudiante['categoria_nombre'] ?? ''); ?>">
                             <td><?php echo htmlspecialchars($estudiante['nombre']); ?></td>
                             <td><?php echo htmlspecialchars($estudiante['apellido']); ?></td>

@@ -12,27 +12,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!CSRF::verificar()) die('Petición no válida');
 
-    $nombre       = trim($_POST['nombre']       ?? '');
-    $fecha        = trim($_POST['fecha']        ?? '');
-    $hora         = trim($_POST['hora']         ?? '');
-    $lugar        = trim($_POST['lugar']        ?? '');
+    $nombre = trim($_POST['nombre'] ?? '');
+    $fecha = trim($_POST['fecha'] ?? '');
+    $hora = trim($_POST['hora'] ?? '');
+    $lugar = trim($_POST['lugar'] ?? '');
     $equipo_local = trim($_POST['equipo_local'] ?? '');
     $equipo_visit = trim($_POST['equipo_visit'] ?? '');
 
-    // ── Validaciones ──────────────────────────────
+    
     if ($nombre === '') $errores[] = 'El nombre del evento es obligatorio';
-    if ($fecha  === '') $errores[] = 'La fecha es obligatoria';
-    if ($lugar  === '') $errores[] = 'El lugar es obligatorio';
+    if ($fecha === '') $errores[] = 'La fecha es obligatoria';
+    if ($lugar === '') $errores[] = 'El lugar es obligatorio';
 
-    // ── Manejo de imagen ──────────────────────────
+    
     $nombreImagen = null;
 
     if (!empty($_FILES['imagen']['name'])) {
 
-        $archivo   = $_FILES['imagen'];
+        $archivo = $_FILES['imagen'];
         $extension = strtolower(pathinfo($archivo['name'], PATHINFO_EXTENSION));
         $permitidas = ['jpg', 'jpeg', 'png', 'webp'];
-        $maxBytes   = 2 * 1024 * 1024; // 2 MB
+        $maxBytes = 2 * 1024 * 1024; // 2 MB
 
         if (!in_array($extension, $permitidas)) {
             $errores[] = 'La imagen debe ser JPG, PNG o WEBP';
@@ -41,14 +41,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } elseif ($archivo['error'] !== UPLOAD_ERR_OK) {
             $errores[] = 'Error al subir la imagen';
         } else {
-            // Nombre único para evitar colisiones entre archivos
+            
             $nombreImagen = uniqid('evento_') . '.' . $extension;
         }
     }
 
     if (empty($errores)) {
 
-        // Mover la imagen a su carpeta definitiva SOLO si no hubo errores
+        
         if ($nombreImagen) {
             $destino = __DIR__ . '/../../assets/img/eventos/' . $nombreImagen;
             move_uploaded_file($_FILES['imagen']['tmp_name'], $destino);
@@ -81,7 +81,7 @@ include __DIR__ . '/../../templates/header.php';
         <p class="errores"><?php echo htmlspecialchars($e); ?></p>
     <?php endforeach; ?>
 
-    <!-- enctype es OBLIGATORIO para subir archivos -->
+    
     <form class="formulario" method="POST" enctype="multipart/form-data"
           onsubmit="return validarEvento()">
         <?php echo CSRF::campo(); ?>

@@ -81,5 +81,3 @@ include __DIR__ . '/../../templates/header.php';
         </div>
     <?php endif; ?>
 </main>
-
-<?php include __DIR__ . '/../../templates/footer.php'; ?>

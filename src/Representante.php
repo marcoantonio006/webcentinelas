@@ -2,46 +2,76 @@
 
 require_once __DIR__ . '/DB.php';
 
-class Representante {
+class Representante
+{
 
     private $id;
     private $persona_id;
     private $profesion;
     private $domicilio;
 
-    public function setId($id) { $this->id = $id; }
-    public function setPersonaId($persona_id) { $this->persona_id = $persona_id; }
-    public function setProfesion($profesion) { $this->profesion = $profesion; }
-    public function setDomicilio($domicilio) { $this->domicilio = $domicilio; }
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
 
-    public function getId() { return $this->id; }
-    public function getPersonaId() { return $this->persona_id; }
-    public function getProfesion() { return $this->profesion; }
-    public function getDomicilio() { return $this->domicilio; }
+    public function setPersonaId($persona_id)
+    {
+        $this->persona_id = $persona_id;
+    }
 
-    public function guardar() {
+    public function setProfesion($profesion)
+    {
+        $this->profesion = $profesion;
+    }
+
+    public function setDomicilio($domicilio)
+    {
+        $this->domicilio = $domicilio;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getPersonaId()
+    {
+        return $this->persona_id;
+    }
+
+    public function getProfesion()
+    {
+        return $this->profesion;
+    }
+
+    public function getDomicilio()
+    {
+        return $this->domicilio;
+    }
+
+    public function guardar()
+    {
         $conn = DB::conectar();
 
         $sql = 'INSERT INTO representantes(persona_id, profesion, domicilio)
                 VALUES(?, ?, ?)';
 
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param('iss',
+        $stmt->bind_param(
+            'iss',
             $this->persona_id,
             $this->profesion,
             $this->domicilio
         );
 
-        try {
-            $stmt->execute();
-            $this->id = $conn->insert_id;
-            return true;
-        } catch (mysqli_sql_exception $e) {
-            throw $e;
-        }
+        $stmt->execute();
+        $this->id = $conn->insert_id;
+        return true;
     }
 
-    public function editar() {
+    public function editar()
+    {
         $conn = DB::conectar();
 
         $sql = 'UPDATE representantes SET
@@ -49,7 +79,8 @@ class Representante {
                 WHERE id = ?';
 
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param('ssi',
+        $stmt->bind_param(
+            'ssi',
             $this->profesion,
             $this->domicilio,
             $this->id
@@ -58,7 +89,8 @@ class Representante {
         $stmt->execute();
     }
 
-    public static function findById($id) {
+    public static function findById($id)
+    {
         $conn = DB::conectar();
 
         $sql = 'SELECT r.*, p.nombre, p.apellido, p.cedula,
@@ -73,7 +105,8 @@ class Representante {
         return $stmt->get_result()->fetch_assoc();
     }
 
-    public static function findByPersonaCedula($cedula) {
+    public static function findByPersonaCedula($cedula)
+    {
         $conn = DB::conectar();
 
         $sql = 'SELECT r.*
@@ -87,7 +120,26 @@ class Representante {
         return $stmt->get_result()->fetch_assoc();
     }
 
-    public static function eliminar($id): void {
+    public static function estaHuerfano($representante_id)
+    {
+        $conn = DB::conectar();
+        $stmt = $conn->prepare(
+            'SELECT COUNT(*) FROM estudiantes WHERE representante_id = ?'
+        );
+        $stmt->bind_param('i', $representante_id);
+        $stmt->execute();
+        $resultado = $stmt->get_result();
+
+        $total = 0;
+        while ($fila = $resultado->fetch_row()) {
+            $total += $fila[0];
+        }
+
+        return $total === 0;
+    }
+
+    public static function eliminar($id)
+    {
         $conn = DB::conectar();
         $stmt = $conn->prepare('DELETE FROM representantes WHERE id = ?');
         $stmt->bind_param('i', $id);

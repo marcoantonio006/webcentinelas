@@ -48,11 +48,8 @@ class Constancia {
         $pdf->SetAutoPageBreak(true, 10);
         $pdf->AddPage();
 
-        $lh = 5.0;
-
-        // ── Helpers de escritura ──────────────────────────────────────────
-
-        // Texto estático — regular, sin negrita
+        $lh = 5.0; 
+         
         $n = function(string $texto) use ($pdf, $lh) {
             $pdf->SetFont('Arial', '', 10);
             $pdf->Write($lh, txt($texto));
@@ -60,21 +57,19 @@ class Constancia {
 
         
         $bu = function($valor, $vacio = '_____________________') use ($pdf, $lh, $n) {
-            $pdf->SetFont('Arial', 'B', 10);  // ← ANTES de escribir
+            $pdf->SetFont('Arial', 'B', 10);    
             $pdf->Write($lh, txt($valor ?: $vacio));
-            $pdf->SetFont('Arial', '', 10);    // ← reset a regular DESPUÉS
+            $pdf->SetFont('Arial', '', 10);     
         };
-
-        // Etiquetas del documento — negrita, vuelve a regular después
+ 
         $b = function(string $texto) use ($pdf, $lh) {
             $pdf->SetFont('Arial', 'B', 10);
             $pdf->Write($lh, txt($texto));
-            $pdf->SetFont('Arial', '', 10);    // ← reset que faltaba antes
+            $pdf->SetFont('Arial', '', 10);     
         };
 
         $n_at = ($nombre_atleta && $apellido_atleta) ? "$nombre_atleta $apellido_atleta" : '';
-
-        // ── Encabezado ────────────────────────────────────────────────────
+ 
         $logo = __DIR__ . '/../assets/img/favicon.png';
         if (file_exists($logo)) {
             $pdf->Image($logo, 14, 8, 30);
@@ -95,16 +90,14 @@ class Constancia {
         $pdf->Cell(142, 4.5, txt('Registrada en el Instituto Regional de Deportes del Estado Zulia'), 0, 1, 'C');
 
         $pdf->Ln(5);
-
-        // ── Fecha ─────────────────────────────────────────────────────────
+ 
         $pdf->SetTextColor(0, 0, 0);
         $diaFmt = $dia_emision ?: '___';
         $mesFmt = $mes_emision ?: '__________';
         $pdf->SetFont('Arial', '', 10);
         $pdf->Cell(0, $lh, txt("Maracaibo, $diaFmt de $mesFmt $anio_emision"), 0, 1, 'R');
         $pdf->Ln(3);
-
-        // ── Destinatario ──────────────────────────────────────────────────
+ 
         $b('LCDO (A): ');
         $bu($institucion_destino, '___________________________________');
         $pdf->Ln($lh);
@@ -112,15 +105,11 @@ class Constancia {
         $pdf->Ln($lh);
         $b('SU DESPACHO');
         $pdf->Ln(5);
-
-        // ── Título ────────────────────────────────────────────────────────
+ 
         $pdf->SetFont('Arial', 'B', 13);
         $pdf->Cell(0, 7, 'CONSTANCIA', 0, 1, 'C');
         $pdf->Ln(2);
-
-        // ── Párrafo 1 ─────────────────────────────────────────────────────
-        // Texto estático = regular | Datos formulario = bold+underline
-        // No se puede justificar porque mezcla fonts (limitación de FPDF)
+ 
         $n('        Muy respetados señores, reciban un cordial saludo de parte de la ');
         $b('ACADEMIA DE VOLEIBOL CLUB CENTINELAS');
         $n(', a la vez el mejor deseo de exito en el ambiente laboral; La presente tiene la finalidad de solicitarle el permiso para el (la), ');
@@ -155,8 +144,7 @@ class Constancia {
         $bu($mes_torneo, '______________');
         $n(' del ' . $anio_emision . '.');
         $pdf->Ln(5);
-
-        // ── Párrafo 2 — representante o atleta mayor ──────────────────────
+ 
         if ($tiene_representante) {
             $n('Yo, ');
             $bu($nombre_representante, '___________________________');
@@ -209,17 +197,14 @@ class Constancia {
             $pdf->Write($lh, txt('Firma Del Atleta'));
             $pdf->Ln(5);
         }
-
-        // ── Línea de expedición ───────────────────────────────────────────
+ 
         $n('Constancia que se expide a peticion de la parte interesada en esta ciudad de Caracas, a los ');
         $bu($dia_emision, '___');
         $n(' dia del mes ');
         $bu($mes_emision, '__________');
         $n(' del ' . $anio_emision . '.');
         $pdf->Ln(5);
-
-        // ── Base legal — usa MultiCell con justificación ──────────────────
-        // Aquí sí se puede justificar porque todo el texto es del mismo font
+ 
         $lhs = 3.8;
         $pdf->SetFont('Arial', 'B', 7);
         $pdf->Cell(0, 4.5, txt('En esta solicitud se fundamenta en las normas juridicas contempladas en:'), 0, 1, 'C');
@@ -230,8 +215,7 @@ class Constancia {
         $pdf->Ln($lhs);
         $pdf->Write($lhs, txt('LEY ORGANICA DEL DEPORTE. ACTIVIDAD FISICA Y EDUCACION FISICA.'));
         $pdf->Ln($lhs);
-
-        // 'J' = justificado
+ 
         $pdf->MultiCell(0, $lhs, txt('Articulo 14. Son derechos que aseguran la practica del Deporte, Actividad Fisico Y la Educacion fisica de todas las personas:'), 0, 'J');
         $pdf->MultiCell(0, $lhs, txt('Ordinal 5. El de permisos para las (os) Trabajadoras (es) y estudiantes del Sistema Educativo Nacional que sean seleccionados (as) para representar al pais. Al Estado o Municipio en competiciones Internacionales, Nacionales, Estadales o Municipales. Dichos permisos no excederen de noventa dias: en el caso de los trabajadores (as) seran remunerados.'), 0, 'J');
 
@@ -246,8 +230,7 @@ class Constancia {
         $pdf->SetX(20);
         $pdf->MultiCell(152, $lhs, txt('1.  NEGARSE A CONCEDER EL PERMISO A LOS ESTUDIANTES O TRABAJADORES Y TRABAJADORAS PARA SU PREPARACION Y PARTICIPACION EN EVENTOS COMPETITIVOS.'), 0, 'J');
         $pdf->Ln(2);
-
-        // ── Firmas finales ────────────────────────────────────────────────
+ 
         $yF = $pdf->GetY();
         $pdf->SetLineWidth(0.4);
         $pdf->SetDrawColor(0, 0, 0);
@@ -268,8 +251,7 @@ class Constancia {
         $pdf->SetFont('Arial', 'I', 8);
         $pdf->SetTextColor(150, 150, 150);
         $pdf->Cell(60, 5, txt('Sello de la institucion'), 0, 1, 'C');
-
-        // ── Generar PDF ───────────────────────────────────────────────────
+ 
         $nombreArchivo = 'permiso_' . $nombre_atleta . '_' . $apellido_atleta . '.pdf';
         $pdf->Output('I', $nombreArchivo);
         exit;

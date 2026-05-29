@@ -1,6 +1,11 @@
 <?php
 
 $inicio = true;
+require_once __DIR__ . '/src/PlanPagos.php';
+require_once __DIR__ . '/src/MetodoPago.php';
+
+$planes  = PlanPagos::listar();
+$metodos = MetodoPago::listar();
 include 'templates/header.php';
 
 ?>
@@ -28,37 +33,62 @@ include 'templates/header.php';
                             </svg>
                             Nuestro Instagram
                         </a>
-                        </div>
+                    </div>
                 </div>
-                
-            <!-- <h2>Planes de pago</h2>
-            <p class="parrafo">Puedes formar parte de nuestra academia por tan solo 15 $ al mes y 5 $ de inscripción. Recibimos el dolar a tasa promedio !</p> -->
-                
-                
-                
+
+                <?php if ($planes->num_rows > 0) : ?>
+        <section class="contenedor planes-seccion">
+            <h2>Nuestros Planes</h2>
+            <div class="planes-grid">
+                <?php while ($plan = $planes->fetch_assoc()) : ?>
+                    <div class="plan-tarjeta">
+                        <h3 class="plan-nombre">
+                            <?php echo htmlspecialchars($plan['nombre']); ?>
+                        </h3>
+                        <p class="plan-precio">
+                            $<?php echo number_format($plan['precio'], 2); ?>
+                        </p>
+                    </div>
+                <?php endwhile; ?>
+            </div>
+        </section>
+        <?php endif; ?>
+
+        <?php if ($metodos->num_rows > 0) : ?>
+        <section class="contenedor metodos-seccion">
+            <h2>Métodos de Pago</h2>
+            <div class="metodos-grid">
+                <?php while ($metodo = $metodos->fetch_assoc()) : ?>
+                    <div class="metodo-tarjeta">
+                        <h3 class="metodo-nombre">
+                            <i class="fa-solid fa-credit-card"></i>
+                            <?php echo htmlspecialchars($metodo['nombre']); ?>
+                        </h3>
+                        <p class="metodo-descripcion">
+                            <?php echo nl2br(htmlspecialchars($metodo['descripcion'] ?? '')); ?>
+                        </p>
+                    </div>
+                <?php endwhile; ?>
+            </div>
+        </section>
+        <?php endif; ?>
             </div>
 
             <div class="seccion">
                 <aside class="aside" style="display: flex; flex-direction: column; align-items: center;">
-
-                <a href="https://www.instagram.com/centinelasvoley/" target="_blank">
-                    <img class="imagenesacademia sombra" src="/centinela/assets/img/imagenacademia.png" alt="Imagen de la academia">
-                </a>
-                <a href="https://www.instagram.com/centinelasvoley/" target="_blank">
-                    <img class="imagenesacademia sombra" src="/centinela/assets/img/imagenacademia2.png" alt="Imagen de la academia">
-                </a>
-                <a href="https://www.instagram.com/centinelasvoley/" target="_blank">
-                    <img class="imagenesacademia sombra" src="/centinela/assets/img/imagenacademia3.png" alt="Imagen de la academia">
-                </a>
-
+                    <a href="https://www.instagram.com/centinelasvoley/" target="_blank">
+                        <img class="imagenesacademia sombra" src="/centinela/assets/img/imagenacademia.png" alt="Imagen de la academia">
+                    </a>
+                    <a href="https://www.instagram.com/centinelasvoley/" target="_blank">
+                        <img class="imagenesacademia sombra" src="/centinela/assets/img/imagenacademia2.png" alt="Imagen de la academia">
+                    </a>
+                    <a href="https://www.instagram.com/centinelasvoley/" target="_blank">
+                        <img class="imagenesacademia sombra" src="/centinela/assets/img/imagenacademia3.png" alt="Imagen de la academia">
+                    </a>
                 </aside>
             </div>
+        </main>
 
-        </main> 
-    
+        
 
-<?php
-
-include 'templates/footer.php';
-
-?>
+<?php include 'templates/footer.php'; ?>

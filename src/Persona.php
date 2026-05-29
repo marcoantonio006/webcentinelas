@@ -2,7 +2,8 @@
 
 require_once __DIR__ . '/DB.php';
 
-class Persona {
+class Persona
+{
 
     private $id;
     private $nombre;
@@ -11,28 +12,66 @@ class Persona {
     private $telefono;
     private $correo;
 
-    public function setId($id) { $this->id = $id; }
-    public function setNombre($nombre) { $this->nombre = $nombre; }
-    public function setApellido($apellido) { $this->apellido = $apellido; }
-    public function setCedula($cedula) { $this->cedula = $cedula; }
-    public function setTelefono($telefono) { $this->telefono = $telefono; }
-    public function setCorreo($correo) { $this->correo = $correo; }
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+    public function setNombre($nombre)
+    {
+        $this->nombre = $nombre;
+    }
+    public function setApellido($apellido)
+    {
+        $this->apellido = $apellido;
+    }
+    public function setCedula($cedula)
+    {
+        $this->cedula = $cedula;
+    }
+    public function setTelefono($telefono)
+    {
+        $this->telefono = $telefono;
+    }
+    public function setCorreo($correo)
+    {
+        $this->correo = $correo;
+    }
 
-    public function getId() { return $this->id; }
-    public function getNombre() { return $this->nombre; }
-    public function getApellido() { return $this->apellido; }
-    public function getCedula() { return $this->cedula; }
-    public function getTelefono() { return $this->telefono; }
-    public function getCorreo() { return $this->correo; }
+    public function getId()
+    {
+        return $this->id;
+    }
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
+    public function getApellido()
+    {
+        return $this->apellido;
+    }
+    public function getCedula()
+    {
+        return $this->cedula;
+    }
+    public function getTelefono()
+    {
+        return $this->telefono;
+    }
+    public function getCorreo()
+    {
+        return $this->correo;
+    }
 
-    public function guardar() {
+    public function guardar()
+    {
         $conn = DB::conectar();
 
         $sql = 'INSERT INTO personas(nombre, apellido, cedula, telefono, correo)
                 VALUES(?, ?, ?, ?, ?)';
 
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param('sssss',
+        $stmt->bind_param(
+            'sssss',
             $this->nombre,
             $this->apellido,
             $this->cedula,
@@ -50,7 +89,8 @@ class Persona {
         }
     }
 
-    public function editar() {
+    public function editar()
+    {
         $conn = DB::conectar();
 
         $sql = 'UPDATE personas SET
@@ -59,7 +99,8 @@ class Persona {
                 WHERE id = ?';
 
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param('sssssi',
+        $stmt->bind_param(
+            'sssssi',
             $this->nombre,
             $this->apellido,
             $this->cedula,
@@ -78,7 +119,8 @@ class Persona {
         }
     }
 
-    public static function findById($id) {
+    public static function findById($id)
+    {
         $conn = DB::conectar();
         $stmt = $conn->prepare('SELECT * FROM personas WHERE id = ?');
         $stmt->bind_param('i', $id);
@@ -86,7 +128,9 @@ class Persona {
         return $stmt->get_result()->fetch_assoc();
     }
 
-    public static function findByCedula($cedula) {
+
+    public static function findByCedula($cedula)
+    {
         $conn = DB::conectar();
         $stmt = $conn->prepare('SELECT * FROM personas WHERE cedula = ?');
         $stmt->bind_param('s', $cedula);
@@ -94,14 +138,16 @@ class Persona {
         return $stmt->get_result()->fetch_assoc();
     }
 
-    public static function eliminar($id): void {
+    public static function eliminar($id)
+    {
         $conn = DB::conectar();
         $stmt = $conn->prepare('DELETE FROM personas WHERE id = ?');
         $stmt->bind_param('i', $id);
         $stmt->execute();
     }
 
-    public static function estaHuerfana($id): bool {
+    public static function estaHuerfana($id)
+    {
         $conn = DB::conectar();
 
         $stmt = $conn->prepare('
