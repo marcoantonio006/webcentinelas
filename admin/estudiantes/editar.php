@@ -78,80 +78,79 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($errores)) {
 
-        $persona = new Persona();
-        $persona->setId($datos['persona_id']);
-        $persona->setNombre($nombre);
-        $persona->setApellido($apellido);
-        $persona->setCedula($cedula);
-        $persona->setTelefono($telefono);
-        $persona->setCorreo($correo);
-        $persona->editar();
+        $personaExistente = Persona::findByCedula($cedula);
 
-        $representante_id = null;
+        if ($personaExistente && $personaExistente['id'] !== $datos['persona_id']) {
+            $errores[] = 'Ya existe otro atleta o persona registrada con esa cédula';
+        } else {
+            $persona = new Persona();
+            $persona->setId($datos['persona_id']);
+            $persona->setNombre($nombre);
+            $persona->setApellido($apellido);
+            $persona->setCedula($cedula);
+            $persona->setTelefono($telefono);
+            $persona->setCorreo($correo);
+            
+            if (!$persona->editar()) {
+                $errores[] = 'Ya existe una persona con esa cédula';
+            }
+        }
 
-        if (!$esMayor || $tiene_representante) {
+        if (empty($errores)) {
+            $representante_id = null;
 
-            $personaRep = Persona::findByCedula($rep_cedula);
+            if (!$esMayor || $tiene_representante) {
+                $personaRep = Persona::findByCedula($rep_cedula);
 
-            if ($personaRep) {
-                $repExistente = Representante::findByPersonaCedula($rep_cedula);
+                if ($personaRep) {
+                    $repExistente = Representante::findByPersonaCedula($rep_cedula);
 
-                if ($repExistente) {
-                    $rep = new Representante();
-                    $rep->setId($repExistente['id']);
-                    $rep->setPersonaId($personaRep['id']);
-                    $rep->setProfesion($rep_profesion);
-                    $rep->setDomicilio($rep_domicilio);
-                    $rep->editar();
-                    $representante_id = $repExistente['id'];
+                    if ($repExistente) {
+                        $rep = new Representante();
+                        $rep->setId($repExistente['id']);
+                        $rep->setPersonaId($personaRep['id']);
+                        $rep->setProfesion($rep_profesion);
+                        $rep->setDomicilio($rep_domicilio);
+                        $rep->editar();
+                        $representante_id = $repExistente['id'];
+                    } else {
+                        $rep = new Representante();
+                        $rep->setPersonaId($personaRep['id']);
+                        $rep->setProfesion($rep_profesion);
+                        $rep->setDomicilio($rep_domicilio);
+                        $rep->guardar();
+                        $representante_id = $rep->getId();
+                    }
                 } else {
+                    $personaNueva = new Persona();
+                    $personaNueva->setNombre($rep_nombre);
+                    $personaNueva->setApellido($rep_apellido);
+                    $personaNueva->setCedula($rep_cedula);
+                    $personaNueva->setTelefono($rep_telefono);
+                    $personaNueva->setCorreo($rep_correo);
+                    $personaNueva->guardar();
+
                     $rep = new Representante();
-                    $rep->setPersonaId($personaRep['id']);
+                    $rep->setPersonaId($personaNueva->getId());
                     $rep->setProfesion($rep_profesion);
                     $rep->setDomicilio($rep_domicilio);
                     $rep->guardar();
                     $representante_id = $rep->getId();
                 }
-            } else {
-                $personaNueva = new Persona();
-                $personaNueva->setNombre($rep_nombre);
-                $personaNueva->setApellido($rep_apellido);
-                $personaNueva->setCedula($rep_cedula);
-                $personaNueva->setTelefono($rep_telefono);
-                $personaNueva->setCorreo($rep_correo);
-                $personaNueva->guardar();
-
-                $rep = new Representante();
-                $rep->setPersonaId($personaNueva->getId());
-                $rep->setProfesion($rep_profesion);
-                $rep->setDomicilio($rep_domicilio);
-                $rep->guardar();
-                $representante_id = $rep->getId();
             }
-        }
 
-        
-        $representante_anterior_id = $datos['representante_id'];
+            $representante_anterior_id = $datos['representante_id'];
 
-        $atleta = new Estudiante();
-        $atleta->setId($id);
-        $atleta->setPersonaId($datos['persona_id']);
-        $atleta->setCategoriaId($categoria_id);
-        $atleta->setRepresentanteId($representante_id);
-        $atleta->setFechaNacimiento($fecha_nacimiento);
-        $atleta->setLugarNacimiento($lugar_nacimiento);
-        $atleta->editar();
+            $atleta = new Estudiante();
+            $atleta->setId($id);
+            $atleta->setPersonaId($datos['persona_id']);
+            $atleta->setCategoriaId($categoria_id);
+            $atleta->setRepresentanteId($representante_id);
+            $atleta->setFechaNacimiento($fecha_nacimiento);
+            $atleta->setLugarNacimiento($lugar_nacimiento);
+            $atleta->editar();
 
-        if (!$persona->editar()) {
-            $errores[] = 'Ya existe otra persona registrada con esa cédula';
-        }       
-
-        if(empty($errores)){
-
-            if (
-                $representante_anterior_id &&
-                $representante_anterior_id !== $representante_id
-            ) {
+            if ($representante_anterior_id && $representante_anterior_id !== $representante_id) {
                 $conn = DB::conectar();
                 $stmt = $conn->prepare('SELECT COUNT(*) FROM estudiantes WHERE representante_id = ?');
                 $stmt->bind_param('i', $representante_anterior_id);
@@ -172,11 +171,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
 
-
+            header('Location: /centinela/admin/estudiantes/index.php');
+            exit;
         }
-
-        header('Location: /centinela/admin/estudiantes/index.php');
-        exit;
     }
 }
 
