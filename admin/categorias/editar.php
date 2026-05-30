@@ -12,10 +12,10 @@ if (!$auth) {
 require_once __DIR__ . '/../../src/Categoria.php';
 require_once __DIR__ . '/../../src/CSRF.php';
 
-$id = $_GET['id'] ?? null;
+$id = (int)($_GET['id'] ?? 0);
 
 if (!$id) {
-    header('Location: /centinela/admin/estudiantes/index.php');
+    header('Location: /centinela/admin/categorias/index.php'); 
     exit;
 }
 
@@ -26,14 +26,13 @@ if (!$datos) {
     exit;
 }
 
-
 $errores = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!CSRF::verificar()) die('Petición no válida');
 
-    $nombre = trim($_POST['nombre']      ?? '');
+    $nombre = trim($_POST['nombre'] ?? '');
     $descripcion = trim($_POST['descripcion'] ?? '');
 
     if ($nombre === '') $errores[] = 'El nombre es obligatorio';
@@ -41,15 +40,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($errores)) {
         $categoria = new Categoria();
+        $categoria->setId($id);           
         $categoria->setNombre($nombre);
         $categoria->setDescripcion($descripcion);
+        $categoria->editar();             
 
-        if (!$categoria->guardar()) {
-            $errores[] = 'Ya existe una categoría con ese nombre';
-        } else {
-            header('Location: /centinela/admin/categorias/index.php');
-            exit;
-        }
+        header('Location: /centinela/admin/categorias/index.php');
+        exit;
     }
 }
 
@@ -57,7 +54,7 @@ include __DIR__ . '/../../templates/header.php';
 ?>
 
 <main class="contenedor seccion">
-    <h1>Nueva Categoría</h1>
+    <h1>Editar Categoría</h1>
 
     <a class="boton" href="/centinela/admin/categorias/index.php">← Volver</a>
 
@@ -82,6 +79,8 @@ include __DIR__ . '/../../templates/header.php';
                 rows="3"><?php echo htmlspecialchars($_POST['descripcion'] ?? $datos['descripcion']); ?></textarea>
         </fieldset>
 
-        <button class="boton" type="submit">Guardar categoría</button>
+        <button class="boton" type="submit">Guardar cambios</button>
     </form>
 </main>
+
+<?php include __DIR__ . '/../../templates/footer.php'; ?>

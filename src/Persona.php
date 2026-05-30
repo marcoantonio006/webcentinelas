@@ -111,7 +111,6 @@ class Persona
 
         try {
             $stmt->execute();
-            $this->id = $conn->insert_id;
             return true;
         } catch (mysqli_sql_exception $e) {
             if ($e->getCode() === 1062) return false;

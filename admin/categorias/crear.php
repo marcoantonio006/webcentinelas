@@ -70,3 +70,5 @@ include __DIR__ . '/../../templates/header.php';
         <button class="boton" type="submit">Guardar categoría</button>
     </form>
 </main>
+
+<?php include __DIR__ . '/../../templates/footer.php'; ?>

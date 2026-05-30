@@ -1,4 +1,4 @@
-<footer class="footer seccion">
+<footer class="footer">
     <div class="contenedor">
         <nav class="navegacion">
             <a href="/centinela/eventos.php">Eventos</a>

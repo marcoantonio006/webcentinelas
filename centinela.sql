@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-05-2026 a las 03:05:22
+-- Tiempo de generación: 29-05-2026 a las 17:49:37
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -96,7 +96,30 @@ CREATE TABLE `eventos` (
 --
 
 INSERT INTO `eventos` (`id`, `nombre`, `fecha`, `hora`, `equipo_local`, `equipo_visit`, `imagen`, `lugar`) VALUES
-(13, 'Torneo flipante', '2026-06-18', '19:00:00', 'Centinelas', 'Caracas', 'evento_6a0bb6a4bdb5c.jpg', 'Ana Maria Campos');
+(13, 'Torneo flipante', '2026-06-18', '19:00:00', 'Centinelas', 'Caracas', 'evento_6a0bb6a4bdb5c.jpg', 'Ana Maria Campos'),
+(15, 'Final Torneo Zulia', '2026-07-18', '14:00:00', 'asd', 'dsa', 'evento_6a0e520b8c016.jpg', 'Cancha Rotaria');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `metodos_pago`
+--
+
+CREATE TABLE `metodos_pago` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `descripcion` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `metodos_pago`
+--
+
+INSERT INTO `metodos_pago` (`id`, `nombre`, `descripcion`) VALUES
+(1, 'Pago Movil', '04129090909\r\nV-32323323\r\nBNC'),
+(2, 'Binance', 'id: 123123123213123'),
+(3, 'Fiao', 'Buena Fe'),
+(4, 'Zelle', 'Alias: centinelasvoley');
 
 -- --------------------------------------------------------
 
@@ -121,6 +144,27 @@ INSERT INTO `personas` (`id`, `nombre`, `apellido`, `cedula`, `telefono`, `corre
 (23, 'Marco', 'Molina', '32046081', '04129063075', 'pro.marcomolina@gmail.com'),
 (25, 'Reyniel', 'Fernandez', '32046082', '04129063076', 'reycod@gmail.com'),
 (27, 'Fernando', 'Quintero', '32046083', '04129063077', 'fernandoj07@gmail.com');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `planes`
+--
+
+CREATE TABLE `planes` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `precio` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `planes`
+--
+
+INSERT INTO `planes` (`id`, `nombre`, `precio`) VALUES
+(1, 'Pago Mensual', 20.00),
+(2, 'Primera Inscripción', 5.00),
+(3, 'Arbitraje por partido', 2.00);
 
 -- --------------------------------------------------------
 
@@ -187,11 +231,23 @@ ALTER TABLE `eventos`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `metodos_pago`
+--
+ALTER TABLE `metodos_pago`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `personas`
 --
 ALTER TABLE `personas`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `cedula` (`cedula`);
+
+--
+-- Indices de la tabla `planes`
+--
+ALTER TABLE `planes`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `representantes`
@@ -227,13 +283,25 @@ ALTER TABLE `estudiantes`
 -- AUTO_INCREMENT de la tabla `eventos`
 --
 ALTER TABLE `eventos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT de la tabla `metodos_pago`
+--
+ALTER TABLE `metodos_pago`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `personas`
 --
 ALTER TABLE `personas`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+
+--
+-- AUTO_INCREMENT de la tabla `planes`
+--
+ALTER TABLE `planes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `representantes`

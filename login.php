@@ -58,3 +58,5 @@ include 'templates/header.php';
             <button class="boton sombra" type="submit">Iniciar Sesión</button>
         </form>
     </main>
+
+<?php include 'templates/footer.php'; ?>

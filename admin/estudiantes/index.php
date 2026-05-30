@@ -187,6 +187,8 @@ include __DIR__ . '/../../templates/header.php';
     </div>
 </div>
 
+<?php include __DIR__ . '/../../templates/footer.php'; ?>
+
 <script>
 function abrirModal(
     nombre, apellido, cedula, telefono, correo, fecha, lugar, categoria,
