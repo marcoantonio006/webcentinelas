@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-05-2026 a las 17:49:37
+-- Tiempo de generación: 31-05-2026 a las 21:27:20
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -96,8 +96,28 @@ CREATE TABLE `eventos` (
 --
 
 INSERT INTO `eventos` (`id`, `nombre`, `fecha`, `hora`, `equipo_local`, `equipo_visit`, `imagen`, `lugar`) VALUES
-(13, 'Torneo flipante', '2026-06-18', '19:00:00', 'Centinelas', 'Caracas', 'evento_6a0bb6a4bdb5c.jpg', 'Ana Maria Campos'),
-(15, 'Final Torneo Zulia', '2026-07-18', '14:00:00', 'asd', 'dsa', 'evento_6a0e520b8c016.jpg', 'Cancha Rotaria');
+(13, 'Torneo flipante', '2026-06-18', '19:00:00', 'Centinelas', 'Caracas', 'evento_6a0bb6a4bdb5c.jpg', 'Ana Maria Campos');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `historial_constancias`
+--
+
+CREATE TABLE `historial_constancias` (
+  `id` int(11) NOT NULL,
+  `nombre_atleta` varchar(200) NOT NULL,
+  `nombre_torneo` varchar(200) NOT NULL,
+  `datos_json` text NOT NULL,
+  `generada_en` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `historial_constancias`
+--
+
+INSERT INTO `historial_constancias` (`id`, `nombre_atleta`, `nombre_torneo`, `datos_json`, `generada_en`) VALUES
+(1, 'FERNANDO QUINTERO', 'NACIONAL INFANTIL YARACUY 2025', '{\"institucion_destino\":\"COLEGIO SAN JUDAS TADEO\",\"nombre_atleta\":\"FERNANDO\",\"apellido_atleta\":\"QUINTERO\",\"cedula_atleta\":\"32046083\",\"anio_escolar\":\"3\",\"seccion\":\"C\",\"estado_seleccion\":\"ZULIA\",\"categoria\":\"LIBRE\",\"fecha_inicio_entreno\":\"27-04\",\"fecha_fin_entreno\":\"07-05\",\"nombre_torneo\":\"NACIONAL INFANTIL YARACUY 2025\",\"estado_torneo\":\"ESTADO YARACUY\",\"fecha_torneo_inicio\":\"27-04\",\"fecha_torneo_fin\":\"07\",\"mes_torneo\":\"05\",\"nombre_representante\":\"\",\"cedula_representante\":\"\",\"dia_emision\":\"21\",\"mes_emision\":\"ABRIL\",\"anio_emision\":\"2026\",\"nombre_director\":\"JOEL HERNáNDEZ\",\"cargo_director\":\"Presidente\",\"tiene_representante\":false}', '2026-05-31 12:12:56');
 
 -- --------------------------------------------------------
 
@@ -162,9 +182,9 @@ CREATE TABLE `planes` (
 --
 
 INSERT INTO `planes` (`id`, `nombre`, `precio`) VALUES
-(1, 'Pago Mensual', 20.00),
 (2, 'Primera Inscripción', 5.00),
-(3, 'Arbitraje por partido', 2.00);
+(3, 'Arbitraje por partido', 2.00),
+(4, 'Pago Mensual', 20.00);
 
 -- --------------------------------------------------------
 
@@ -231,6 +251,12 @@ ALTER TABLE `eventos`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `historial_constancias`
+--
+ALTER TABLE `historial_constancias`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `metodos_pago`
 --
 ALTER TABLE `metodos_pago`
@@ -286,6 +312,12 @@ ALTER TABLE `eventos`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
+-- AUTO_INCREMENT de la tabla `historial_constancias`
+--
+ALTER TABLE `historial_constancias`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de la tabla `metodos_pago`
 --
 ALTER TABLE `metodos_pago`
@@ -301,7 +333,7 @@ ALTER TABLE `personas`
 -- AUTO_INCREMENT de la tabla `planes`
 --
 ALTER TABLE `planes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `representantes`

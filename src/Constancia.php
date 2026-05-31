@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/HistorialConstancia.php';
 
 function txt(string $str): string {
     return mb_convert_encoding($str, 'ISO-8859-1', 'UTF-8');
@@ -36,7 +37,7 @@ class Constancia {
         $nombre_torneo        = $datos['nombre_torneo'];
         $estado_torneo        = $datos['estado_torneo'];
         $fecha_torneo_inicio  = $datos['fecha_torneo_inicio'];
-        $fecha_torneo_fin_dia = $datos['fecha_torneo_fin_dia'];
+        $fecha_torneo_fin = $datos['fecha_torneo_fin'];
         $mes_torneo           = $datos['mes_torneo'];
         $nombre_representante = $datos['nombre_representante'];
         $cedula_representante = $datos['cedula_representante'];
@@ -143,9 +144,7 @@ class Constancia {
         $n(' en la fecha del ');
         $bu($fecha_torneo_inicio, '______');
         $n(' al ');
-        $bu($fecha_torneo_fin_dia, '__');
-        $n(' de ');
-        $bu($mes_torneo, '______________');
+        $bu($fecha_torneo_fin, '__');
         $n(' del ' . $anio_emision . '.');
         $pdf->Ln(5);
  
@@ -166,7 +165,7 @@ class Constancia {
             $n(' DE ');
             $bu($fecha_torneo_inicio, '______');
             $n(' DE ');
-            $bu($fecha_torneo_fin_dia, '__');
+            $bu($fecha_torneo_fin, '__');
             $n(' ' . $anio_emision . '.');
             $pdf->Ln(8);
 
@@ -189,7 +188,7 @@ class Constancia {
             $n(' DE ');
             $bu($fecha_torneo_inicio, '______');
             $n(' AL ');
-            $bu($fecha_torneo_fin_dia, '__');
+            $bu($fecha_torneo_fin, '__');
             $n(' ' . $anio_emision . '.');
             $pdf->Ln(8);
 
@@ -259,6 +258,8 @@ class Constancia {
         $nombreArchivo = 'permiso_' . $nombre_atleta . '_' . $apellido_atleta . '.pdf';
 
         ob_end_clean();
+
+        HistorialConstancia::guardar($datos);
         
         $pdf->Output('I', $nombreArchivo);
         exit;

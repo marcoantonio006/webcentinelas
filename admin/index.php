@@ -60,6 +60,21 @@ include '../templates/header.php';
                 </div>
             </div>
 
+            <div class="admin-card">
+                <div class="admin-card-header">
+                    <span class="card-icon">📄</span>
+                    <h2>Historial de Constancias</h2>
+                </div>
+                <div class="admin-card-body">
+                    <p>Consulta todas las constancias generadas con sus datos completos.</p>
+                </div>
+                <div class="admin-card-footer">
+                    <a class="btn-card" href="/centinela/admin/constancias/historial.php">
+                        Ver historial
+                    </a>
+                </div>
+            </div>
+
         </div>
         
     </main>
