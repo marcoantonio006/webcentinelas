@@ -20,6 +20,7 @@ include __DIR__ . '/../../templates/header.php';
 
 <main class="contenedor seccion">
     <h1>Panel de Atletas</h1>
+    <a class="boton" href="/centinela/admin/index.php">← Volver</a>
 
     <a class="boton" href="/centinela/admin/estudiantes/crear.php">
         <i class="fa-solid fa-plus"></i> Nuevo atleta

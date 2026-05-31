@@ -87,7 +87,7 @@ h3 {
 
 .seccion {
     padding-top: 1rem;
-    padding-bottom: 5rem;
+    padding-bottom: 1rem;
 }
 
 .sombra {
@@ -341,6 +341,7 @@ h3 {
 
 .footer {
     background-color: var(--azul-oscuro);
+    margin-top: 5rem;
 }
 
 .footer .contenedor {

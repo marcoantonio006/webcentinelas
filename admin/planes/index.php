@@ -20,7 +20,7 @@ include __DIR__ . '/../../templates/header.php';
 ?>
 
 <main class="contenedor seccion">
-    <h1>Pagos y Métodos de Pago</h1>
+    
 
     <a class="boton" href="/centinela/admin/index.php">← Volver</a>
 
@@ -59,6 +59,23 @@ include __DIR__ . '/../../templates/header.php';
                                             <i class="fa-solid fa-trash"></i> Eliminar
                                         </button>
                                     </form>
+                                </td>
+                                <td class="acciones-dropdown">
+                                    <button class="acciones-dropdown-btn">
+                                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                                    </button>
+                                    <div class="acciones-dropdown-menu">
+                                        <a href="/centinela/admin/planes/editar.php?id=<?php echo $plan['id']; ?>">
+                                            <i class="fa-solid fa-pen"></i> Editar
+                                        </a>
+                                        <form method="POST" action="/centinela/admin/planes/eliminar.php">
+                                            <?php echo CSRF::campo(); ?>
+                                            <input type="hidden" name="id" value="<?php echo $plan['id']; ?>">
+                                            <button class="boton-rojo" type="submit">
+                                                <i class="fa-solid fa-trash"></i> Eliminar
+                                            </button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         <?php endwhile; ?>
@@ -104,6 +121,23 @@ include __DIR__ . '/../../templates/header.php';
                                         </button>
                                     </form>
                                 </td>
+                                    <td class="acciones-dropdown">
+                                        <button class="acciones-dropdown-btn">
+                                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                                        </button>
+                                        <div class="acciones-dropdown-menu">
+                                            <a href="/centinela/admin/planes/editar_metodo.php?id=<?php echo $metodo['id']; ?>">
+                                                <i class="fa-solid fa-pen"></i> Editar
+                                            </a>
+                                            <form method="POST" action="/centinela/admin/planes/eliminar_metodo.php">
+                                                <?php echo CSRF::campo(); ?>
+                                                <input type="hidden" name="id" value="<?php echo $metodo['id']; ?>">
+                                                <button class="boton-rojo" type="submit">
+                                                    <i class="fa-solid fa-trash"></i> Eliminar
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
                             </tr>
                         <?php endwhile; ?>
                     </tbody>

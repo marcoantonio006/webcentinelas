@@ -26,7 +26,7 @@ include '../templates/header.php';
                     <h2>Gestión de Atletas</h2>
                 </div>
                 <div class="admin-card-body">
-                    <p>Administrar Atletas, Representantes y Categorias</p>
+                    <p>Administrar Atletas, Representantes, Categorias y Constancias</p>
                 </div>
                 <div class="admin-card-footer">
                     <a class="btn-card" href="../admin/estudiantes/">Panel de Atletas</a>
@@ -50,7 +50,7 @@ include '../templates/header.php';
             <div class="admin-card">
                 <div class="admin-card-header">
                     <span class="card-icon">📅</span>
-                    <h2>Precios</h2>
+                    <h2>Gestión de Precios</h2>
                 </div>
                 <div class="admin-card-body">
                     <p>Administrar el costo de la mensualidad, inscripciones y arbitraje que se va a mostrar en la vista pública.</p>
