@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $personaExistente = Persona::findByCedula($cedula);
 
-        if ($personaExistente && $personaExistente['id'] !== $datos['persona_id']) {
+        if ($personaExistente && (int)$personaExistente['id'] !== (int)$datos['persona_id']) {
             $errores[] = 'Ya existe otro atleta o persona registrada con esa cédula';
         } else {
             $persona = new Persona();

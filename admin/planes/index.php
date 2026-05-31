@@ -27,7 +27,7 @@ include __DIR__ . '/../../templates/header.php';
     <section>
         <h2>Pagos</h2>
         <a class="boton" href="/centinela/admin/planes/crear.php">
-            <i class="fa-solid fa-plus"></i> Pagos
+            <i class="fa-solid fa-plus"></i> Añadir Pago
         </a>
 
         <?php if ($planes->num_rows === 0) : ?>
