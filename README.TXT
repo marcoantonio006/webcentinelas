@@ -10,7 +10,7 @@ renombra config_ejemplo.php por config.php
 
 Descarga XAMPP y activa SQL y Apache, añade la carpeta centinela dentro de C:xampp/htdocs (en el caso de que hayas instalado xampp en esa ruta), luego entra al navegador y escribe localhost, te deberia redirigir al dashboard de xampp, para abrir la pagina centinela agrega en la url /centinela
 
-Importa la base de datos (basededatos.sql) en phpmyadmin
+Importa la base de datos (centinela.sql) en phpmyadmin
 
 Para acceder a funciones administrativas, inicia sesion con las siguientes credenciales:
 

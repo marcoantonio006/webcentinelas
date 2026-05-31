@@ -1,4 +1,4 @@
-console.log('Archivo de validación cargado');
+// console.log('Archivo de validación cargado');
 
 const erSoloLetras = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
 const erCedula = /^[0-9]{6,9}$/;

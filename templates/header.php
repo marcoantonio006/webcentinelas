@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="/centinela/assets/styles/normalize.css">
     <link rel="stylesheet" href="/centinela/assets/styles/app.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <script src="/centinela/assets/js/validacion.js" defer></script>
+    <script src="/centinela/assets/js/main.js" defer></script>
 </head>
 
 <body>

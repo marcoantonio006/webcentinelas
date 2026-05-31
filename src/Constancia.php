@@ -19,6 +19,10 @@ class Constancia {
 
     public static function generar(array $datos) {
 
+        if (ob_get_length()) ob_end_clean();
+
+        ob_start();
+
         $institucion_destino  = $datos['institucion_destino'];
         $nombre_atleta        = $datos['nombre_atleta'];
         $apellido_atleta      = $datos['apellido_atleta'];
@@ -253,6 +257,9 @@ class Constancia {
         $pdf->Cell(60, 5, txt('Sello de la institucion'), 0, 1, 'C');
  
         $nombreArchivo = 'permiso_' . $nombre_atleta . '_' . $apellido_atleta . '.pdf';
+
+        ob_end_clean();
+        
         $pdf->Output('I', $nombreArchivo);
         exit;
     }

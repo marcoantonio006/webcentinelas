@@ -28,14 +28,14 @@ class Auth
         $resultado = $stmt->get_result();
 
         if (!$resultado->num_rows) {
-            $errores[] = 'El usuario no existe';
+            $errores[] = 'Credenciales incorrectas';
             return $errores;
         }
 
         $usuario = $resultado->fetch_assoc();
 
         if (!password_verify($password, $usuario['password'])) {
-            $errores[] = 'La contraseña es incorrecta';
+            $errores[] = 'Credenciales incorrectas';
             return $errores;
         }
 
